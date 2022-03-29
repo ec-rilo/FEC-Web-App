@@ -21,7 +21,8 @@
     "axios": "^0.26.1",
     "express": "^4.17.3",
     "react": "^18.0.0",
-    "react-dom": "^18.0.0"
+    "react-dom": "^18.0.0",
+    "styled-components": "^5.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
