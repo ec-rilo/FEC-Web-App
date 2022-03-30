@@ -10,9 +10,9 @@ function Navbar(props) {
   const [theme, setTheme] = useState('light');
 
   function themeToggler() {
-    console.log('click')
     theme === 'light' ? setTheme('dark') : setTheme('light')
   }
+
 
   return(
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -25,7 +25,7 @@ function Navbar(props) {
             <div className="dark-mode-toggle"></div>
           </div>
             {/* <span className="sign-in">Sign In</span> */}
-            <span className="cart">Cart</span>
+            <p className="cart">Cart {props.cart.items}<button onClick={props.decrementCart}>-</button></p>
           </div>
         </div>
       </>

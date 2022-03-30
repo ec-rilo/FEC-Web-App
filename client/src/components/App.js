@@ -27,7 +27,6 @@ const ProductName = styled.h1`
 
 function App() {
   // light theme
-  const [theme, setTheme] = useState('light');
 
   // Declare a new state variable, which we'll call "count"
   const [cart, setCart] = useState({items: 0, products: [{}]})
@@ -35,21 +34,27 @@ function App() {
   const [style, setStyle] = useState({});
   const [price, setPrice] = useState(40);
 
-  function decrementCount() {
+  function incrementCart() {
+    setCart(prevCart => ({items: prevCart.items + 1}))
+  }
+
+  function decrementCart() {
     cart.items > 0 ? setCart(prevCart => ({items: prevCart.items -1})) : null
   }
 
+
+
   return (
+
     <div>
-      <Navbar>Threads</Navbar>
+      <Navbar cart={cart} decrementCart={decrementCart}>Threads</Navbar>
       <div className="container">
         <ProductName>Morning Joggers</ProductName>
         <StarIcon className="star"></StarIcon>
         <div className="price">$ {price}</div>
 
         <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
-        <p className="cart">Cart: {cart.items}<button onClick={decrementCount}>-</button></p>
-        <AddToCartBtn onClick={() => setCart({items: cart.items + 1})}>Add to Cart</AddToCartBtn>
+        <AddToCartBtn onClick={incrementCart}>Add to Cart</AddToCartBtn>
         Quantity
         <button>+</button>
         0
