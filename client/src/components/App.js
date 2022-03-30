@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const App = () => {
+function App() {
+  // Declare a new state variable, which we'll call "count"
+  const [counter, setCounter] = useState(0);
+
   return (
     <div>
-      Hello World
+      <p>You clicked {counter} times</p>
+      <button onClick={() => setCounter(counter + 1)}>
+        Click me
+      </button>
     </div>
-  )git
-};
+  );
+}
 
-export default App;
+export App
