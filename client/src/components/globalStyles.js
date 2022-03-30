@@ -5,6 +5,6 @@ export const GlobalStyles = createGlobalStyle`
     background: ${({ theme }) => theme.body};
     color: ${({ theme }) => theme.text};
     transition: all 0.20s linear;
-
+    font-family: 'Poppins', sans-serif;
   }
   `

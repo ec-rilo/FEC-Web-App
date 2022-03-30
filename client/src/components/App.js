@@ -31,7 +31,7 @@ function App() {
 
   // Declare a new state variable, which we'll call "count"
   const [cart, setCart] = useState({items: 0, products: [{}]})
-  const [product, setProduct] = useState([])
+  const [product, setProduct] = useState({})
   const [style, setStyle] = useState({});
   const [price, setPrice] = useState(40);
 
