@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 const axios = require('axios');
-
+const Promise = require('bluebird');
 let url = 'https://app-hrsei-api.herokuapp.com/api/fec2/rfp';
 
 var reviewData;
@@ -10,54 +10,59 @@ var config = {
     Authorization: process.env.GIT_TOKEN
   }
 }
-fetchProductsData = (productID, callback) => {
-  console.log(productID)
-  if (productID) {
-    axios.get(`${url}/products/${productID}`, config)
-    .then(res => {
-      callback(null, res.data)
-    })
-    .catch(err => {
-      console.log(err)
-   })
-  } else {
-    axios.get(`${url}/products`, config)
-    .then(res => {
-      callback(null, res.data)
-    })
-    .catch(err => {
-      console.log(err)
-   })
-  }
-}
 
-fetchReviewsData = (productID = '65632', callback) => {
-  axios.get(`${url}/reviews?product_id=${productID}`, config)
-  .then(res => {
-    callback(null, res.data)
-  })
-  .catch(err => {
-    console.error(err)
+fetchProductsData = (productID, styled, related) => {
+  return new Promise ((resolve, reject)=> {
+    if (related) {
+      axios.get(`${url}/products/${productID}/related`, config)
+      .then(res => resolve(res.data))
+      .catch(err => reject(err))
+    } else if (styled) {
+      axios.get(`${url}/products/${productID}/styles`, config)
+      .then(res => resolve(res.data))
+      .catch(err => reject(err))
+    }
+    else if (productID) {
+      axios.get(`${url}/products/${productID}`, config)
+      .then(res => resolve(res.data))
+      .catch(err => reject(err))
+    } else {
+      axios.get(`${url}/products`, config)
+      .then(res => resolve(res.data))
+      .catch(err => reject(err))
+    }
   })
 }
 
-fetchQuestionsData = (productID = '65632', callback) => {
-  axios.get(`${url}/qa/questions?product_id=${productID}`, config)
-  .then(res => {
-    callback(null, res.data)
-  })
-  .catch(err=> {
-    console.error(err)
+fetchReviewsData = (productID = '65632') => {
+  return new Promise ((resolve, reject) => {
+    axios.get(`${url}/reviews?product_id=${productID}`, config)
+    .then(res => resolve(res.data))
+    .catch(err => reject(err))
   })
 }
 
-fetchCartData = (callback) => {
-  axios.get(`${url}/cart`, config)
-  .then(res => {
-    callback(null, res.data)
+fetchQuestionsData = (productID = '65632') => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${url}/qa/questions?product_id=${productID}`, config)
+    .then(res => resolve(res.data))
+    .catch(err=> reject(err))
   })
-  .catch(err => {
-    console.error(err)
+}
+
+fetchAnswerData = (questionID = '573876') => {
+  return new Promise((resolve, reject) => {
+    axios.get(`${url}/qa/questions/${questionID}/answers`, config)
+    .then(res => resolve(res.data))
+    .catch(err=> reject(err))
+  })
+}
+
+fetchCartData = () => {
+  return new Promise((resolve, reject )=> {
+    axios.get(`${url}/cart`, config)
+    .then(res => resolve(res.data))
+    .catch(err => reject(err))
   })
 }
 
@@ -65,5 +70,6 @@ module.exports = {
   fetchProductsData,
   fetchReviewsData,
   fetchQuestionsData,
-  fetchCartData
+  fetchAnswerData,
+  fetchCartData,
 }

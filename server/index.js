@@ -11,53 +11,64 @@ const fetchData = require('./dataParser.js')
 app.use(express.static('client/dist')); // serve up the static files like index.html
 app.use(express.json());
 
-// products
+// Products
 app.get('/products', (req, res) => {
   let productID = null
-  fetchData.fetchProductsData(productID, (err, result) => {
-    if(!err) {
-      res.send(result)
-    }
-  })
+  fetchData.fetchProductsData(productID)
+    .then(result => res.send(result))
 })
+
 app.get('/products/:product_id', (req, res) => {
   let productID = req.params.product_id;
-  fetchData.fetchProductsData(productID, (err, result) => {
-    if(!err) {
-      res.send(result)
-    }
-  })
+  fetchData.fetchProductsData(productID)
+    .then(result => res.send(result))
 })
+
+app.get('/products/:product_id/styles', (req, res) => {
+  let productID = req.params.product_id;
+  console.log(productID)
+  let style = true;
+  console.log(style)
+  fetchData.fetchProductsData(productID, style)
+    .then(result => res.send(result))
+})
+
+app.get('/products/:product_id/related', (req, res) => {
+  let productID = req.params.product_id;
+  let related = true;
+  let styled = false
+  fetchData.fetchProductsData(productID, styled, related)
+    .then(result => res.send(result))
+})
+
 
 
 // reviews
 app.get('/reviews', (req, res) => {
   let productID = req.query.product_id;
-  fetchData.fetchReviewsData(productID, (err, result) => {
-      if(!err) {
-        console.log(result)
-        res.send(result)
-      }
-    })
+  fetchData.fetchReviewsData(productID)
+    .then(result => res.send(result))
+
 })
 
 // Questions and Answers
 app.get('/qa/questions', (req, res) => {
   let productID = req.query.product_id;
-  fetchData.fetchQuestionsData(productID, (err, result) => {
-    if(!err) {
-      res.send(result)
-    }
-  })
+  fetchData.fetchQuestionsData(productID)
+    .then(result => res.send(result))
+})
+
+app.get('/qa/questions/:question_id/answers', (req, res) => {
+  let questionID = req.query.question_id;
+  let answers = true;
+  fetchData.fetchAnswerData(questionID)
+    .then(result => res.send(result))
 })
 
 // Cart
 app.get('/cart', (req, res) => {
-  fetchData.fetchCartData((err, result) => {
-    if(!err) {
-      res.send(result)
-    }
-  })
+  fetchData.fetchCartData()
+    .then(result => res.send(result))
 })
 
 app.listen(PORT, () => {
