@@ -3,9 +3,9 @@ import React from 'react';
 const App = () => {
   return (
     <div>
-      This is the App component.
+      Hello World
     </div>
-  )
+  )git
 };
 
 export default App;
