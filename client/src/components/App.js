@@ -1,3 +1,4 @@
+import Reviews from './Reviews.js';
 import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
@@ -48,6 +49,8 @@ function App() {
   return (
 
     <div>
+      This is the App component.
+      <Reviews />
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <>
       <GlobalStyles/>
