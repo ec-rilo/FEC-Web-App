@@ -27,6 +27,7 @@ const ProductName = styled.h1`
 
 function App() {
   // light theme
+  const [theme, setTheme] = useState('light');
 
   // Declare a new state variable, which we'll call "count"
   const [cart, setCart] = useState({items: 0, products: [{}]})
@@ -47,24 +48,29 @@ function App() {
   return (
 
     <div>
-      <Navbar cart={cart} decrementCart={decrementCart}>Threads</Navbar>
-      <div className="container">
-        <ProductName>Morning Joggers</ProductName>
-        <StarIcon className="star"></StarIcon>
-        <div className="price">$ {price}</div>
+      <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+      <>
+      <GlobalStyles/>
+        <Navbar cart={cart} decrementCart={decrementCart}>Threads</Navbar>
+        <div className="container">
+          <ProductName>Morning Joggers</ProductName>
+          <StarIcon className="star"></StarIcon>
+          <div className="price">$ {price}</div>
 
-        <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
-        <AddToCartBtn onClick={incrementCart}>Add to Cart</AddToCartBtn>
-        Quantity
-        <button>+</button>
-        0
-        <button>-</button>
-        <select>
-          <option>Small</option>
-          <option>Medium</option>
-          <option>Large</option>
-        </select>
-      </div>
+          <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
+          <AddToCartBtn onClick={incrementCart}>Add to Cart</AddToCartBtn>
+          Quantity
+          <button>+</button>
+          0
+          <button>-</button>
+          <select>
+            <option>Small</option>
+            <option>Medium</option>
+            <option>Large</option>
+          </select>
+        </div>
+      </>
+      </ThemeProvider>
     </div>
   );
 }
