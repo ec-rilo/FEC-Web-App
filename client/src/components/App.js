@@ -1,14 +1,15 @@
 import Reviews from './Reviews.js';
+import Questions from './Questions.js';
+import RelatedItems from './RelatedItems.js';
 import React, { useState, useEffect } from 'react';
 
 import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid'
 import Navbar from './Navbar.js';
 
-import {ThemeProvider} from "styled-components";
+import { ThemeProvider } from "styled-components";
 import { GlobalStyles } from "./globalStyles.js";
 import { lightTheme, darkTheme } from "./Themes"
-
 
 const AddToCartBtn = styled.button`
   background: transparent;
@@ -17,14 +18,13 @@ const AddToCartBtn = styled.button`
   background-color: #112D4E;
   margin: 0 1em;
   padding: 0.25em 1em;
-`
+`;
+
 const ProductName = styled.h1`
   font-family:500;
   font-size: 20px; 'Poppins', sans-serif;
   font-weight:
-`
-
-
+`;
 
 function App() {
   // light theme
@@ -44,20 +44,15 @@ function App() {
     cart.items > 0 ? setCart(prevCart => ({items: prevCart.items -1})) : null
   }
 
-
-
   return (
-
     <div>
-      This is the App component.
-      <Reviews />
       <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
       <>
-      <GlobalStyles/>
+        <GlobalStyles/>
         <Navbar cart={cart} decrementCart={decrementCart}>Threads</Navbar>
         <div className="container">
           <ProductName>Morning Joggers</ProductName>
-          <StarIcon className="star"></StarIcon>
+          <StarIcon className="star" />
           <div className="price">$ {price}</div>
 
           <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
@@ -73,6 +68,9 @@ function App() {
           </select>
         </div>
       </>
+      <RelatedItems />
+      <Questions />
+      <Reviews />
       </ThemeProvider>
     </div>
   );
