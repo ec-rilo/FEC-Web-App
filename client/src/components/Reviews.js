@@ -2,11 +2,13 @@ import React, { useState, useEffect} from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import styled, { css } from 'styled-components';
+import { StarIcon } from '@heroicons/react/solid';
+import ReviewForm from './ReviewForm.js'
+import ReviewSearch from './ReviewSearch.js'
 
 
 const RatingAndReview = styled.section`
 padding: 4em;
-background: #F9F7F7;
 `;
 const Button = styled.button`
 background-color: #112D4E;
@@ -20,31 +22,32 @@ flex-wrap: nowrap;
 justify-content: flex-start;
 `
 
-function fetchData(setData) {
-  axios.get('/reviews')
+const ReviewDiv = styled.div`
+height: 400px;
+overflow: auto;
+`
+
+function fetchData(setData, count) {
+  axios.get(`/reviews?count=${count}`)
   .then(res=> {
-    console.log(res)
     setData(res.data.results)
   })
 }
 
-// function renderReview(setData) {
+function fetchMoreData(setData, setCount, count) {
+  setCount(prevCount => (prevCount + 2))
+  fetchData(setData, count)
+}
 
-// }
 
 const Reviews = () => {
   const [data, setData] = useState([]);
+  const [count, setCount] = useState(2);
+  const [isWritable, setisWritable] = useState(false)
   useEffect(() => {
-    fetchData(setData)
+    fetchData(setData, count)
   }, [])
-
-  const [render, setRender] = useState([])
-  // useEffect(() => {
-  //   setRender(data.slice(0, 2))
-  // })
-  console.log(data)
-  console.log(render)
-
+  let writable = (!isWritable) ? 'hidden' : ''
   let reviews = data.map(review => (
     <div className='review' key={review.id}>
      <h3>rating: {review.rating}</h3>
@@ -65,12 +68,16 @@ const Reviews = () => {
   return (
     <RatingAndReview>
         <div><h2>Reviews</h2></div>
-        <div>Rank</div>
-        <Button>Write a Review</Button>
-        <div className='review'>
+        <div>Rank</div><StarIcon className='star'/>
+        <ReviewSearch />
+        <Button onClick={() => setisWritable(true)}>Write a Review</Button>
+         <div className={writable}>
+         <ReviewForm setisWritable={setisWritable}/>
+         </div>
+        <ReviewDiv>
           {reviews}
-        </div>
-        <Button onClick={() => { console.log('click')} }>More Reviews</Button>
+        </ReviewDiv>
+        <Button onClick={() => {fetchMoreData(setData, setCount, count)} }>More Reviews</Button>
 
     </RatingAndReview>
   )
