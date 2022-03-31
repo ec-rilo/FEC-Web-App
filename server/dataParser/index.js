@@ -19,13 +19,5 @@ module.exports = {
   products,
   reviews,
   questions,
-  cart,
-  // fetchQuestionsData,
-  // fetchAnswerData,
-  // addQuestion,
-  // addAnswer,
-  // makeQuestionAsHelpful,
-  // reportQuestion,
-  // makeAnswerAsHelpful,
-  // reportAnswer,
+  cart
 }
