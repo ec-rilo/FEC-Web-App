@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import QuestionListEntryAnswer from './QuestionListEntryAnswer';
+import QuestionsListEntryAnswer from './QuestionsListEntryAnswer';
 
 const QuestionsListEntry = ({ question }) => {
   const [displayLimit, setDisplayLimit] = useState(2); // number of answers to display
@@ -20,7 +20,7 @@ const QuestionsListEntry = ({ question }) => {
       {answers.map((ans, i) => (
         (i >= displayLimit)
         ? null
-        : <QuestionListEntryAnswer answer={ans} key={i} />
+        : <QuestionsListEntryAnswer answer={ans} key={i} />
       ))}
       {answers.length > displayLimit
         ? <button onClick={() => setDisplayLimit(Number.POSITIVE_INFINITY)}>SEE MORE ANSWERS</button>
