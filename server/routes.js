@@ -53,8 +53,9 @@ router.post('/reviews', (req, res) => {
 
 router.put('/reviews/:review_id/helpful', (req, res) => {
   console.log(req.params.review_id)
-  fetchData.reviews.markReviewAsHelpful()
+  fetchData.reviews.markReviewAsHelpful(req.params.review_id)
     .then(result => res.send(204))
+    .catch(err => console.log(err))
 })
 
 router.put('/reviews/:review_id/report', (req, res) => {

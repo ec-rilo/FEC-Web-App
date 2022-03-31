@@ -41,7 +41,7 @@ module.exports = {
 
   markReviewAsHelpful (reviewID = 1136190) {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/reviews/${reviewID}/helpful`, config)
+      axios.put(`${url}/reviews/${reviewID}/helpful`,'',config)
         .then(res => resolve(res))
         .catch(err => reject(err))
     })
@@ -49,9 +49,9 @@ module.exports = {
 
   reportReview (reviewID = '1136190') {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/reviews/${reviewID}/report`)
-    }, config)
+      axios.put(`${url}/reviews/${reviewID}/report`, '',config)
       .then(res => resolve(res))
       .catch(err => reject(err))
+    })
   }
 }
