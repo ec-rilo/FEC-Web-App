@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import moment from 'moment';
 
 const AnswerText = styled.p`
+  padding: 0;
+  margin: 2px 0 0;
   font-size: 14px;
 `;
 
@@ -16,7 +18,7 @@ const QuestionListEntryAnswer = ({ answer }) => {
   date = moment(date).format('MMMM dS, yyyy');
 
   return (
-    <div>
+    <>
       {/* {JSON.stringify(answer, null, 2)} */}
       <AnswerText>{body}</AnswerText>
       <ByLine>
@@ -24,7 +26,7 @@ const QuestionListEntryAnswer = ({ answer }) => {
         Helpful? <a href="#">Yes</a> ({helpfulness}) |&nbsp;
         <a href="#">Report</a>
       </ByLine>
-    </div>
+    </>
   );
 };
 

@@ -4,6 +4,23 @@ import axios from 'axios';
 
 import QuestionsListEntry from './QuestionsListEntry';
 
+const QuestionsTable = styled.table`
+  border: none;
+  width: 100%;
+`;
+
+const QAColumn = styled.col`
+  width: 10px;
+`;
+
+const QATextColumn = styled.col`
+  width: 100%;
+`;
+
+const MoreQuestions = styled.td`
+  text-align: center;
+`;
+
 const QuestionsList = () => {
   const productID = 65631; // this will obviously need to be passed as a prop/through context
   const [questions, setQuestions] = useState([]);
@@ -19,17 +36,25 @@ const QuestionsList = () => {
   }, []);
 
   return (
-    <div>
-      {questions?.map((q, i) => (
-        (i >= displayLimit)
-        ? null
-        : <QuestionsListEntry question={q} key={i} />
-      ))}
-      {questions.length > displayLimit
-        ? <button onClick={() => setDisplayLimit(Number.POSITIVE_INFINITY)}>MORE ANSWERED QUESTIONS</button>
-        : questions.length && <button onClick={() => setDisplayLimit(4)}>COLLAPSE QUESTIONS</button> || null
-      }
-    </div>
+    <table>
+      <QAColumn span="1" />
+      <QATextColumn span="1" />
+      <tbody>
+        {questions?.map((q, i) => (
+          (i >= displayLimit)
+          ? null
+          : <QuestionsListEntry question={q} key={i} />
+        ))}
+        <tr>
+          <td colspan="2" style={{textAlign: "center"}}>
+            {questions.length > displayLimit
+              ? <button onClick={() => setDisplayLimit(Number.POSITIVE_INFINITY)}>MORE ANSWERED QUESTIONS</button>
+              : questions.length && <button onClick={() => setDisplayLimit(4)}>COLLAPSE QUESTIONS</button> || null
+            }
+          </td>
+        </tr>
+      </tbody>
+    </table>
   )
 }
 
