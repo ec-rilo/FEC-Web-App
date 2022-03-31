@@ -34,8 +34,7 @@ module.exports = {
 
   addAnswer (questionID, data) {
     return new Promise((resolve, reject) => {
-      axios.post(`${url}/qa/questions/${questionID}/answers
-      `, data, config)
+      axios.post(`${url}/qa/questions/${questionID}/answers`, data, config)
         .then(res => resolve(res))
         .catch(err => reject(err))
     })
@@ -43,8 +42,7 @@ module.exports = {
 
   makeQuestionAsHelpful (questionID) {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/qa/questions/${questionID}/helpful
-    `, config)
+      axios.put(`${url}/qa/questions/${questionID}/helpful`, config)
       .then(res => resolve(res))
       .catch(err => reject(err))
     })
@@ -54,13 +52,13 @@ module.exports = {
     return new Promise((resolve, reject) => {
       axios.put(`${url}/qa/questions/${questionID}/report`, config)
         .then(res => resolve(res))
-        .catch(err => reject(err))
+        .catch(err => console.log(err))
     })
   },
   makeAnswerAsHelpful (answerID) {
     return new Promise((resolve, reject) => {
       axios.put(`${url}/qa/answers/${answerID}/helpful`, config)
-        .then(res => resolve(res))
+        .then(res => resolve('success'))
         .catch(err => reject(err))
     })
   },

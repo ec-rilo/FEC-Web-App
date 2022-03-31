@@ -93,7 +93,7 @@ router.put('/qa/questions/:question_id/report', (req, res) => {
 })
 
 router.put('/qa/answers/:answer_id/helpful', (req, res) => {
-  fetchData.makeAnswerAsHelpful(req.params.answer_id)
+  fetchData.questions.makeAnswerAsHelpful(req.params.answer_id)
     .then(result => res.send(204))
 })
 
