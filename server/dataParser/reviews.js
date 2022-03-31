@@ -39,7 +39,7 @@ module.exports = {
     })
   },
 
-  markReviewAsHelpful (reviewID = '1136190') {
+  markReviewAsHelpful (reviewID = 1136190) {
     return new Promise((resolve, reject) => {
       axios.put(`${url}/reviews/${reviewID}/helpful`, config)
         .then(res => resolve(res))

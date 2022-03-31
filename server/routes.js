@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fetchData = require('./dataParser');
 
+// Products
 router.get('/products', (req, res) => {
   let page = parseInt(req.query.page);
   let count = parseInt(req.query.count);
@@ -29,9 +30,7 @@ router.get('/products/:product_id/related', (req, res) => {
     .then(result => res.send(result))
 })
 
-
-
-// reviews
+// Reviews
 router.get('/reviews', (req, res) => {
   let productID = req.query.product_id;
   let page = req.query.page;
@@ -53,7 +52,8 @@ router.post('/reviews', (req, res) => {
 })
 
 router.put('/reviews/:review_id/helpful', (req, res) => {
-  fetchData.reviews.markReviewAsHelpful(req.params.review_id)
+  console.log(req.params.review_id)
+  fetchData.reviews.markReviewAsHelpful()
     .then(result => res.send(204))
 })
 
