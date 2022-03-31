@@ -24,7 +24,8 @@ function Overview({incrementCart}) {
   return (
     <div>
       <div className="container">
-        {/* lines 28-36 will map out image gallery of SKU */}
+        <div className="overview-body">
+        {/* lines 29-36 will map out image gallery of SKU */}
         <div className="left-div">
           <div className="img-row">
             <div className="img">image 1</div>
@@ -41,6 +42,10 @@ function Overview({incrementCart}) {
           <StarIcon className="star" />
           <div className="price">$ {price}</div>
 
+          {/* line 45- will map out all the product styles */}
+          <div className="style-btn"></div><div className="style-btn"></div><div className="style-btn"></div>
+
+
           <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
           <AddToCartBtn onClick={incrementCart}>Add to Cart</AddToCartBtn>
           Quantity
@@ -52,6 +57,7 @@ function Overview({incrementCart}) {
             <option>Medium</option>
             <option>Large</option>
           </select>
+        </div>
         </div>
       </div>
     </div>
