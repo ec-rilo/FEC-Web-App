@@ -20,9 +20,15 @@ const QuestionsList = () => {
 
   return (
     <div>
-      Questions and Answers:
-      <br />
-      {questions?.map((q, i) => <QuestionsListEntry question={q} key={i} />)}
+      {questions?.map((q, i) => (
+        (i >= displayLimit)
+        ? null
+        : <QuestionsListEntry question={q} key={i} />
+      ))}
+      {questions.length > displayLimit
+        ? <button onClick={() => setDisplayLimit(Number.POSITIVE_INFINITY)}>MORE ANSWERED QUESTIONS</button>
+        : questions.length && <button onClick={() => setDisplayLimit(4)}>COLLAPSE QUESTIONS</button> || null
+      }
     </div>
   )
 }
