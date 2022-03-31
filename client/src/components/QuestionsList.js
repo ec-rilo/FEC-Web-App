@@ -22,7 +22,7 @@ const MoreQuestions = styled.td`
 `;
 
 const QuestionsList = () => {
-  const productID = 65631; // this will obviously need to be passed as a prop/through context
+  const productID = 65633; // this will obviously need to be passed as a prop/through context
   const [questions, setQuestions] = useState([]);
   const [displayLimit, setDisplayLimit] = useState(4); // number of questions to display
 
@@ -58,4 +58,4 @@ const QuestionsList = () => {
   )
 }
 
-export default QuestionsList
+export default QuestionsList;
