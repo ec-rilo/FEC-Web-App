@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid'
 
@@ -23,6 +24,19 @@ function Overview({incrementCart}) {
   return (
     <div>
       <div className="container">
+        {/* lines 28-36 will map out image gallery of SKU */}
+        <div className="left-div">
+          <div className="img-row">
+            <div className="img">image 1</div>
+            <div className="img">image 2</div>
+          </div>
+          <div className="img-row">
+            <div className="img">image 3</div>
+            <div className="img">image 4</div>
+          </div>
+        </div>
+
+        <div className="right-div">
           <ProductName>Morning Joggers</ProductName>
           <StarIcon className="star" />
           <div className="price">$ {price}</div>
@@ -39,6 +53,7 @@ function Overview({incrementCart}) {
             <option>Large</option>
           </select>
         </div>
+      </div>
     </div>
   )
 };

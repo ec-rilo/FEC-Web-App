@@ -62,3 +62,21 @@
 .star {
   height: 40px;
 }
+
+.left-div {
+  width: 45vw;
+  background: pink;
+  display: flex;
+  flex-direction: column;
+}
+
+.img-row {
+  display: flex;
+}
+
+.img {
+  width: 50%;
+  height: 40vh;
+  margin: 10px;
+  background: purple;
+}
