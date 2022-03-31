@@ -28,12 +28,7 @@ function Overview({incrementCart}) {
         {/* lines 29-36 will map out image gallery of SKU */}
         <div className="left-div">
           <div className="img-row">
-            <div className="img">image 1</div>
-            <div className="img">image 2</div>
-          </div>
-          <div className="img-row">
-            <div className="img">image 3</div>
-            <div className="img">image 4</div>
+            <div className="img">Image</div>
           </div>
         </div>
 
@@ -43,7 +38,7 @@ function Overview({incrementCart}) {
           <div className="price">$ {price}</div>
 
           {/* line 45- will map out all the product styles */}
-          <div className="style-btn"></div><div className="style-btn"></div><div className="style-btn"></div>
+          <div className="size-selector"><div className="style-btn">Color 1</div><div className="style-btn">Color 2</div><div className="style-btn">Color 3</div></div>
 
 
           <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
@@ -52,11 +47,6 @@ function Overview({incrementCart}) {
           <button>+</button>
           0
           <button>-</button>
-          <select>
-            <option>Small</option>
-            <option>Medium</option>
-            <option>Large</option>
-          </select>
         </div>
         </div>
       </div>
@@ -65,3 +55,13 @@ function Overview({incrementCart}) {
 };
 
 export default Overview;
+
+
+{/* <div className="img-row">
+<div className="img">image 1</div>
+<div className="img">image 2</div>
+</div>
+<div className="img-row">
+<div className="img">image 3</div>
+<div className="img">image 4</div>
+</div> */}
