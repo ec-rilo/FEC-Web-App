@@ -8,15 +8,15 @@ var config = {
   }
 }
 module.exports = {
-  fetchQuestionsData (productID = '65632') {
+  fetchQuestionsData (productID = 65632, page=1, count=5) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/qa/questions?product_id=${productID}`, config)
+      axios.get(`${url}/qa/questions?product_id=${productID}&page=${page}&count=${count}`, config)
         .then(res => resolve(res.data))
         .catch(err=> reject(err))
     })
   },
 
-  fetchAnswerData (questionID = '573876') {
+  fetchAnswerData (questionID = 573876) {
     return new Promise((resolve, reject) => {
       axios.get(`${url}/qa/questions/${questionID}/answers`, config)
         .then(res => resolve(res.data))
@@ -52,13 +52,13 @@ module.exports = {
     return new Promise((resolve, reject) => {
       axios.put(`${url}/qa/questions/${questionID}/report`, config)
         .then(res => resolve(res))
-        .catch(err => console.log(err))
+        .catch(err => reject(err))
     })
   },
   makeAnswerAsHelpful (answerID) {
     return new Promise((resolve, reject) => {
       axios.put(`${url}/qa/answers/${answerID}/helpful`, config)
-        .then(res => resolve('success'))
+        .then(res => resolve(res))
         .catch(err => reject(err))
     })
   },

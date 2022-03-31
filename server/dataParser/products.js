@@ -9,7 +9,14 @@ var config = {
 }
 
 module.exports = {
-  fetchProductsData (productID, styled, related) {
+  fetchProductsData (page=1, count=5) {
+    return new Promise ((resolve, reject)=> {
+      axios.get(`${url}/products?page=${(page)}&count=${(count)}`, config)
+      .then(res => resolve(res.data))
+      .catch(err => reject(err))
+    })
+  },
+  fetchProductIDData (productID, styled, related, page=1, count=5) {
     return new Promise ((resolve, reject)=> {
       if (related) {
         axios.get(`${url}/products/${productID}/related`, config)
@@ -22,10 +29,6 @@ module.exports = {
       }
       else if (productID) {
         axios.get(`${url}/products/${productID}`, config)
-          .then(res => resolve(res.data))
-          .catch(err => reject(err))
-      } else {
-        axios.get(`${url}/products`, config)
           .then(res => resolve(res.data))
           .catch(err => reject(err))
       }

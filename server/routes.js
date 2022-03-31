@@ -2,21 +2,22 @@ const router = require('express').Router();
 const fetchData = require('./dataParser');
 
 router.get('/products', (req, res) => {
-  let productID = null
-  fetchData.products.fetchProductsData(productID)
+  let page = parseInt(req.query.page);
+  let count = parseInt(req.query.count);
+  fetchData.products.fetchProductsData(page, count)
     .then(result => res.send(result))
 })
 
 router.get('/products/:product_id', (req, res) => {
   let productID = req.params.product_id;
-  fetchData.products.fetchProductsData(productID)
+  fetchData.products.fetchProductIDData(productID)
     .then(result => res.send(result))
 })
 
 router.get('/products/:product_id/styles', (req, res) => {
   let productID = req.params.product_id;
   let style = true;
-  fetchData.products.fetchProductsData(productID, style)
+  fetchData.products.fetchProductIDData(productID, style)
     .then(result => res.send(result))
 })
 
@@ -24,7 +25,7 @@ router.get('/products/:product_id/related', (req, res) => {
   let productID = req.params.product_id;
   let related = true;
   let styled = false
-  fetchData.products.fetchProductsData(productID, styled, related)
+  fetchData.products.fetchProductIDData(productID, styled, related)
     .then(result => res.send(result))
 })
 
@@ -33,7 +34,10 @@ router.get('/products/:product_id/related', (req, res) => {
 // reviews
 router.get('/reviews', (req, res) => {
   let productID = req.query.product_id;
-  fetchData.reviews.fetchReviewsData(productID)
+  let page = req.query.page;
+  let count = req.query.count;
+  let sort = req.query.sort;
+  fetchData.reviews.fetchReviewsData(productID, page, count, sort)
     .then(result => res.send(result))
 })
 
@@ -61,7 +65,9 @@ router.put('/reviews/:review_id/report', (req, res) => {
 // Questions and Answers
 router.get('/qa/questions', (req, res) => {
   let productID = req.query.product_id;
-  fetchData.questions.fetchQuestionsData(productID)
+  let page = req.query.page;
+  let count = req.query.count;
+  fetchData.questions.fetchQuestionsData(productID, page, count)
     .then(result => res.send(result))
 })
 

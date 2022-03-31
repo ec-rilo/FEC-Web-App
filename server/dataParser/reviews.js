@@ -9,11 +9,17 @@ var config = {
 }
 
 module.exports = {
-  fetchReviewsData (productID = '65632') {
+  fetchReviewsData (productID = '65632', page=1, count=5, sort) {
     return new Promise ((resolve, reject) => {
-      axios.get(`${url}/reviews?product_id=${productID}`, config)
-        .then(res => resolve(res.data))
-        .catch(err => reject(err))
+      if (sort) {
+        axios.get(`${url}/reviews?product_id=${productID}&page=${page}&count=${page}&sort=${sort}`, config)
+          .then(res => resolve(res.data))
+          .catch(err => reject(err))
+      } else {
+        axios.get(`${url}/reviews?product_id=${productID}&page=${page}&count=${count}`, config)
+          .then(res => resolve(res.data))
+          .catch(err => reject(err))
+      }
     })
   },
 
