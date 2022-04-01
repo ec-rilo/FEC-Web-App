@@ -38,7 +38,7 @@ function Overview({incrementCart}) {
           <div className="price">$ {price}</div>
 
           {/* line 45- will map out all the product styles */}
-          <div className="size-selector"><div className="style-btn">Color 1</div><div className="style-btn">Color 2</div><div className="style-btn">Color 3</div></div>
+          <div className="size-selector"><div className="style-btn">style1</div><div className="style-btn">style2</div><div className="style-btn">style4</div><div className="style-btn">style4</div><div className="style-btn">style5</div><div className="style-btn">style6</div></div>
 
 
           <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
