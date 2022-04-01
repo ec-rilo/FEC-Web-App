@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
+import ReviewSort from './Reviews/ReviewSort';
 
 const RatingAndReview = styled.section`
   padding: 4em;
@@ -32,33 +33,21 @@ const Response = styled.div`
 `;
 
 const ReviewDiv = styled.div`
-  height: 400px;
-  width: 800px;
+  height: 600px;
+  width: 1000px;
   overflow: auto;
 `;
 
-const Star = styled.svg`
-  width: 33;
-  height: 34;
-  viewBox: 0 0 33 34;
-  fill="none" xmlns="http://www.w3.org/2000/svg"
-  & .path d="M16.5 0L20.2045 11.7467L32.1924 11.7467L22.494 19.0066L26.1985 30.7533L16.5 23.4934L6.80154 30.7533L10.506 19.0066L0.807568 11.7467L12.7955 11.7467L16.5 0Z" fill="black"/>
-  </svg>
-`;
-// const ratingUserContainer = styled.div`
-// display: inline-block;
-// `;
-
-function fetchData(setData, id, count) {
-  axios.get(`/reviews?product_id=${id}&count=${count}`)
+function fetchData(setData, id, count, sort) {
+  axios.get(`/reviews?product_id=${id}&count=${count}&sort=${sort}`)
     .then((res) => {
       setData(res.data.results);
     });
 }
 
-function fetchMoreData(setData, setCount, count) {
+function fetchMoreData(setData, setCount, id, count, sort) {
   setCount((prevCount) => (prevCount + 2));
-  fetchData(setData, count);
+  fetchData(setData, id, count, sort);
 }
 
 function fetchMetaData(
@@ -82,11 +71,6 @@ function fetchMetaData(
       const star3 = res.data.ratings['3'];
       const star2 = res.data.ratings['2'];
       const star1 = res.data.ratings['1'];
-      setStar5(star5);
-      setStar4(star4);
-      setStar3(star3);
-      setStar2(star2);
-      setStar1(star1);
       setChar(res.data.characteristics);
 
       ratingArray.forEach((item) => {
@@ -102,12 +86,35 @@ function fetchMetaData(
       let rate = (Math.round((rateSum / rateUnit) * 10));
       rate *= 0.1;
       rate = rate.toFixed(1);
+      setStar5(Math.round((star5 / rateUnit) * 100));
+      setStar4(Math.round((star4 / rateUnit) * 100));
+      setStar3(Math.round((star3 / rateUnit) * 100));
+      setStar2(Math.round((star2 / rateUnit) * 100));
+      setStar1(Math.round((star1 / rateUnit) * 100));
       setAveRate(rate);
     });
 }
 
+function changeSort(setSort, newSort) {
+  setSort(newSort);
+}
+
+function reviewHelpful(reviewID) {
+  axios.put(`/reviews/${reviewID}/helpful`)
+    .then()
+    .catch();
+}
+
+function reviewReport(reviewID) {
+  console.log('report: ', reviewID)
+  axios.put(`/reviews/${reviewID}/report`)
+    .then()
+    .catch();
+}
+
 const Reviews = () => {
   const [data, setData] = useState([]);
+  const [sort, setSort] = useState('');
   const [aveRate, setAveRate] = useState(0);
   const [recomPer, setRecomPer] = useState(0);
   const [char, setChar] = useState({});
@@ -116,15 +123,14 @@ const Reviews = () => {
   const [star3, setStar3] = useState(0);
   const [star2, setStar2] = useState(0);
   const [star1, setStar1] = useState(0);
-
   const [count, setCount] = useState(2);
   const [isWritable, setisWritable] = useState(false);
   useEffect(() => {
-    fetchData(setData, 65631, count);
+    fetchData(setData, 65632, count, sort);
   }, []);
   useEffect(() => {
     fetchMetaData(
-      65631,
+      65632,
       setAveRate,
       setRecomPer,
       setStar5,
@@ -176,7 +182,18 @@ const Reviews = () => {
         Response:
         { review.response }
       </Response>
-      Helpful? Yes(5) | Report
+      Helpful?
+      <u onClick={() => { reviewHelpful(review.review_id); }}>
+        Yes
+
+      </u>
+      (
+      {review.helpfulness}
+      ) |
+      {' '}
+      <u onClick={() => { reviewReport(review.review_id) }}>
+        Report
+      </u>
       <hr />
     </div>
   ));
@@ -187,7 +204,6 @@ const Reviews = () => {
         <RatingDiv>
           Rate
           <h1>{aveRate}</h1>
-          <Star />
           <h4>
             {recomPer}
             % of reviews recommend this product
@@ -199,19 +215,34 @@ const Reviews = () => {
           <StarIcon className="star" />
           <br />
           5 star
+          :
+          {' '}
           {star5}
+          %
           <br />
           4 star
+          :
+          {' '}
           {star4}
+          %
           <br />
           3 star
+          :
+          {' '}
           {star3}
+          %
           <br />
           2 star
+          :
+          {' '}
           {star2}
+          %
           <br />
           1 star
+          :
+          {' '}
           {star1}
+          %
           <br />
           Size
           <br />
@@ -240,13 +271,14 @@ const Reviews = () => {
 
         <div>
           <ReviewSearch />
+          <ReviewSort changeSort={changeSort} setSort={setSort} />
           <div className={writable}>
             <ReviewForm setisWritable={setisWritable} />
           </div>
           <ReviewDiv>
             {reviews}
           </ReviewDiv>
-          <Button onClick={() => { fetchMoreData(setData, setCount, count); }}>More Reviews</Button>
+          <Button onClick={() => { fetchMoreData(setData, setCount, 65632, count, sort); }}>More Reviews</Button>
           <Button onClick={() => setisWritable(true)}>Write a Review</Button>
         </div>
       </RatingAndReview>
