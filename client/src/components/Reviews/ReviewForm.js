@@ -1,41 +1,40 @@
-import React, { useState, useEffect} from 'react';
-import styled, { css } from 'styled-components';
-import { StarIcon } from '@heroicons/react/solid'
+import React from 'react';
+import styled from 'styled-components';
+// import { StarIcon } from '@heroicons/react/solid';
 
 const Characteristics = styled.ul`
 list-style-type: none
-`
+`;
 
 const ReviewForm = ({ setisWritable }) => {
-
   return (
-  <div>Write a Review
-    <Characteristics>
-      <li>
-        Overall Rating
-        <div class="stars">
-          <form action="">
-            <input class="star star-5" id="star-5" type="radio" name="star"/>
-            <label class="star star-5" for="star-5"></label>
-            <input class="star star-4" id="star-4" type="radio" name="star"/>
-            <label class="star star-4" for="star-4"></label>
-            <input class="star star-3" id="star-3" type="radio" name="star"/>
-            <label class="star star-3" for="star-3"></label>
-            <input class="star star-2" id="star-2" type="radio" name="star"/>
-            <label class="star star-2" for="star-2"></label>
-            <input class="star star-1" id="star-1" type="radio" name="star"/>
-            <label class="star star-1" for="star-1"></label>
-          </form>
-        </div>
-      </li>
+    <div>Write a Review
+      <Characteristics>
+        <li>
+          Overall Rating
+          <div className="stars">
+            <form action="">
+              <input className="star star-5" id="star-5" type="radio" name="star"/>
+              <label className="star star-5" htmlFor="star-5"></label>
+              <input className="star star-4" id="star-4" type="radio" name="star"/>
+              <label className="star star-4" htmlFor="star-4"></label>
+              <input className="star star-3" id="star-3" type="radio" name="star"/>
+              <label className="star star-3" htmlFor="star-3"></label>
+              <input className="star star-2" id="star-2" type="radio" name="star"/>
+              <label className="star star-2" htmlFor="star-2"></label>
+              <input className="star star-1" id="star-1" type="radio" name="star"/>
+              <label className="star star-1" htmlFor="star-1"></label>
+            </form>
+         </div>
+        </li>
       <li>
         Do you recommend this product?
         <input type='radio' name='recommendation' value='true'></input>Yes
         <input type='radio' name='recommendation' value='false'></input>No
       </li>
-  <li>
-    Characteristics
-  <Characteristics>
+    <li>
+      Characteristics
+    <Characteristics>
     <li>
       <label>Size</label>
       <input type='radio' name='size' value='5'></input>
