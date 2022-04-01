@@ -106,7 +106,6 @@ function reviewHelpful(reviewID) {
 }
 
 function reviewReport(reviewID) {
-  console.log('report: ', reviewID)
   axios.put(`/reviews/${reviewID}/report`)
     .then()
     .catch();
@@ -278,7 +277,8 @@ const Reviews = () => {
           <ReviewDiv>
             {reviews}
           </ReviewDiv>
-          <Button onClick={() => { fetchMoreData(setData, setCount, 65632, count, sort); }}>More Reviews</Button>
+          <Button onClick={() => { fetchMoreData(setData, setCount, 65632, count, sort); }}>More Reviews
+          </Button>
           <Button onClick={() => setisWritable(true)}>Write a Review</Button>
         </div>
       </RatingAndReview>
