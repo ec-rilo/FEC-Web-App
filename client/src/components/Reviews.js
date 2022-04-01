@@ -93,11 +93,11 @@ const Reviews = () => {
           <StarIcon className='star'/>
           <StarIcon className='star'/>
           <StarIcon className='star'/>
-          <h3>5 stars</h3>
-          <h3>4 stars</h3>
-          <h3>3 stars</h3>
-          <h3>2 stars</h3>
-          <h3>1 stars</h3>
+          <h3>5 star</h3>
+          <h3>4 star</h3>
+          <h3>3 star</h3>
+          <h3>2 star</h3>
+          <h3>1 star</h3>
         </RatingDiv>
 
         <div>
