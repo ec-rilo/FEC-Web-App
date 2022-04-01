@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 // import moment from 'moment';
 import axios from 'axios';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid';
-import ReviewForm from './Reviews/ReviewForm.js';
-import ReviewSearch from './Reviews/ReviewSearch.js';
+import ReviewForm from './Reviews/ReviewForm';
+import ReviewSearch from './Reviews/ReviewSearch';
 
 const RatingAndReview = styled.section`
   padding: 4em;
@@ -35,14 +35,6 @@ const ReviewDiv = styled.div`
   height: 400px;
   width: 800px;
   overflow: auto;
-`;
-
-const Meterbar = styled.div`
-  width: 67%;
-  trasnsition: width .5s ease;
-  float: left;
-  font-size: 0;
-  height: 100%
 `;
 
 const Star = styled.svg`
