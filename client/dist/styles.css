@@ -102,6 +102,8 @@
   display: flex;
 }
 
+
+/* REVIEWS */
 .hidden {
   display: none;
 }
@@ -126,4 +128,17 @@ input.star-1:checked ~ label.star:before { color: black; }
 label.star:before {
   content: '\f006';
   font-family: FontAwesome;
+}
+
+.false {
+  display: none;
+}
+
+.true {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.check {
+  height: 20px;
 }

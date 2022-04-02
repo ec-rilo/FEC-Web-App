@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-// import { StarIcon } from '@heroicons/react/solid';
+import { StarIcon } from '@heroicons/react/solid';
 
 const Characteristics = styled.ul`
 list-style-type: none

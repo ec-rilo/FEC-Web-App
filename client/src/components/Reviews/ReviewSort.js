@@ -1,13 +1,25 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const Sort = styled.div`
+  display: flex;
+  justify-content: flex-start;
+`;
+
+const Select = styled.select`
+  border: none;
+`
 
 const ReviewSort = ({ changeSort, setSort}) => (
   <div>
-    221 reviews sorted by
-    <select name="sort" onChange={(e) => { changeSort(setSort, e.target.value); }}>
-      <option value="newest">Newest</option>
-      <option value="helpful">Helpful</option>
-      <option value="relevant">Relevant</option>
-    </select>
+    <Sort>
+      <h4>221 reviews, sorted by</h4>
+      <Select onChange={(e) => { changeSort(setSort, e.target.value); }}>
+        <option value="newest">Newest</option>
+        <option value="helpful">Helpful</option>
+        <option value="relevant">Relevant</option>
+      </Select>
+    </Sort>
   </div>
 );
 

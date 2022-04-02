@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
+import moment from 'moment';
 import axios from 'axios';
 import styled from 'styled-components';
-import { StarIcon } from '@heroicons/react/solid';
+import { StarIcon, CheckIcon, PlusIcon } from '@heroicons/react/solid';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
 import ReviewSort from './Reviews/ReviewSort';
+
+const RateNum = styled.h1`
+  font-size: 60px
+`
 
 const RatingAndReview = styled.section`
   padding: 4em;
@@ -14,12 +18,20 @@ const RatingAndReview = styled.section`
 `;
 
 const RatingDiv = styled.div`
-  padding-right: 50px
+  padding-right: 100px
+`;
+
+const RatingUser = styled.div`
+display: flex;
+justify-content: space-between;
 `;
 
 const Button = styled.button`
+  height: 60px;
+  padding: 20px;
   background-color: #112D4E;
-  color: #F9F7F7
+  color: #F9F7F7;
+  margin: 10px;
 `;
 const Photos = styled.div`
   display: flex;
@@ -29,13 +41,32 @@ const Photos = styled.div`
   justify-content: flex-start;
 `;
 const Response = styled.div`
-  background-color: transparent
+  color: black;
+  background-color: #F9F7F7;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
 `;
 
 const ReviewDiv = styled.div`
   height: 600px;
   width: 1000px;
   overflow: auto;
+`;
+
+const ScaleDiv = styled.div`
+  width: 100px
+`;
+
+const Bar = styled.div`
+  background-color: #F9F7F7;
+  height: 15px;
+  width: 100%
+`;
+
+const InsideBar = styled.div`
+background-color: black;
+height: 15px;
 `;
 
 function fetchData(setData, id, count, sort) {
@@ -86,11 +117,11 @@ function fetchMetaData(
       let rate = (Math.round((rateSum / rateUnit) * 10));
       rate *= 0.1;
       rate = rate.toFixed(1);
-      setStar5(Math.round((star5 / rateUnit) * 100));
-      setStar4(Math.round((star4 / rateUnit) * 100));
-      setStar3(Math.round((star3 / rateUnit) * 100));
-      setStar2(Math.round((star2 / rateUnit) * 100));
-      setStar1(Math.round((star1 / rateUnit) * 100));
+      setStar5(`${Math.round((star5 / rateUnit) * 100)}%`);
+      setStar4(`${Math.round((star4 / rateUnit) * 100)}%`);
+      setStar3(`${Math.round((star3 / rateUnit) * 100)}%`);
+      setStar2(`${Math.round((star2 / rateUnit) * 100)}%`);
+      setStar1(`${Math.round((star1 / rateUnit) * 100)}%`);
       setAveRate(rate);
     });
 }
@@ -151,19 +182,17 @@ const Reviews = () => {
 
   const reviews = data.map((review) => (
     <div className="review" key={review.review_id}>
-      <div>
-        <h3>
+      <RatingUser>
+        <div>
           rating:
           { review.rating }
-        </h3>
-        by
-        { review.reviewer_name }
-      </div>
+        </div>
+        <div>
+          { review.reviewer_name }
+          , {(moment(review.date).format('MMM DD, YYYY'))}
+        </div>
+      </RatingUser>
       <h2 className="title">{review.summary}</h2>
-      <h3>
-        recommend:
-        {review.recommend.toString()}
-      </h3>
       <Photos>
         {review.photos.map((photo) => (
           <div id={photo.id}>
@@ -175,25 +204,30 @@ const Reviews = () => {
           </div>
         ))}
       </Photos>
-      {/* <h3>{moment().format({review.date}).fromNow()}</h3> */}
       {review.body}
-      <Response>
+      <div className={`${review.recommend.toString()}`}>
+        <CheckIcon className="check" />
+        I recommend this product
+      </div>
+
+      <Response className={(review.response.length === 0) ? 'hidden' : ''}>
         Response:
         { review.response }
       </Response>
-      Helpful?
-      <u onClick={() => { reviewHelpful(review.review_id); }}>
-        Yes
-
-      </u>
-      (
-      {review.helpfulness}
-      ) |
-      {' '}
-      <u onClick={() => { reviewReport(review.review_id) }}>
-        Report
-      </u>
-      <hr />
+      <div style={{padding: '15px'}}>
+        Helpful?
+        <u onClick={() => { reviewHelpful(review.review_id); }}>
+          Yes
+        </u>
+        (
+        {review.helpfulness}
+        ) |
+        {' '}
+        <u onClick={() => { reviewReport(review.review_id); }}>
+          Report
+        </u>
+        <hr />
+      </div>
     </div>
   ));
   return (
@@ -201,47 +235,42 @@ const Reviews = () => {
       Ratings and Reviews
       <RatingAndReview>
         <RatingDiv>
-          Rate
-          <h1>{aveRate}</h1>
+          <RateNum>{aveRate}</RateNum>
+          <StarIcon className="star" />
+          <StarIcon className="star" />
+          <StarIcon className="star" />
+          <StarIcon className="star" />
+          <StarIcon className="star" />
           <h4>
             {recomPer}
             % of reviews recommend this product
           </h4>
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
           <br />
-          5 star
-          :
-          {' '}
-          {star5}
-          %
+          <RatingUser>
+            <ScaleDiv><u>5 stars</u></ScaleDiv>
+            <Bar><InsideBar style={{ width: star5 }} /></Bar>
+          </RatingUser>
           <br />
-          4 star
-          :
-          {' '}
-          {star4}
-          %
+          <RatingUser>
+            <ScaleDiv><u>4 stars</u></ScaleDiv>
+            <Bar><InsideBar style={{ width: star4 }} /></Bar>
+          </RatingUser>
           <br />
-          3 star
-          :
-          {' '}
-          {star3}
-          %
+          <RatingUser>
+            <ScaleDiv><u>3 stars</u></ScaleDiv>
+            <Bar><InsideBar style={{ width: star3 }} /></Bar>
+          </RatingUser>
           <br />
-          2 star
-          :
-          {' '}
-          {star2}
-          %
+          <RatingUser>
+            <ScaleDiv><u>2 stars</u></ScaleDiv>
+            <Bar><InsideBar style={{ width: star2 }} /></Bar>
+          </RatingUser>
           <br />
-          1 star
-          :
-          {' '}
-          {star1}
-          %
+          <RatingUser>
+            <ScaleDiv><u>1 stars</u></ScaleDiv>
+            <Bar><InsideBar style={{ width: star1 }} /></Bar>
+          </RatingUser>
+
           <br />
           Size
           <br />
@@ -263,7 +292,7 @@ const Reviews = () => {
           <br />
           {length}
           <br />
-          fit
+          Fit
           <br />
           {fit}
         </RatingDiv>
@@ -277,9 +306,10 @@ const Reviews = () => {
           <ReviewDiv>
             {reviews}
           </ReviewDiv>
-          <Button onClick={() => { fetchMoreData(setData, setCount, 65632, count, sort); }}>More Reviews
+          <Button onClick={() => { fetchMoreData(setData, setCount, 65632, count, sort); }}>
+            MORE REVIEWS
           </Button>
-          <Button onClick={() => setisWritable(true)}>Write a Review</Button>
+          <Button onClick={() => setisWritable(true)}>ADD A REVIEW  <PlusIcon style={{height: "13px"}}/></Button>
         </div>
       </RatingAndReview>
     </div>
