@@ -2,8 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StylesContainer = styled.div`
-background: blue;
-width: 50%;
+width: auto;
 height: 150px;
 display: grid;
 grid-template-columns: repeat(4, 1fr);
@@ -13,22 +12,19 @@ grid-auto-rows: auto;
 const StyleIcon = styled.div`
 width: 34px;
 height: 34px;
-background: yellow;
-background-image: ${({ src }) => `url(${src})`};
+background-image: ${(props) => `url(${props.style.photos[0].thumbnail_url})`};
+background-size: cover;
 border-radius: 50%;
-background-repeat: no-repeat;
+background-position: 0% 30%;
+margin-right: 10px;
 `;
 
-function StyleSelector() {
+function StyleSelector({ styles, selectStyle }) {
+  console.log(styles);
   return (
     <div className="size-selector">
       <StylesContainer>
-        <StyleIcon />
-        <StyleIcon />
-        <StyleIcon />
-        <StyleIcon />
-        <StyleIcon />
-        <StyleIcon />
+        {styles.styles.results.map((style, i) => <StyleIcon style={style} onClick={() => selectStyle(style)} key={i} />)}
       </StylesContainer>
     </div>
   );
