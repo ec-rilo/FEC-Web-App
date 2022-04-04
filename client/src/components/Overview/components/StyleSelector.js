@@ -20,7 +20,6 @@ margin-right: 10px;
 `;
 
 function StyleSelector({ styles, selectStyle }) {
-  console.log(styles);
   return (
     <div className="size-selector">
       <StylesContainer>

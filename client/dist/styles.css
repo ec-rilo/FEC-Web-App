@@ -15,6 +15,10 @@
   text-decoration: none;
 }
 
+.right-div {
+  width: 450px;
+}
+
 .brand {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;

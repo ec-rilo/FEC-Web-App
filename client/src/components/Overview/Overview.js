@@ -5,22 +5,15 @@ import { StarIcon } from '@heroicons/react/solid';
 
 import StyleData from '../../../../stylesData.js';
 import ProductData from '../../../../productData.js';
+
 import StyleSelector from './components/StyleSelector.js';
+import Cart from './components/Cart.js';
 
 const ProductHeader = styled.div`
 font-size: 24px;
 font-weight: 400;
 margin-bottom: 50px;
 /* justify-content: space-between; */
-`;
-
-const AddToCartBtn = styled.button`
-background: transparent;
-color: white;
-border-radius: 3px;
-background-color: #112D4E;
-margin: 0 1em;
-padding: 0.25em 1em;
 `;
 
 const ProductImage = styled.div`
@@ -38,6 +31,12 @@ background-position: 0% 30%;
 
 const ProductCategory = styled.div`
 font-size: 12px;
+color: #747571;
+
+&:hover {
+  color: black;
+  cursor: pointer;
+  };
 `;
 
 function Overview({ incrementCart }) {
@@ -78,6 +77,8 @@ function Overview({ incrementCart }) {
             <button>+</button>
             0
             <button>-</button> */}
+            <Cart />
+            {product.product.description}
           </div>
         </div>
       </div>
