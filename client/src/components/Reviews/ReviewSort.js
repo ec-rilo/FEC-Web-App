@@ -8,7 +8,7 @@ const Sort = styled.div`
 
 const Select = styled.select`
   border: none;
-`
+`;
 
 const ReviewSort = ({ changeSort, setSort}) => (
   <div>

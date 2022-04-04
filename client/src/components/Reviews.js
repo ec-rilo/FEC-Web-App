@@ -145,6 +145,12 @@ function reviewReport(reviewID) {
     .catch();
 }
 
+function filterStar(number, setData) {
+  setData(function(prev) {
+    return prev.filter(review => review.rating === number)
+  })
+}
+
 const Reviews = () => {
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('');
@@ -160,6 +166,9 @@ const Reviews = () => {
   const [isWritable, setisWritable] = useState(false);
   useEffect(() => {
     fetchData(setData, 65632, count, sort);
+    return () => {
+      fetchData(setData, 65632, count, sort);
+    };
   }, []);
   useEffect(() => {
     fetchMetaData(
@@ -247,27 +256,27 @@ const Reviews = () => {
           </h4>
           <br />
           <RatingUser>
-            <ScaleDiv><u>5 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => {filterStar(5, setData)}}>5 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star5 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u>4 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => {filterStar(4, setData)}}>4 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star4 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u>3 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => {filterStar(3, setData)}}>3 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star3 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u>2 stars</u></ScaleDiv>
+            <ScaleDiv><u  onClick={() => {filterStar(2, setData)}}>2 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star2 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u>1 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => {filterStar(1, setData)}}>1 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star1 }} /></Bar>
           </RatingUser>
 
@@ -298,10 +307,10 @@ const Reviews = () => {
         </RatingDiv>
 
         <div>
-          <ReviewSearch />
+          <ReviewSearch data={data} setData={setData} />
           <ReviewSort changeSort={changeSort} setSort={setSort} />
           <div className={writable}>
-            <ReviewForm setisWritable={setisWritable} />
+            <ReviewForm setisWritable={setisWritable} writable={writable} />
           </div>
           <ReviewDiv>
             {reviews}

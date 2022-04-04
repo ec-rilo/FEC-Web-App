@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid';
 
@@ -6,8 +6,11 @@ const Characteristics = styled.ul`
 list-style-type: none
 `;
 
-const ReviewForm = ({ setisWritable }) => {
+const ReviewForm = ({ writable, setisWritable }) => {
   const [body, setBody] = useState('');
+  // useEffect(() => {
+  //   window.prompt('Write a review')
+  // }, [writable]);
   return (
     <div>
       Write a Review
