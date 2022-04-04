@@ -142,3 +142,7 @@ label.star:before {
 .check {
   height: 20px;
 }
+
+.star-scale {
+  /* position: absolute; */
+}

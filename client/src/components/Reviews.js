@@ -6,10 +6,11 @@ import { StarIcon, CheckIcon, PlusIcon } from '@heroicons/react/solid';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
 import ReviewSort from './Reviews/ReviewSort';
+import StarBar from './StarBar';
 
 const RateNum = styled.h1`
   font-size: 60px
-`
+`;
 
 const RatingAndReview = styled.section`
   padding: 4em;
@@ -33,6 +34,7 @@ const Button = styled.button`
   color: #F9F7F7;
   margin: 10px;
 `;
+
 const Photos = styled.div`
   display: flex;
   display: -webkit-flex;
@@ -40,6 +42,7 @@ const Photos = styled.div`
   flex-wrap: nowrap;
   justify-content: flex-start;
 `;
+
 const Response = styled.div`
   color: black;
   background-color: #F9F7F7;
@@ -186,6 +189,7 @@ const Reviews = () => {
         <div>
           rating:
           { review.rating }
+          <StarBar rate={review.rating} />
         </div>
         <div>
           { review.reviewer_name }
@@ -210,11 +214,11 @@ const Reviews = () => {
         I recommend this product
       </div>
 
-      <Response className={(review.response.length === 0) ? 'hidden' : ''}>
+      <Response className={(review.response !== undefined || review.response.length === 0) ? 'hidden' : ''}>
         Response:
         { review.response }
       </Response>
-      <div style={{padding: '15px'}}>
+      <div style={{ padding: '15px' }}>
         Helpful?
         <u onClick={() => { reviewHelpful(review.review_id); }}>
           Yes
@@ -236,11 +240,7 @@ const Reviews = () => {
       <RatingAndReview>
         <RatingDiv>
           <RateNum>{aveRate}</RateNum>
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
+          <StarBar rate={aveRate} />
           <h4>
             {recomPer}
             % of reviews recommend this product
