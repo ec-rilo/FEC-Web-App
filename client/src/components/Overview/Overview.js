@@ -3,11 +3,15 @@ import axios from 'axios';
 import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid';
 
+import StyleData from '../../../../stylesData.js';
+import ProductData from '../../../../productData.js';
 import StyleSelector from './components/StyleSelector.js';
 
-const ProductName = styled.h1`
-font-size: 20px;
-font-weight: 500;
+const ProductHeader = styled.div`
+font-size: 24px;
+font-weight: 400;
+margin-bottom: 50px;
+/* justify-content: space-between; */
 `;
 
 const AddToCartBtn = styled.button`
@@ -20,40 +24,60 @@ padding: 0.25em 1em;
 `;
 
 const ProductImage = styled.div`
+width: 50vw;
+height: 80vh;
+display: flex;
+flex-direction: column;
+margin-top: 10px;
+margin-right: 80px;
+margin-bottom: 50px;
+background-image: ${(props) => `url(${props.image})`};
+background-size: cover;
+background-position: 0% 30%;
+`;
 
+const ProductCategory = styled.div`
+font-size: 12px;
 `;
 
 function Overview({ incrementCart }) {
-  const [product, setProduct] = useState({});
-  const [style, setStyle] = useState({});
-  const [price, setPrice] = useState(40);
+  const [product, setProduct] = useState({
+    product: ProductData, styles: StyleData, style: StyleData.results[0],
+  });
+  // const [style, setStyle]
+
+  function selectStyle(newStyle) {
+    setProduct({
+      product: ProductData, styles: StyleData, style: newStyle,
+    });
+  }
+
   return (
     <div>
       <div className="container">
         <div className="overview-body">
-          <div className="left-div">
-            <div className="img-row">
-              <div className="img">Image</div>
-            </div>
-          </div>
+          <ProductImage image={product.style.photos[0].url} />
 
           <div className="right-div">
-            <ProductName>Morning Joggers</ProductName>
-            <StarIcon className="star" />
-            <div className="price">
-              $
+            <ProductCategory>{product.product.category}</ProductCategory>
+            <ProductHeader>
+              {product.product.name}
               {' '}
-              {price}
-            </div>
+              {!product.style.sale_price ? `$${product.style.original_price}` : <strike>{`$${product.style.original_price}`}</strike>}
+              {' '}
+              {product.style.sale_price ? `$${product.style.sale_price}` : null}
+            </ProductHeader>
 
-            <StyleSelector />
+            {/* <StarIcon className="star" /> */}
 
-            <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
+            <StyleSelector styles={product} selectStyle={selectStyle} />
+
+            {/* <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
             <AddToCartBtn onClick={incrementCart}>Add to Cart</AddToCartBtn>
             Quantity
             <button>+</button>
             0
-            <button>-</button>
+            <button>-</button> */}
           </div>
         </div>
       </div>

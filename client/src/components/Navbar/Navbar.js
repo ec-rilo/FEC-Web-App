@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 import { ThemeProvider } from 'styled-components';
-import { GlobalStyles } from './globalStyles.js';
-import { lightTheme, darkTheme } from './Themes';
+import { GlobalStyles } from '../globalStyles.js';
+import { lightTheme, darkTheme } from '../Themes';
 
 function Navbar(props) {
   const [theme, setTheme] = useState('light');
