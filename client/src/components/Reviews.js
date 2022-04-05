@@ -47,14 +47,14 @@ const Response = styled.div`
   padding-bottom: 20px;
 `;
 
-const ReviewDiv = styled.td`
-  height: 600px;
-  width: 1000px;
+const ReviewDiv = styled.div`
+  height: 100vh;
+  width: 60vw;
   overflow: auto;
 `;
 
 const Reviews = () => {
-  const productID = 65632;
+  const productID = 65634;
   // 65635 meta and reviews count are not the same
   // 65632 for testing the response
   // 65640 for testing the add reviews button
@@ -152,7 +152,7 @@ const Reviews = () => {
   const collapseStyle = { position: 'absolute', top: '157%', right: '15%' };
 
   const reviews = reviewsData.map((review) => (
-    <div className="review" key={review.review_id}>
+    <div className="review" key={review.review_id} style={{ width: '60vw' }}>
       <RatingUser>
         <div>
           <StarBar rate={review.rating} />
@@ -230,16 +230,17 @@ const Reviews = () => {
               char={char}
             />
           </div>
-          <table>
-            <tbody>
-              <tr>
-                <ReviewDiv colspan="2">
-                  {reviews}
-                </ReviewDiv>
-              </tr>
-            </tbody>
-
-          </table>
+          <ReviewDiv>
+            <table style={{ height: '100vh' }}>
+              <tbody>
+                <tr>
+                  <td colSpan="2">
+                    {reviews}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </ReviewDiv>
           <Button className={((data.length === totalCount) ? 'hidden' : '')} onClick={() => { fetchMoreData(); }}>
             MORE REVIEWS
           </Button>
