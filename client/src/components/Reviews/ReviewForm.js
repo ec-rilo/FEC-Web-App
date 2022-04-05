@@ -1,15 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { StarIcon } from '@heroicons/react/solid';
 import Modal from './ReviewModal';
 
 const Characteristics = styled.ul`
 list-style-type: none
 `;
 
-const ReviewForm = ({ writable, setisWritable, char }) => {
-  const product_id = 65632;
+const ReviewForm = ({ productID, writable, setisWritable, char }) => {
+  const product_id = productID;
   const [summary, setSummary] = useState('');
   const [recommend, setRecommend] = useState('');
   const [rating, setRating] = useState(0);
@@ -24,7 +23,7 @@ const ReviewForm = ({ writable, setisWritable, char }) => {
       '220234': Number(quality),
     };
     const data = {
-      product_id: 65632,
+      product_id,
       rating: Number(rating),
       summary,
       body,

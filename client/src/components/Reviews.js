@@ -218,7 +218,12 @@ const Reviews = () => {
           <ReviewSearch data={data} setReviewsData={setReviewsData} />
           <ReviewSort changeSort={changeSort} totalCount={totalCount} />
           <div>
-            <ReviewForm setisWritable={setisWritable} writable={writable} char={char} />
+            <ReviewForm
+              productID={productID}
+              setisWritable={setisWritable}
+              writable={writable}
+              char={char}
+            />
           </div>
           <table>
             <tbody>
