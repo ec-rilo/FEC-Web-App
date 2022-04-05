@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
-// import moment from 'moment';
+import moment from 'moment';
 import axios from 'axios';
 import styled from 'styled-components';
-import { StarIcon } from '@heroicons/react/solid';
+import {
+  CheckIcon, PlusIcon,
+} from '@heroicons/react/solid';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
+import ReviewSort from './Reviews/ReviewSort';
+import ReviewPhotoEntry from './Reviews/ReviewPhotoEntry';
+import RatingBreakdown from './Reviews/RatingBreakdown';
+import StarBar from './StarBar';
 
 const RatingAndReview = styled.section`
   padding: 4em;
@@ -12,14 +18,19 @@ const RatingAndReview = styled.section`
   justify-content: flex-start;
 `;
 
-const RatingDiv = styled.div`
-  padding-right: 50px
+const RatingUser = styled.div`
+display: flex;
+justify-content: space-between;
 `;
 
 const Button = styled.button`
+  height: 60px;
+  padding: 20px;
   background-color: #112D4E;
-  color: #F9F7F7
+  color: #F9F7F7;
+  margin: 10px;
 `;
+
 const Photos = styled.div`
   display: flex;
   display: -webkit-flex;
@@ -27,87 +38,32 @@ const Photos = styled.div`
   flex-wrap: nowrap;
   justify-content: flex-start;
 `;
+
 const Response = styled.div`
-  background-color: transparent
+  color: black;
+  background-color: #F9F7F7;
+  padding-top: 20px;
+  padding-left: 20px;
+  padding-bottom: 20px;
 `;
 
 const ReviewDiv = styled.div`
-  height: 400px;
-  width: 800px;
+  height: 100vh;
+  width: 60vw;
   overflow: auto;
 `;
 
-const Star = styled.svg`
-  width: 33;
-  height: 34;
-  viewBox: 0 0 33 34;
-  fill="none" xmlns="http://www.w3.org/2000/svg"
-  & .path d="M16.5 0L20.2045 11.7467L32.1924 11.7467L22.494 19.0066L26.1985 30.7533L16.5 23.4934L6.80154 30.7533L10.506 19.0066L0.807568 11.7467L12.7955 11.7467L16.5 0Z" fill="black"/>
-  </svg>
-`;
-// const ratingUserContainer = styled.div`
-// display: inline-block;
-// `;
-
-function fetchData(setData, id, count) {
-  axios.get(`/reviews?product_id=${id}&count=${count}`)
-    .then((res) => {
-      setData(res.data.results);
-    });
-}
-
-function fetchMoreData(setData, setCount, count) {
-  setCount((prevCount) => (prevCount + 2));
-  fetchData(setData, count);
-}
-
-function fetchMetaData(
-  id,
-  setAveRate,
-  setRecomPer,
-  setStar5,
-  setStar4,
-  setStar3,
-  setStar2,
-  setStar1,
-  setChar,
-) {
-  axios.get(`/reviews/meta?product_id=${id}`)
-    .then((res) => {
-      const ratingArray = Object.keys(res.data.ratings);
-      let rateSum = 0;
-      let rateUnit = 0;
-      const star5 = res.data.ratings['5'];
-      const star4 = res.data.ratings['4'];
-      const star3 = res.data.ratings['3'];
-      const star2 = res.data.ratings['2'];
-      const star1 = res.data.ratings['1'];
-      setStar5(star5);
-      setStar4(star4);
-      setStar3(star3);
-      setStar2(star2);
-      setStar1(star1);
-      setChar(res.data.characteristics);
-
-      ratingArray.forEach((item) => {
-        rateUnit += Number(res.data.ratings[item]);
-        rateSum += item * res.data.ratings[item];
-      });
-      const recomNum = Number(res.data.recommended.true);
-      const notRecomNum = Number(res.data.recommended.false);
-      const recomSum = recomNum + notRecomNum;
-      const recomPer = (Math.round((recomNum / recomSum) * 100));
-      setRecomPer(recomPer);
-
-      let rate = (Math.round((rateSum / rateUnit) * 10));
-      rate *= 0.1;
-      rate = rate.toFixed(1);
-      setAveRate(rate);
-    });
-}
-
 const Reviews = () => {
+  const productID = 65634;
+  // 65635 meta and reviews count are not the same
+  // 65632 for testing the response
+  // 65640 for testing the add reviews button
+  // 65634 for testing photos
   const [data, setData] = useState([]);
+  const [reviewsData, setReviewsData] = useState([]);
+  const [dataUpdate, setDataUpdate] = useState('');
+  const [sort, setSort] = useState('relevant');
+  const [totalCount, setTotalCount] = useState(0);
   const [aveRate, setAveRate] = useState(0);
   const [recomPer, setRecomPer] = useState(0);
   const [char, setChar] = useState({});
@@ -116,25 +72,49 @@ const Reviews = () => {
   const [star3, setStar3] = useState(0);
   const [star2, setStar2] = useState(0);
   const [star1, setStar1] = useState(0);
-
   const [count, setCount] = useState(2);
   const [isWritable, setisWritable] = useState(false);
   useEffect(() => {
-    fetchData(setData, 65631, count);
-  }, []);
+    axios.get(`/reviews?product_id=${productID}&count=${count}&sort=${sort}`)
+      .then((res) => {
+        setData(res.data.results);
+        setReviewsData(res.data.results);
+      });
+  }, [productID, count, sort, dataUpdate]);
   useEffect(() => {
-    fetchMetaData(
-      65631,
-      setAveRate,
-      setRecomPer,
-      setStar5,
-      setStar4,
-      setStar3,
-      setStar2,
-      setStar1,
-      setChar,
-    );
-  }, []);
+    axios.get(`/reviews/meta?product_id=${productID}`)
+      .then((res) => {
+        const ratingArray = Object.keys(res.data.ratings);
+        let rateSum = 0;
+        let rateUnit = 0;
+        const star5 = res.data.ratings['5'];
+        const star4 = res.data.ratings['4'];
+        const star3 = res.data.ratings['3'];
+        const star2 = res.data.ratings['2'];
+        const star1 = res.data.ratings['1'];
+        setChar(res.data.characteristics);
+
+        ratingArray.forEach((item) => {
+          rateUnit += Number(res.data.ratings[item]);
+          rateSum += item * res.data.ratings[item];
+        });
+        const recomNum = Number(res.data.recommended.true);
+        const recomPer = (Math.round((recomNum / rateUnit) * 100));
+        setRecomPer(recomPer);
+
+        let rate = (Math.round((rateSum / rateUnit) * 10));
+        rate *= 0.1;
+        rate = rate.toFixed(1);
+        setTotalCount(rateUnit);
+        setStar5(`${Math.round((star5 / rateUnit) * 100)}%`);
+        setStar4(`${Math.round((star4 / rateUnit) * 100)}%`);
+        setStar3(`${Math.round((star3 / rateUnit) * 100)}%`);
+        setStar2(`${Math.round((star2 / rateUnit) * 100)}%`);
+        setStar1(`${Math.round((star1 / rateUnit) * 100)}%`);
+
+        setAveRate(rate);
+      });
+  }, [productID]);
 
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
@@ -144,110 +124,134 @@ const Reviews = () => {
   const length = (char.Length === undefined) ? '' : Math.round(char.Length.value);
   const fit = (char.Fit === undefined) ? '' : Math.round(char.Fit.value);
 
-  const reviews = data.map((review) => (
-    <div className="review" key={review.review_id}>
-      <div>
-        <h3>
-          rating:
-          { review.rating }
-        </h3>
-        by
-        { review.reviewer_name }
-      </div>
+  const filterStar = (number) => {
+    const rateData = data.filter((review) => review.rating === number);
+    setReviewsData(rateData);
+  };
+
+  const fetchMoreData = () => {
+    setCount((prevCount) => (prevCount + 2));
+  };
+
+  const changeSort = (newSort) => {
+    setSort(newSort);
+  };
+
+  const reviewHelpful = (reviewID) => {
+    axios.put(`/reviews/${reviewID}/helpful`)
+      .then((res) => setDataUpdate(res))
+      .catch();
+  };
+
+  const reviewReport = (reviewID) => {
+    axios.put(`/reviews/${reviewID}/report`)
+      .then((res) => setDataUpdate(res))
+      .catch();
+  };
+
+  const collapseStyle = { position: 'absolute', top: '157%', right: '15%' };
+
+  const reviews = reviewsData.map((review) => (
+    <div className="review" key={review.review_id} style={{ width: '60vw' }}>
+      <RatingUser>
+        <div>
+          <StarBar rate={review.rating} />
+        </div>
+        <div>
+          { review.reviewer_name }
+          ,
+          {' '}
+          {(moment(review.date).format('MMM DD, YYYY'))}
+        </div>
+      </RatingUser>
       <h2 className="title">{review.summary}</h2>
-      <h3>
-        recommend:
-        {review.recommend.toString()}
-      </h3>
       <Photos>
-        {review.photos.map((photo) => (
-          <div id={photo.id}>
-            <img
-              src={photo.url}
-              width="150"
-              alt="productPhoto"
-            />
-          </div>
-        ))}
+        <ReviewPhotoEntry review={review} />
       </Photos>
-      {/* <h3>{moment().format({review.date}).fromNow()}</h3> */}
       {review.body}
-      <Response>
+      <div className={(!review.recommend) ? 'hidden' : ''} style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+        <CheckIcon style={{ height: '20px' }} />
+        I recommend this product
+      </div>
+
+      <Response className={(!review.response) ? 'hidden' : ''}>
         Response:
+        {' '}
         { review.response }
       </Response>
-      Helpful? Yes(5) | Report
-      <hr />
+      <div style={{ padding: '15px' }}>
+        Helpful?
+        <u onClick={() => { reviewHelpful(review.review_id); }}>
+          Yes
+        </u>
+        (
+        {review.helpfulness}
+        ) |
+        {' '}
+        <u onClick={() => { reviewReport(review.review_id); }}>
+          Report
+        </u>
+        <hr />
+      </div>
     </div>
   ));
   return (
     <div>
       Ratings and Reviews
       <RatingAndReview>
-        <RatingDiv>
-          Rate
-          <h1>{aveRate}</h1>
-          <Star />
-          <h4>
-            {recomPer}
-            % of reviews recommend this product
-          </h4>
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <StarIcon className="star" />
-          <br />
-          5 star
-          {star5}
-          <br />
-          4 star
-          {star4}
-          <br />
-          3 star
-          {star3}
-          <br />
-          2 star
-          {star2}
-          <br />
-          1 star
-          {star1}
-          <br />
-          Size
-          <br />
-          {size}
-          <br />
-          Width
-          <br />
-          {width}
-          <br />
-          Comfort
-          <br />
-          {comfort}
-          <br />
-          Quality
-          <br />
-          {quality}
-          <br />
-          Length
-          <br />
-          {length}
-          <br />
-          fit
-          <br />
-          {fit}
-        </RatingDiv>
-
+        <RatingBreakdown
+          aveRate={aveRate}
+          filterStar={filterStar}
+          recomPer={recomPer}
+          star={{
+            star1,
+            star2,
+            star3,
+            star4,
+            star5,
+          }}
+          char={{
+            size,
+            width,
+            comfort,
+            quality,
+            length,
+            fit,
+          }}
+        />
         <div>
-          <ReviewSearch />
-          <div className={writable}>
-            <ReviewForm setisWritable={setisWritable} />
+          <ReviewSearch data={data} setReviewsData={setReviewsData} />
+          <ReviewSort changeSort={changeSort} totalCount={totalCount} />
+          <div>
+            <ReviewForm
+              productID={productID}
+              setisWritable={setisWritable}
+              writable={writable}
+              char={char}
+            />
           </div>
           <ReviewDiv>
-            {reviews}
+            <table style={{ height: '100vh' }}>
+              <tbody>
+                <tr>
+                  <td colSpan="2">
+                    {reviews}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </ReviewDiv>
-          <Button onClick={() => { fetchMoreData(setData, setCount, count); }}>More Reviews</Button>
-          <Button onClick={() => setisWritable(true)}>Write a Review</Button>
+          <Button className={((data.length === totalCount) ? 'hidden' : '')} onClick={() => { fetchMoreData(); }}>
+            MORE REVIEWS
+          </Button>
+          <Button
+            style={(data.length === totalCount) ? collapseStyle : { }}
+            onClick={() => setisWritable(true)}
+          >
+            ADD A REVIEW
+            {' '}
+            <PlusIcon style={{ height: '13px' }} />
+          </Button>
         </div>
       </RatingAndReview>
     </div>
