@@ -5,7 +5,10 @@ import { StarIcon } from '@heroicons/react/solid';
 
 import StyleData from '../../../../stylesData.js';
 import ProductData from '../../../../productData.js';
+
 import StyleSelector from './components/StyleSelector.js';
+import Cart from './components/Cart.js';
+import ImageGallery from './components/ImageGallery.js';
 
 const ProductHeader = styled.div`
 font-size: 24px;
@@ -14,30 +17,15 @@ margin-bottom: 50px;
 /* justify-content: space-between; */
 `;
 
-const AddToCartBtn = styled.button`
-background: transparent;
-color: white;
-border-radius: 3px;
-background-color: #112D4E;
-margin: 0 1em;
-padding: 0.25em 1em;
-`;
-
-const ProductImage = styled.div`
-width: 50vw;
-height: 80vh;
-display: flex;
-flex-direction: column;
-margin-top: 10px;
-margin-right: 80px;
-margin-bottom: 50px;
-background-image: ${(props) => `url(${props.image})`};
-background-size: cover;
-background-position: 0% 30%;
-`;
-
 const ProductCategory = styled.div`
 font-size: 12px;
+width: auto;
+color: #747571;
+
+&:hover {
+  color: black;
+  cursor: pointer;
+  };
 `;
 
 function Overview({ incrementCart }) {
@@ -56,7 +44,7 @@ function Overview({ incrementCart }) {
     <div>
       <div className="container">
         <div className="overview-body">
-          <ProductImage image={product.style.photos[0].url} />
+          <ImageGallery images={product.style.photos} />
 
           <div className="right-div">
             <ProductCategory>{product.product.category}</ProductCategory>
@@ -78,6 +66,8 @@ function Overview({ incrementCart }) {
             <button>+</button>
             0
             <button>-</button> */}
+            <Cart style={product.style} />
+            {product.product.description}
           </div>
         </div>
       </div>
