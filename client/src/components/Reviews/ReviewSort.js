@@ -15,9 +15,9 @@ const ReviewSort = ({ changeSort, setSort}) => (
     <Sort>
       <h4>221 reviews, sorted by</h4>
       <Select onChange={(e) => { changeSort(setSort, e.target.value); }}>
+        <option value="relevant">Relevant</option>
         <option value="newest">Newest</option>
         <option value="helpful">Helpful</option>
-        <option value="relevant">Relevant</option>
       </Select>
     </Sort>
   </div>
