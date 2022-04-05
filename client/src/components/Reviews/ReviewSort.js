@@ -10,11 +10,15 @@ const Select = styled.select`
   border: none;
 `;
 
-const ReviewSort = ({ changeSort, setSort, totalCount}) => (
+const ReviewSort = ({ changeSort, totalCount }) => (
   <div>
     <Sort>
-      <h4>{totalCount} reviews, sorted by</h4>
-      <Select onChange={(e) => { changeSort(setSort, e.target.value); }}>
+      <h4>
+        {totalCount}
+        {' '}
+        reviews, sorted by
+      </h4>
+      <Select onChange={(e) => { changeSort(e.target.value); }}>
         <option value="relevant">Relevant</option>
         <option value="newest">Newest</option>
         <option value="helpful">Helpful</option>

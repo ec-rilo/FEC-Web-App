@@ -5,20 +5,18 @@ const Searchinput = styled.input`
 width: 100%
 `;
 
-function searchQuery(query, setData) {
-  if (query.length >= 3) {
-    setData((prev) => prev.filter((item) => item.body.includes(query) || item.summary.includes(query)));
-  }
-}
-
-const ReviewSearch = ({ setData }) => {
-  const [query, setQuery] = useState('');
-
-  useEffect(() => {
-    searchQuery(query, setData);
-  }, [query]);
+const ReviewSearch = ({ data, setReviewsData }) => {
+  const searchItems = (value) => {
+    if (value.length >= 3) {
+      const searchedData = data.filter((item) => item.body.includes(value)
+        || item.summary.includes(value));
+      setReviewsData(searchedData);
+    } else {
+      setReviewsData(data);
+    }
+  };
   return (
-    <Searchinput onChange={(e) => { setQuery(e.target.value); }} />
+    <Searchinput onChange={(e) => { searchItems(e.target.value); }} />
   );
 };
 

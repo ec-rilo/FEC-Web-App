@@ -60,7 +60,7 @@ const CloseSpan = styled.span`
 * outside the modal should then properly close it.
 */
 const Modal = ({ title, content, onClose }) => ReactDOM.createPortal(
-  <ModalContainer className="hidden" onClick={onClose}>
+  <ModalContainer onClick={onClose}>
     <ModalContent onClick={(e) => e.stopPropagation()}>
       <ModalHeader>
         <CloseSpan onClick={onClose}>
