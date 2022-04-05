@@ -61,8 +61,8 @@ const Triangle = () => (
 );
 
 const RatingBreakdown = ({
-  aveRate, filterStar, recomPer, star1, star2, star3, star4, star5,
-  size, width, comfort, quality, length, fit,
+  aveRate, filterStar, recomPer, star,
+  char,
 }) => (
   <RatingDiv>
     <RateNum>{aveRate}</RateNum>
@@ -74,36 +74,36 @@ const RatingBreakdown = ({
     <br />
     <RatingUser>
       <ScaleDiv><u onClick={() => { filterStar(5); }}>5 stars</u></ScaleDiv>
-      <Bar><InsideBar style={{ width: star5 }} /></Bar>
+      <Bar><InsideBar style={{ width: star.star5 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
       <ScaleDiv><u onClick={() => { filterStar(4); }}>4 stars</u></ScaleDiv>
-      <Bar><InsideBar style={{ width: star4 }} /></Bar>
+      <Bar><InsideBar style={{ width: star.star4 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
       <ScaleDiv><u onClick={() => { filterStar(3); }}>3 stars</u></ScaleDiv>
-      <Bar><InsideBar style={{ width: star3 }} /></Bar>
+      <Bar><InsideBar style={{ width: star.star3 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
       <ScaleDiv><u onClick={() => { filterStar(2); }}>2 stars</u></ScaleDiv>
-      <Bar><InsideBar style={{ width: star2 }} /></Bar>
+      <Bar><InsideBar style={{ width: star.star2 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
       <ScaleDiv><u onClick={() => { filterStar(1); }}>1 stars</u></ScaleDiv>
-      <Bar><InsideBar style={{ width: star1 }} /></Bar>
+      <Bar><InsideBar style={{ width: star.star1 }} /></Bar>
     </RatingUser>
 
     <br />
     <div>
-      <div className={(size.length === 0) ? 'hidden' : ''}>
+      <div className={(!char.size) ? 'hidden' : ''}>
         Size
         <CharBar>
           <div style={{
-            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${size / 5 * 100}%`,
+            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${char.size / 5 * 100}%`,
           }}
           >
             <Triangle />
@@ -123,11 +123,11 @@ const RatingBreakdown = ({
         </CharBar>
       </div>
       <br />
-      <div className={(width.length === 0) ? 'hidden' : ''}>
+      <div className={(!char.width) ? 'hidden' : ''}>
         Width
         <CharBar>
           <div style={{
-            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${width / 5 * 100}%`,
+            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${char.width / 5 * 100}%`,
           }}
           >
             <Triangle />
@@ -147,12 +147,12 @@ const RatingBreakdown = ({
         </CharBar>
       </div>
       <br />
-      <div className={(comfort.length === 0) ? 'hidden' : ''}>
+      <div className={(!char.comfort) ? 'hidden' : ''}>
         Comfort
         <br />
         <CharBar>
           <div style={{
-            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${comfort / 5 * 100}%`,
+            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${char.comfort / 5 * 100}%`,
           }}
           >
             <Triangle />
@@ -174,11 +174,11 @@ const RatingBreakdown = ({
         </CharBar>
       </div>
       <br />
-      <div className={(quality.length === 0) ? 'hidden' : ''}>
+      <div className={(!char.quality) ? 'hidden' : ''}>
         Quality
         <CharBar>
           <div style={{
-            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${quality / 5 * 100}%`,
+            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${char.quality / 5 * 100}%`,
           }}
           >
             <Triangle />
@@ -200,11 +200,11 @@ const RatingBreakdown = ({
         </CharBar>
       </div>
       <br />
-      <div className={(length.length === 0) ? 'hidden' : ''}>
+      <div className={(!char.length) ? 'hidden' : ''}>
         Length
         <CharBar>
           <div style={{
-            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${quality / 5 * 100}%`,
+            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${char.quality / 5 * 100}%`,
           }}
           >
             <Triangle />
@@ -224,11 +224,11 @@ const RatingBreakdown = ({
         </CharBar>
       </div>
       <br />
-      <div className={(fit.length === 0) ? 'hidden' : ''}>
+      <div className={(!char.fit) ? 'hidden' : ''}>
         Fit
         <CharBar>
           <div style={{
-            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${quality / 5 * 100}%`,
+            transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${char.fit / 5 * 100}%`,
           }}
           >
             <Triangle />

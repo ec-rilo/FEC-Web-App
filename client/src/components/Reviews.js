@@ -99,7 +99,7 @@ const Reviews = () => {
           rateSum += item * res.data.ratings[item];
         });
         const recomNum = Number(res.data.recommended.true);
-        const recomPer = (Math.round((recomNum / rateSum) * 100));
+        const recomPer = (Math.round((recomNum / rateUnit) * 100));
         setRecomPer(recomPer);
 
         let rate = (Math.round((rateSum / rateUnit) * 10));
@@ -111,6 +111,7 @@ const Reviews = () => {
         setStar3(`${Math.round((star3 / rateUnit) * 100)}%`);
         setStar2(`${Math.round((star2 / rateUnit) * 100)}%`);
         setStar1(`${Math.round((star1 / rateUnit) * 100)}%`);
+
         setAveRate(rate);
       });
   }, [productID]);
@@ -202,17 +203,21 @@ const Reviews = () => {
           aveRate={aveRate}
           filterStar={filterStar}
           recomPer={recomPer}
-          star1={star1}
-          star2={star2}
-          star3={star3}
-          star4={star4}
-          star5={star5}
-          size={size}
-          width={width}
-          comfort={comfort}
-          quality={quality}
-          length={length}
-          fit={fit}
+          star={{
+            star1,
+            star2,
+            star3,
+            star4,
+            star5,
+          }}
+          char={{
+            size,
+            width,
+            comfort,
+            quality,
+            length,
+            fit,
+          }}
         />
         <div>
           <ReviewSearch data={data} setReviewsData={setReviewsData} />
@@ -235,7 +240,7 @@ const Reviews = () => {
             </tbody>
 
           </table>
-          <Button className={((data.length === totalCount) ? 'hidden' : '')} onClick={() => { fetchMoreData(setData, setCount, productID, count, sort); }}>
+          <Button className={((data.length === totalCount) ? 'hidden' : '')} onClick={() => { fetchMoreData(); }}>
             MORE REVIEWS
           </Button>
           <Button
