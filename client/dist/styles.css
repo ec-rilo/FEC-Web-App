@@ -45,7 +45,7 @@
   align-items: center;
   width: 70px;
   height: 40px;
-  background: #112D4E;
+  background: #3C3C3C;
   border-radius: 25px;
   z-index: 1;
 }
@@ -122,4 +122,10 @@ input.star-1:checked ~ label.star:before { color: black; }
 label.star:before {
   content: '\f006';
   font-family: FontAwesome;
+}
+
+.left-div {
+  display: flex;
+  width: 60%;
+  height: 40vw;
 }

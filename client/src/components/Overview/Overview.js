@@ -8,6 +8,7 @@ import ProductData from '../../../../productData.js';
 
 import StyleSelector from './components/StyleSelector.js';
 import Cart from './components/Cart.js';
+import ImageGallery from './components/ImageGallery.js';
 
 const ProductHeader = styled.div`
 font-size: 24px;
@@ -16,21 +17,9 @@ margin-bottom: 50px;
 /* justify-content: space-between; */
 `;
 
-const ProductImage = styled.div`
-width: 50vw;
-height: 80vh;
-display: flex;
-flex-direction: column;
-margin-top: 10px;
-margin-right: 80px;
-margin-bottom: 50px;
-background-image: ${(props) => `url(${props.image})`};
-background-size: cover;
-background-position: 0% 30%;
-`;
-
 const ProductCategory = styled.div`
 font-size: 12px;
+width: auto;
 color: #747571;
 
 &:hover {
@@ -55,7 +44,7 @@ function Overview({ incrementCart }) {
     <div>
       <div className="container">
         <div className="overview-body">
-          <ProductImage image={product.style.photos[0].url} />
+          <ImageGallery images={product.style.photos} />
 
           <div className="right-div">
             <ProductCategory>{product.product.category}</ProductCategory>
@@ -77,7 +66,7 @@ function Overview({ incrementCart }) {
             <button>+</button>
             0
             <button>-</button> */}
-            <Cart />
+            <Cart style={product.style} />
             {product.product.description}
           </div>
         </div>
