@@ -64,14 +64,7 @@
   display: flex;
 }
 
-.left-div {
-  width: 1280px;
-  background: pink;
-  display: flex;
-  flex-direction: column;
-  margin-right: 80px;
 
-}
 
 .img-row {
   display: flex;
@@ -95,15 +88,12 @@
   border-radius: 50px;
   justify-content: center;
   align-items: center;
-
 }
 
 .size-selector {
   display: flex;
 }
 
-
-/* REVIEWS */
 .hidden {
   display: none;
 }
@@ -128,21 +118,4 @@ input.star-1:checked ~ label.star:before { color: black; }
 label.star:before {
   content: '\f006';
   font-family: FontAwesome;
-}
-
-.false {
-  display: none;
-}
-
-.true {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.check {
-  height: 20px;
-}
-
-.star-scale {
-  /* position: absolute; */
 }
