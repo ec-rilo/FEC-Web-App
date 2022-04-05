@@ -253,8 +253,8 @@ const Reviews = () => {
         ))}
       </Photos>
       {review.body}
-      <div className={`${review.recommend.toString()}`}>
-        <CheckIcon className="check" />
+      <div className={(!review.recommend) ? 'hidden' : ''} style={{ paddingTop: '20px', paddingBottom: '20px' }}>
+        <CheckIcon style={{ height: '20px' }} />
         I recommend this product
       </div>
 
