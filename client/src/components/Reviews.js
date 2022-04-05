@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import moment from 'moment';
 import axios from 'axios';
 import styled from 'styled-components';
-import { StarIcon, CheckIcon, PlusIcon } from '@heroicons/react/solid';
+import {
+  StarIcon, CheckIcon, PlusIcon,
+} from '@heroicons/react/solid';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
 import ReviewSort from './Reviews/ReviewSort';
@@ -68,9 +70,39 @@ const Bar = styled.div`
 `;
 
 const InsideBar = styled.div`
-background-color: black;
-height: 15px;
+  background-color: black;
+  height: 15px;
 `;
+
+const CharBar = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  font-size: 50%;
+`;
+
+const CharInsideBar = styled.div`
+  background-color: #F9F7F7;
+  height: 15px;
+`;
+
+const CharScaleDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 32%;
+`;
+
+const CharForthScaleDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 23%;
+`
+
+const Triangle = () => (
+  <svg height="19" width="19" fill="none" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9.42477 18.9998L0.444603 0.94311L18.6308 1.0572L9.42477 18.9998Z" fill="black" />
+  </svg>
+);
 
 function fetchData(setData, id, count, sort) {
   axios.get(`/reviews?product_id=${id}&count=${count}&sort=${sort}`)
@@ -146,12 +178,11 @@ function reviewReport(reviewID) {
 }
 
 function filterStar(number, setData) {
-  setData(function(prev) {
-    return prev.filter(review => review.rating === number)
-  })
+  setData((prev) => prev.filter((review) => review.rating === number));
 }
 
 const Reviews = () => {
+  const productID = 65634;
   const [data, setData] = useState([]);
   const [sort, setSort] = useState('');
   const [aveRate, setAveRate] = useState(0);
@@ -165,14 +196,14 @@ const Reviews = () => {
   const [count, setCount] = useState(2);
   const [isWritable, setisWritable] = useState(false);
   useEffect(() => {
-    fetchData(setData, 65632, count, sort);
+    fetchData(setData, productID, count, sort);
     return () => {
-      fetchData(setData, 65632, count, sort);
+      fetchData(setData, productID, count, sort);
     };
   }, []);
   useEffect(() => {
     fetchMetaData(
-      65632,
+      productID,
       setAveRate,
       setRecomPer,
       setStar5,
@@ -202,13 +233,15 @@ const Reviews = () => {
         </div>
         <div>
           { review.reviewer_name }
-          , {(moment(review.date).format('MMM DD, YYYY'))}
+          ,
+          {' '}
+          {(moment(review.date).format('MMM DD, YYYY'))}
         </div>
       </RatingUser>
       <h2 className="title">{review.summary}</h2>
       <Photos>
         {review.photos.map((photo) => (
-          <div id={photo.id}>
+          <div key={photo.id}>
             <img
               src={photo.url}
               width="150"
@@ -256,56 +289,182 @@ const Reviews = () => {
           </h4>
           <br />
           <RatingUser>
-            <ScaleDiv><u onClick={() => {filterStar(5, setData)}}>5 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => { filterStar(5, setData); }}>5 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star5 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u onClick={() => {filterStar(4, setData)}}>4 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => { filterStar(4, setData); }}>4 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star4 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u onClick={() => {filterStar(3, setData)}}>3 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => { filterStar(3, setData); }}>3 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star3 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u  onClick={() => {filterStar(2, setData)}}>2 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => { filterStar(2, setData); }}>2 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star2 }} /></Bar>
           </RatingUser>
           <br />
           <RatingUser>
-            <ScaleDiv><u onClick={() => {filterStar(1, setData)}}>1 stars</u></ScaleDiv>
+            <ScaleDiv><u onClick={() => { filterStar(1, setData); }}>1 stars</u></ScaleDiv>
             <Bar><InsideBar style={{ width: star1 }} /></Bar>
           </RatingUser>
 
           <br />
-          Size
-          <br />
-          {size}
-          <br />
-          Width
-          <br />
-          {width}
-          <br />
-          Comfort
-          <br />
-          {comfort}
-          <br />
-          Quality
-          <br />
-          {quality}
-          <br />
-          Length
-          <br />
-          {length}
-          <br />
-          Fit
-          <br />
-          {fit}
+          <div>
+            <div className={(size.length === 0) ? 'hidden' : ''}>
+              Size
+              <CharBar>
+                <div style={{
+                  transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${size / 5 * 100}%`,
+                }}
+                >
+                  <Triangle />
+                </div>
+                <CharScaleDiv>
+                  <CharInsideBar />
+                  Too small
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'center' }}>
+                  <CharInsideBar />
+                  Prefect
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'right' }}>
+                  <CharInsideBar />
+                  Too Large
+                </CharScaleDiv>
+              </CharBar>
+            </div>
+            <br />
+            <div className={(width.length === 0) ? 'hidden' : ''}>
+              Width
+              <CharBar>
+                <div style={{
+                  transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${width / 5 * 100}%`,
+                }}
+                >
+                  <Triangle />
+                </div>
+                <CharScaleDiv>
+                  <CharInsideBar />
+                  Too tight
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'center' }}>
+                  <CharInsideBar />
+                  Prefect
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'right' }}>
+                  <CharInsideBar />
+                  Too wide
+                </CharScaleDiv>
+              </CharBar>
+            </div>
+            <br />
+            <div className={(comfort.length === 0) ? 'hidden' : ''}>
+              Comfort
+              <br />
+              <CharBar>
+                <div style={{
+                  transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${comfort / 5 * 100}%`,
+                }}
+                >
+                  <Triangle />
+                </div>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                  Poor
+                </CharForthScaleDiv>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                </CharForthScaleDiv>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                </CharForthScaleDiv>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                  Prefect
+                </CharForthScaleDiv>
+              </CharBar>
+            </div>
+            <br />
+            <div className={(quality.length === 0) ? 'hidden' : ''} >
+              Quality
+              <CharBar>
+                <div style={{
+                  transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${quality / 5 * 100}%`,
+                }}
+                >
+                  <Triangle />
+                </div>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                  Poor
+                </CharForthScaleDiv>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                </CharForthScaleDiv>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                </CharForthScaleDiv>
+                <CharForthScaleDiv>
+                  <CharInsideBar />
+                  Prefect
+                </CharForthScaleDiv>
+              </CharBar>
+            </div>
+            <br />
+            <div className={(length.length === 0) ? 'hidden' : ''}>
+              Length
+              <CharBar>
+                <div style={{
+                  transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${quality / 5 * 100}%`,
+                }}
+                >
+                  <Triangle />
+                </div>
+                <CharScaleDiv>
+                  <CharInsideBar />
+                  Too short
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'center' }}>
+                  <CharInsideBar />
+                  Prefect
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'right' }}>
+                  <CharInsideBar />
+                  Too long
+                </CharScaleDiv>
+              </CharBar>
+            </div>
+            <br />
+            <div className={(fit.length === 0) ? 'hidden' : ''}>
+              Fit
+              <CharBar>
+                <div style={{
+                  transform: 'translate(-50%, -5%)', width: '30px', position: 'absolute', left: `${quality / 5 * 100}%`,
+                }}
+                >
+                  <Triangle />
+                </div>
+                <CharScaleDiv>
+                  <CharInsideBar />
+                  Too small
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'center' }}>
+                  <CharInsideBar />
+                  Prefect
+                </CharScaleDiv>
+                <CharScaleDiv style={{ textAlign: 'right' }}>
+                  <CharInsideBar />
+                  Too big
+                </CharScaleDiv>
+              </CharBar>
+            </div>
+          </div>
         </RatingDiv>
-
         <div>
           <ReviewSearch data={data} setData={setData} />
           <ReviewSort changeSort={changeSort} setSort={setSort} />
@@ -315,10 +474,14 @@ const Reviews = () => {
           <ReviewDiv>
             {reviews}
           </ReviewDiv>
-          <Button onClick={() => { fetchMoreData(setData, setCount, 65632, count, sort); }}>
+          <Button onClick={() => { fetchMoreData(setData, setCount, productID, count, sort); }}>
             MORE REVIEWS
           </Button>
-          <Button onClick={() => setisWritable(true)}>ADD A REVIEW  <PlusIcon style={{height: "13px"}}/></Button>
+          <Button onClick={() => setisWritable(true)}>
+            ADD A REVIEW
+            {' '}
+            <PlusIcon style={{ height: '13px' }} />
+          </Button>
         </div>
       </RatingAndReview>
     </div>

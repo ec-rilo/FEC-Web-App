@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { StarIcon } from '@heroicons/react/solid';
+import Modal from '../Modal';
 
 const Characteristics = styled.ul`
 list-style-type: none
@@ -8,10 +9,9 @@ list-style-type: none
 
 const ReviewForm = ({ writable, setisWritable }) => {
   const [body, setBody] = useState('');
-  // useEffect(() => {
-  //   window.prompt('Write a review')
-  // }, [writable]);
-  return (
+  const [show, setShow] = useState(true);
+  const handleShow = () => setShow(false);
+  const content = (
     <div>
       Write a Review
       <Characteristics>
@@ -19,6 +19,7 @@ const ReviewForm = ({ writable, setisWritable }) => {
           Overall Rating
           <div className="stars">
             <form action="">
+              <input className="star star-5" id="star-5" type="radio" name="star" />
               <label className="star star-5" htmlFor="star-5">
                 <input className="hidden" />
               </label>
@@ -129,10 +130,11 @@ const ReviewForm = ({ writable, setisWritable }) => {
       </Characteristics>
     </div>
   );
+  return (
+    <div>
+    <Modal title="write a review" content={content} onClose={setisWritable} />
+    </div>
+  );
 };
-
-// setisWritable.propType = {
-
-// }
 
 export default ReviewForm;
