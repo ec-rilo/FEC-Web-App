@@ -15,10 +15,6 @@
   text-decoration: none;
 }
 
-.right-div {
-  width: 450px;
-}
-
 .brand {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
@@ -66,6 +62,7 @@
 
 .overview-body {
   display: flex;
+  margin-bottom: 50px;
 }
 
 
@@ -127,5 +124,8 @@ label.star:before {
 .left-div {
   display: flex;
   width: 60%;
-  height: 40vw;
+}
+
+.right-div {
+  width: 450px;
 }

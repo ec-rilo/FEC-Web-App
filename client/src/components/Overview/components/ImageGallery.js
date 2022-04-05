@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const Carousel = styled.div`
@@ -6,7 +6,7 @@ display: flex;
 flex-direction: column;
 width: 150px;
 height: 100%;
-background: blue;
+background: pink;
 `;
 
 const ProductImage = styled.div`
@@ -18,9 +18,11 @@ background-position: 0% 30%;
 `;
 
 function ImageGallery({ images }) {
+  const [image, setImage] = useState(images[0].url);
+  console.log(images);
   return (
     <div className="left-div">
-      <Carousel />
+      <Carousel>Images</Carousel>
       <ProductImage image={images[0].url} />
     </div>
   );
