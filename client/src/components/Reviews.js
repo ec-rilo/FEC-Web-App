@@ -231,8 +231,6 @@ const Reviews = () => {
     <div className="review" key={review.review_id}>
       <RatingUser>
         <div>
-          rating:
-          { review.rating }
           <StarBar rate={review.rating} />
         </div>
         <div>
@@ -388,7 +386,7 @@ const Reviews = () => {
                 <CharForthScaleDiv>
                   <CharInsideBar />
                 </CharForthScaleDiv>
-                <CharForthScaleDiv>
+                <CharForthScaleDiv style={{ textAlign: 'right' }}>
                   <CharInsideBar />
                   Prefect
                 </CharForthScaleDiv>
@@ -414,7 +412,7 @@ const Reviews = () => {
                 <CharForthScaleDiv>
                   <CharInsideBar />
                 </CharForthScaleDiv>
-                <CharForthScaleDiv>
+                <CharForthScaleDiv style={{ textAlign: 'right' }}>
                   <CharInsideBar />
                   Prefect
                 </CharForthScaleDiv>
