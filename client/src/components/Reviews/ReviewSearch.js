@@ -7,22 +7,19 @@ width: 100%
 
 function searchQuery(query, setData) {
   if (query.length >= 3) {
-    setData(function(prev) {
-      return prev.filter(item => item.body.includes(query) || item.summary.includes(query))
-    })
+    setData((prev) => prev.filter((item) => item.body.includes(query) || item.summary.includes(query)));
   }
-};
+}
 
-const ReviewSearch = ( { setData } ) => {
+const ReviewSearch = ({ setData }) => {
   const [query, setQuery] = useState('');
 
   useEffect(() => {
     searchQuery(query, setData);
   }, [query]);
   return (
-    <Searchinput onChange={(e) => { setQuery(e.target.value); }} >
-    </Searchinput>
+    <Searchinput onChange={(e) => { setQuery(e.target.value); }} />
   );
-}
+};
 
 export default ReviewSearch;
