@@ -53,7 +53,7 @@ const Response = styled.div`
   padding-bottom: 20px;
 `;
 
-const ReviewDiv = styled.div`
+const ReviewDiv = styled.td`
   height: 600px;
   width: 1000px;
   overflow: auto;
@@ -70,7 +70,7 @@ const Bar = styled.div`
 `;
 
 const InsideBar = styled.div`
-  background-color: black;
+  background-color: green;
   height: 15px;
 `;
 
@@ -96,7 +96,7 @@ const CharForthScaleDiv = styled.div`
   display: flex;
   flex-direction: column;
   width: 23%;
-`
+`;
 
 const Triangle = () => (
   <svg height="19" width="19" fill="none" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
@@ -111,9 +111,8 @@ function fetchData(setData, id, count, sort) {
     });
 }
 
-function fetchMoreData(setData, setCount, id, count, sort) {
+function fetchMoreData(setData, setCount) {
   setCount((prevCount) => (prevCount + 2));
-  fetchData(setData, id, count, sort);
 }
 
 function fetchMetaData(
@@ -126,6 +125,7 @@ function fetchMetaData(
   setStar2,
   setStar1,
   setChar,
+  setTotalCount,
 ) {
   axios.get(`/reviews/meta?product_id=${id}`)
     .then((res) => {
@@ -144,14 +144,13 @@ function fetchMetaData(
         rateSum += item * res.data.ratings[item];
       });
       const recomNum = Number(res.data.recommended.true);
-      const notRecomNum = Number(res.data.recommended.false);
-      const recomSum = recomNum + notRecomNum;
-      const recomPer = (Math.round((recomNum / recomSum) * 100));
+      const recomPer = (Math.round((recomNum / rateSum) * 100));
       setRecomPer(recomPer);
 
       let rate = (Math.round((rateSum / rateUnit) * 10));
       rate *= 0.1;
       rate = rate.toFixed(1);
+      setTotalCount(rateSum);
       setStar5(`${Math.round((star5 / rateUnit) * 100)}%`);
       setStar4(`${Math.round((star4 / rateUnit) * 100)}%`);
       setStar3(`${Math.round((star3 / rateUnit) * 100)}%`);
@@ -182,9 +181,13 @@ function filterStar(number, setData) {
 }
 
 const Reviews = () => {
-  const productID = 65634;
+  const productID = 65632;
+  // 65635 meta and reviews count are not the same
+  // 65632 for testing the response
+  // 65640 for testing the add reviews button
   const [data, setData] = useState([]);
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState('relevant');
+  const [totalCount, setTotalCount] = useState(0);
   const [aveRate, setAveRate] = useState(0);
   const [recomPer, setRecomPer] = useState(0);
   const [char, setChar] = useState({});
@@ -200,7 +203,7 @@ const Reviews = () => {
     return () => {
       fetchData(setData, productID, count, sort);
     };
-  }, []);
+  }, [productID, count, sort]);
   useEffect(() => {
     fetchMetaData(
       productID,
@@ -212,8 +215,9 @@ const Reviews = () => {
       setStar2,
       setStar1,
       setChar,
+      setTotalCount,
     );
-  }, []);
+  }, [productID]);
 
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
@@ -256,8 +260,9 @@ const Reviews = () => {
         I recommend this product
       </div>
 
-      <Response className={(review.response !== undefined || review.response.length === 0) ? 'hidden' : ''}>
+      <Response className={(!review.response) ? 'hidden' : ''}>
         Response:
+        {' '}
         { review.response }
       </Response>
       <div style={{ padding: '15px' }}>
@@ -390,7 +395,7 @@ const Reviews = () => {
               </CharBar>
             </div>
             <br />
-            <div className={(quality.length === 0) ? 'hidden' : ''} >
+            <div className={(quality.length === 0) ? 'hidden' : ''}>
               Quality
               <CharBar>
                 <div style={{
@@ -467,17 +472,24 @@ const Reviews = () => {
         </RatingDiv>
         <div>
           <ReviewSearch data={data} setData={setData} />
-          <ReviewSort changeSort={changeSort} setSort={setSort} />
+          <ReviewSort changeSort={changeSort} setSort={setSort} totalCount={totalCount} />
           <div className={writable}>
             <ReviewForm setisWritable={setisWritable} writable={writable} />
           </div>
-          <ReviewDiv>
-            {reviews}
-          </ReviewDiv>
+          <table>
+            <tbody>
+              <tr>
+                <ReviewDiv colspan="2">
+                  {reviews}
+                </ReviewDiv>
+              </tr>
+            </tbody>
+
+          </table>
           <Button onClick={() => { fetchMoreData(setData, setCount, productID, count, sort); }}>
             MORE REVIEWS
           </Button>
-          <Button onClick={() => setisWritable(true)}>
+          <Button className={((data.length === totalCount) ? 'hidden' : '')} onClick={() => setisWritable(true)}>
             ADD A REVIEW
             {' '}
             <PlusIcon style={{ height: '13px' }} />

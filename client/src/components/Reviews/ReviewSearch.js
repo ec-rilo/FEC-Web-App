@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const Searchinput = styled.input`
-width: 800px
+width: 100%
 `;
 
 function searchQuery(query, setData) {
