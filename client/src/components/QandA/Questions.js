@@ -39,7 +39,7 @@ const Questions = () => {
   return (
     <Container>
       Questions & Answers Component
-      <AskQuestion />
+      <AskQuestion productID={productID} />
       <QuestionSearch setQuestionFilter={setQuestionFilter} />
       <QuestionsList questions={filteredQuestions} />
     </Container>
