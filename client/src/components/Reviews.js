@@ -19,8 +19,8 @@ const RatingAndReview = styled.section`
 `;
 
 const RatingUser = styled.div`
-display: flex;
-justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Button = styled.button`
@@ -49,7 +49,6 @@ const Response = styled.div`
 
 const ReviewDiv = styled.div`
   height: 100vh;
-  width: 60vw;
   overflow: auto;
 `;
 
@@ -114,7 +113,7 @@ const Reviews = () => {
 
         setAveRate(rate);
       });
-  }, [productID]);
+  }, [productID, dataUpdate]);
 
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
@@ -165,9 +164,9 @@ const Reviews = () => {
         </div>
       </RatingUser>
       <h2 className="title">{review.summary}</h2>
-      <Photos>
+      {/* <Photos>
         <ReviewPhotoEntry review={review} />
-      </Photos>
+      </Photos> */}
       {review.body}
       <div className={(!review.recommend) ? 'hidden' : ''} style={{ paddingTop: '20px', paddingBottom: '20px' }}>
         <CheckIcon style={{ height: '20px' }} />
@@ -219,7 +218,7 @@ const Reviews = () => {
             fit,
           }}
         />
-        <div>
+        <div style={{ width: '100%' }}>
           <ReviewSearch data={data} setReviewsData={setReviewsData} />
           <ReviewSort changeSort={changeSort} totalCount={totalCount} />
           <div>
@@ -228,6 +227,8 @@ const Reviews = () => {
               setisWritable={setisWritable}
               writable={writable}
               char={char}
+              setDataUpdate={setDataUpdate}
+              setSort={setSort}
             />
           </div>
           <ReviewDiv>
