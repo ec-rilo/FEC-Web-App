@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import Modal from '../Modal';
+import AskQuestionModalContent from './AskQuestionModalContent';
 
 const Button = styled.button`
   background: transparent;
@@ -10,12 +12,26 @@ const Button = styled.button`
   padding: 0.25em 1em;
 `;
 
-const AskQuestion = () => {
+const AskQuestion = ({ productID }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <Button>
-      Ask a question
-    </Button>
+    <>
+      <Button onClick={() => setIsModalOpen(true)}>
+        Ask a question
+      </Button>
+      {isModalOpen
+        && (
+        <Modal
+          title="Ask Your Question"
+          content={
+            <AskQuestionModalContent onClose={() => setIsModalOpen(false)} productID={productID} />
+          }
+          onClose={() => setIsModalOpen(false)}
+        />
+        )}
+    </>
   );
-}
+};
 
 export default AskQuestion;
