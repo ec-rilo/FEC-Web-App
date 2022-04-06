@@ -53,7 +53,7 @@ const ReviewDiv = styled.div`
 `;
 
 const Reviews = () => {
-  const productID = 65635;
+  const productID = 65634;
   // 65635 meta and reviews count are not the same
   // 65632 for testing the response
   // 65640 for testing the add reviews button
@@ -113,7 +113,7 @@ const Reviews = () => {
 
         setAveRate(rate);
       });
-  }, [productID]);
+  }, [productID, dataUpdate]);
 
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
@@ -227,6 +227,8 @@ const Reviews = () => {
               setisWritable={setisWritable}
               writable={writable}
               char={char}
+              setDataUpdate={setDataUpdate}
+              setSort={setSort}
             />
           </div>
           <ReviewDiv>

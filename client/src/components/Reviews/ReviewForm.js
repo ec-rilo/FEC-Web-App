@@ -8,7 +8,7 @@ list-style-type: none
 `;
 
 const ReviewForm = ({
-  productID, writable, setisWritable, char,
+  productID, writable, setisWritable, char, setDataUpdate, setSort,
 }) => {
   const product_id = productID;
   const [summary, setSummary] = useState('');
@@ -26,7 +26,6 @@ const ReviewForm = ({
   const [size, setSize] = useState('');
 
   const handleSubmit = () => {
-    console.log(characteristics);
     const data = {
       product_id: Number(productID),
       rating: Number(rating),
@@ -39,7 +38,10 @@ const ReviewForm = ({
       characteristics,
     };
     axios.post('/reviews', data)
-      .then()
+      .then((res) => {
+        setDataUpdate(res);
+        setSort('newest');
+      })
       .catch();
   };
   const content = (
@@ -146,11 +148,11 @@ const ReviewForm = ({
               }}
             >
               Quality
-              <input type="radio" name="quality" value="5" />
-              <input type="radio" name="quality" value="4" />
-              <input type="radio" name="quality" value="3" />
-              <input type="radio" name="quality" value="2" />
               <input type="radio" name="quality" value="1" />
+              <input type="radio" name="quality" value="2" />
+              <input type="radio" name="quality" value="3" />
+              <input type="radio" name="quality" value="4" />
+              <input type="radio" name="quality" value="5" />
             </li>
             <li className={(!char.Length) ? 'hidden' : ''}>
               Length
