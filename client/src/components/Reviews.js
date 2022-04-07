@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import moment from 'moment';
 import axios from 'axios';
 import styled from 'styled-components';
 import {
-  CheckIcon, PlusIcon,
+  PlusIcon,
 } from '@heroicons/react/solid';
+import ReviewListEntry from './Reviews/ReviewListEntry';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
 import ReviewSort from './Reviews/ReviewSort';
 import ReviewPhotoEntry from './Reviews/ReviewPhotoEntry';
 import RatingBreakdown from './Reviews/RatingBreakdown';
-import StarBar from './StarBar';
 
 const RatingAndReview = styled.section`
   padding: 4em;
   display: flex;
   justify-content: flex-start;
-`;
-
-const RatingUser = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;
 
 const Button = styled.button`
@@ -37,14 +31,6 @@ const Photos = styled.div`
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: flex-start;
-`;
-
-const Response = styled.div`
-  color: black;
-  background-color: #F9F7F7;
-  padding-top: 20px;
-  padding-left: 20px;
-  padding-bottom: 20px;
 `;
 
 const ReviewDiv = styled.div`
@@ -74,13 +60,6 @@ const Reviews = () => {
   const [count, setCount] = useState(2);
   const [isWritable, setisWritable] = useState(false);
   useEffect(() => {
-    axios.get(`/reviews?product_id=${productID}&count=${count}&sort=${sort}`)
-      .then((res) => {
-        setData(res.data.results);
-        setReviewsData(res.data.results);
-      });
-  }, [productID, count, sort, dataUpdate]);
-  useEffect(() => {
     axios.get(`/reviews/meta?product_id=${productID}`)
       .then((res) => {
         const ratingArray = Object.keys(res.data.ratings);
@@ -97,6 +76,7 @@ const Reviews = () => {
           rateUnit += Number(res.data.ratings[item]);
           rateSum += item * res.data.ratings[item];
         });
+
         const recomNum = Number(res.data.recommended.true);
         const recomPer = (Math.round((recomNum / rateUnit) * 100));
         setRecomPer(recomPer);
@@ -105,6 +85,7 @@ const Reviews = () => {
         rate *= 0.1;
         rate = rate.toFixed(1);
         setTotalCount(rateUnit);
+        setCount(rateUnit);
         setStar5(`${Math.round((star5 / rateUnit) * 100)}%`);
         setStar4(`${Math.round((star4 / rateUnit) * 100)}%`);
         setStar3(`${Math.round((star3 / rateUnit) * 100)}%`);
@@ -115,6 +96,17 @@ const Reviews = () => {
       });
   }, [productID, dataUpdate]);
 
+  useEffect(() => {
+    axios.get(`/reviews?product_id=${productID}&count=${count}&sort=${sort}`)
+      .then((res) => {
+        setData(res.data.results);
+        setTotalCount(res.data.results.length);
+        setReviewsData(res.data.results);
+      });
+  }, [productID, count, sort, dataUpdate]);
+  useEffect(() => {
+    setReviewsData(data.slice(0, 2));
+  }, []);
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
   const width = (char.Width === undefined) ? '' : Math.round(char.Width.value);
@@ -128,70 +120,14 @@ const Reviews = () => {
     setReviewsData(rateData);
   };
 
-  const fetchMoreData = () => {
-    setCount((prevCount) => (prevCount + 2));
-  };
-
   const changeSort = (newSort) => {
     setSort(newSort);
   };
 
-  const reviewHelpful = (reviewID) => {
-    axios.put(`/reviews/${reviewID}/helpful`)
-      .then((res) => setDataUpdate(res))
-      .catch();
-  };
-
-  const reviewReport = (reviewID) => {
-    axios.put(`/reviews/${reviewID}/report`)
-      .then((res) => setDataUpdate(res))
-      .catch();
-  };
-
   const collapseStyle = { position: 'absolute', top: '157%', right: '15%' };
-
   const reviews = reviewsData.map((review) => (
     <div className="review" key={review.review_id} style={{ width: '60vw' }}>
-      <RatingUser>
-        <div>
-          <StarBar rate={review.rating} />
-        </div>
-        <div>
-          { review.reviewer_name }
-          ,
-          {' '}
-          {(moment(review.date).format('MMM DD, YYYY'))}
-        </div>
-      </RatingUser>
-      <h2 className="title">{review.summary}</h2>
-      {/* <Photos>
-        <ReviewPhotoEntry review={review} />
-      </Photos> */}
-      {review.body}
-      <div className={(!review.recommend) ? 'hidden' : ''} style={{ paddingTop: '20px', paddingBottom: '20px' }}>
-        <CheckIcon style={{ height: '20px' }} />
-        I recommend this product
-      </div>
-
-      <Response className={(!review.response) ? 'hidden' : ''}>
-        Response:
-        {' '}
-        { review.response }
-      </Response>
-      <div style={{ padding: '15px' }}>
-        Helpful?
-        <u onClick={() => { reviewHelpful(review.review_id); }}>
-          Yes
-        </u>
-        (
-        {review.helpfulness}
-        ) |
-        {' '}
-        <u onClick={() => { reviewReport(review.review_id); }}>
-          Report
-        </u>
-        <hr />
-      </div>
+      <ReviewListEntry review={review} setDataUpdate={setDataUpdate} />
     </div>
   ));
   return (
@@ -242,11 +178,11 @@ const Reviews = () => {
               </tbody>
             </table>
           </ReviewDiv>
-          <Button className={((data.length === totalCount) ? 'hidden' : '')} onClick={() => { fetchMoreData(); }}>
+          <Button className={((reviewsData.length !== 2) ? 'hidden' : '')} onClick={() => { setReviewsData(data); }}>
             MORE REVIEWS
           </Button>
           <Button
-            style={(data.length === totalCount) ? collapseStyle : { }}
+            style={(totalCount <= 2) ? collapseStyle : { }}
             onClick={() => setisWritable(true)}
           >
             ADD A REVIEW
