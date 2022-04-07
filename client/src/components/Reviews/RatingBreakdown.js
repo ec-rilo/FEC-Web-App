@@ -16,13 +16,18 @@ const RatingUser = styled.div`
 `;
 
 const ScaleDiv = styled.div`
+  &:hover .starScale {
+    background-color: black;
+    color: white
+    }
   width: 100px
 `;
 
 const Bar = styled.div`
   background-color: #F9F7F7;
   height: 15px;
-  width: 100%
+  width: 100%;
+
 `;
 
 const InsideBar = styled.div`
@@ -54,6 +59,14 @@ const CharForthScaleDiv = styled.div`
   width: 23%;
 `;
 
+const StarButton = styled.button`
+
+  width: 100%;
+  heigth: 100%;
+  background-color: Transparent;
+  border: none;
+`;
+
 const Triangle = () => (
   <svg height="19" width="19" fill="none" viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg">
     <path d="M9.42477 18.9998L0.444603 0.94311L18.6308 1.0572L9.42477 18.9998Z" fill="black" />
@@ -73,27 +86,27 @@ const RatingBreakdown = ({
     </h4>
     <br />
     <RatingUser>
-      <ScaleDiv><u onClick={() => { filterStar(5); }}>5 stars</u></ScaleDiv>
+      <ScaleDiv><StarButton className="starScale" onClick={() => { filterStar(5); }}><u>5 stars</u></StarButton></ScaleDiv>
       <Bar><InsideBar style={{ width: star.star5 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
-      <ScaleDiv><u onClick={() => { filterStar(4); }}>4 stars</u></ScaleDiv>
+      <ScaleDiv><StarButton className="starScale" onClick={() => { filterStar(4); }}><u>4 stars</u></StarButton></ScaleDiv>
       <Bar><InsideBar style={{ width: star.star4 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
-      <ScaleDiv><u onClick={() => { filterStar(3); }}>3 stars</u></ScaleDiv>
+      <ScaleDiv><StarButton className="starScale" onClick={() => { filterStar(3); }}><u>3 stars</u></StarButton></ScaleDiv>
       <Bar><InsideBar style={{ width: star.star3 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
-      <ScaleDiv><u onClick={() => { filterStar(2); }}>2 stars</u></ScaleDiv>
+      <ScaleDiv><StarButton className="starScale" onClick={() => { filterStar(2); }}><u>2 stars</u></StarButton></ScaleDiv>
       <Bar><InsideBar style={{ width: star.star2 }} /></Bar>
     </RatingUser>
     <br />
     <RatingUser>
-      <ScaleDiv><u onClick={() => { filterStar(1); }}>1 stars</u></ScaleDiv>
+      <ScaleDiv><StarButton className="starScale" onClick={() => { filterStar(1); }}><u>1 stars</u></StarButton></ScaleDiv>
       <Bar><InsideBar style={{ width: star.star1 }} /></Bar>
     </RatingUser>
 
