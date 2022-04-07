@@ -10,14 +10,13 @@ const Photos = styled.div`
   justify-content: flex-start;
 `;
 
-const ReviewPhotoEntry = ({ review }) => {
-  const [photoOnClick, setPhotoOnClick] = useState(false);
+const ReviewPhotoEntry = ({ photo }) => {
+  const [photoOnClick, setOnClick] = useState(true);
 
   return (
     <Photos>
-      {review.photos.map((photo) => (
-        <div key={photo.id} onClick={() => { setPhotoOnClick(true); }}>
-          {/* <Modal
+        <div key={photo.id} onClick={() => { setOnClick(false); }}>
+          <Modal
             title="photo"
             content={(
               <img
@@ -25,16 +24,15 @@ const ReviewPhotoEntry = ({ review }) => {
                 alt="productPhoto"
               />
             )}
-            onClose={setPhotoOnClick}
-            writable={photoOnClick}
-          /> */}
+            onClose={setOnClick}
+            close={photoOnClick}
+          />
           <img
             src={photo.url}
             width="150"
             alt="productPhoto"
           />
         </div>
-      ))}
     </Photos>
   );
 };

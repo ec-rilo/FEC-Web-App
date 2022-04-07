@@ -308,7 +308,7 @@ const ReviewForm = ({
   );
   return (
     <div>
-      <Modal title="Write Your Review" content={content} onClose={setisWritable} writable={writable} />
+      <Modal title="Write Your Review" content={content} onClose={setisWritable} close={writable} />
     </div>
   );
 };

@@ -25,14 +25,6 @@ const Button = styled.button`
   margin: 10px;
 `;
 
-const Photos = styled.div`
-  display: flex;
-  display: -webkit-flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: flex-start;
-`;
-
 const ReviewDiv = styled.div`
   height: 100vh;
   overflow: auto;

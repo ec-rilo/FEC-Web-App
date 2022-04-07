@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import moment from 'moment';
+import ReviewPhotoEntry from './ReviewPhotoEntry';
 import {
   CheckIcon,
 } from '@heroicons/react/solid';
@@ -17,6 +18,13 @@ const Response = styled.div`
   padding-top: 20px;
   padding-left: 20px;
   padding-bottom: 20px;
+`;
+const Photos = styled.div`
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
 `;
 
 const ReviewListEntry = ({ review, setDataUpdate }) => {
@@ -46,9 +54,10 @@ const ReviewListEntry = ({ review, setDataUpdate }) => {
         </div>
       </RatingUser>
       <h2 className="title">{review.summary}</h2>
-      {/* <Photos>
-    <ReviewPhotoEntry review={review} />
-  </Photos> */}
+      <Photos>
+      {review.photos.map((photo) => (
+    <ReviewPhotoEntry key={photo.id} photo={photo} />))}
+  </Photos>
       <a className={(showMoreonClick) ? 'hidden' : ''}>{review.body.substring(0, 2)}</a>
       <a className={(!showMoreonClick) ? 'hidden' : ''}>{review.body.substring(0, 250)}</a>
       <br />
