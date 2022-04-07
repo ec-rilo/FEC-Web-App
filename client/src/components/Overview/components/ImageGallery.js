@@ -1,29 +1,50 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-const Carousel = styled.div`
-display: flex;
-flex-direction: column;
-width: 150px;
-height: 100%;
-background: pink;
-`;
-
 const ProductImage = styled.div`
-width: 500px;
+width: 450px;
 height: 100%;
 background-image: ${(props) => `url(${props.image})`};
 background-size: cover;
 background-position: 0% 30%;
 `;
 
-function ImageGallery({ images }) {
-  const [image, setImage] = useState(images[0].url);
+const LeftArrow = styled.div`
+width: 50px;
+height: 100%;
+background: green;
+`;
+
+const RightArrow = styled.div`
+width: 50px;
+height: 100%;
+background: green;
+`;
+
+const Carousel = styled.div`
+height: 100%;
+width: 150px;
+background: purple;
+`;
+
+const StyleImg = styled.img`
+height: 100px;
+width: 100%;
+background-image: ${(props) => `url(${props.img})`};
+background-size: cover;
+
+`;
+
+function ImageGallery({ style, images }) {
+  const [image, setImage] = useState(0);
+
   console.log(images);
   return (
     <div className="left-div">
-      <Carousel>Images</Carousel>
-      <ProductImage image={images[0].url} />
+      <Carousel>{images.map((image) => <StyleImg img={image.url} />)}</Carousel>
+      <LeftArrow onClick={() => image > 0 && setImage((prevImage) => prevImage - 1)} />
+      <ProductImage image={style.photos[image].url} />
+      <RightArrow onClick={() => image < images.length - 1 && setImage((prevImage) => prevImage + 1)} />
     </div>
   );
 }

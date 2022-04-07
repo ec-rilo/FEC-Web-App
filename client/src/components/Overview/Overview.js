@@ -44,7 +44,7 @@ function Overview({ incrementCart }) {
     <div>
       <div className="container">
         <div className="overview-body">
-          <ImageGallery images={product.style.photos} />
+          <ImageGallery style={product.style} images={product.style.photos} />
 
           <div className="right-div">
             <ProductCategory>{product.product.category}</ProductCategory>
@@ -76,12 +76,3 @@ function Overview({ incrementCart }) {
 }
 
 export default Overview;
-
-{ /* <div className="img-row">
-<div className="img">image 1</div>
-<div className="img">image 2</div>
-</div>
-<div className="img-row">
-<div className="img">image 3</div>
-<div className="img">image 4</div>
-</div> */ }

@@ -30,10 +30,3 @@ function StyleSelector({ styles, selectStyle }) {
 }
 
 export default StyleSelector;
-
-{ /* <div className="style-btn">style1</div>
-<div className="style-btn">style2</div>
-<div className="style-btn">style4</div>
-<div className="style-btn">style4</div>
-<div className="style-btn">style5</div>
-<div className="style-btn">style6</div> */ }
