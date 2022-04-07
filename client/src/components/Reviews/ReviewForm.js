@@ -4,14 +4,17 @@ import styled from 'styled-components';
 import Modal from './ReviewModal';
 
 const ReviewFormUl = styled.ul`
-  list-style-type: none
+  list-style-type: none;
+  padding-left: 2px
 `;
 
 const Sign = styled.p`
   text-align: right;
   color: red;
   margin: 0;
-  padding-right: 10px
+  padding-right: 10px;
+  font-style: italic;
+  font-size: 3px
 `;
 
 const Characteristics = styled.table`
@@ -37,7 +40,18 @@ const ReviewForm = ({
   const [characteristics, setCharacteristics] = useState({});
   const [photos, setPhoto] = useState([]);
   const [sign, setSign] = useState({
-    top: '', star: 'Unselected', body: 'Minimum required character left: [50]', email: '',
+    top: '',
+    star: 'Unselected',
+    body: 'Minimum required character left: [50]',
+    email: '',
+    summary: 'Can not be empty',
+    recommend: 'Unselected',
+    size: 'Unselected',
+    width: 'Unselected',
+    comfort: 'Unselected',
+    quality: 'Unselected',
+    length: 'Unselected',
+    fit: 'Unselected',
   });
 
   const handleSubmit = () => {
@@ -52,7 +66,7 @@ const ReviewForm = ({
       photos,
       characteristics,
     };
-    if ((data.body.length >= 50) && (data.email.includes('@'))) {
+    if ((data.body.length >= 50) && (data.email.includes('@')) && data.summary.length > 0) {
       axios.post('/reviews', data)
         .then((res) => {
           setDataUpdate(res);
@@ -74,22 +88,22 @@ const ReviewForm = ({
         <li>
           Overall Rating
           {' '}
-          <Sign><i>{sign.star}</i></Sign>
+          <Sign>{sign.star}</Sign>
           <div className="stars">
             <form
               action=""
               onChange={(e) => {
                 setRating(e.target.value); setSign((prev) => {
                   if (e.target.value === '5') {
-                    prev.star = 'Great';
+                    prev.star = <a style={{ color: 'green', margin: '0'}}>Great</a>;
                   } else if (e.target.value === '4') {
-                    prev.star = 'Good';
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Good</a>;
                   } else if (e.target.value === '3') {
-                    prev.star = 'Average';
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Average</a>;
                   } else if (e.target.value === '2') {
-                    prev.star = 'Fair';
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Fair</a>;
                   } else {
-                    prev.star = 'Poor';
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Poor</a>;
                   }
                   return prev;
                 });
@@ -120,6 +134,7 @@ const ReviewForm = ({
         </li>
         <li>
           Do you recommend this product?
+          <Sign className={(recommend.length !== 0) ? 'hidden' : ''}>{sign.recommend}</Sign>
           <form onChange={(e) => { setRecommend(e.target.value); }}>
             <input type="radio" name="recommendation" value="true" />
             Yes
@@ -225,10 +240,16 @@ const ReviewForm = ({
                 prev[qualityID] = Number(e.target.value);
                 return prev;
               });
+              setSign((prev) => {
+                prev.comfort = '';
+                return prev;
+              })
             }}
           >
             <tr>
-              <CharTd><b>Comfort</b></CharTd>
+              <CharTd><b>Comfort</b><br/>
+              {/* <Sign>{sign.comfort}</Sign> */}
+              </CharTd>
               <CharTd>
                 <input type="radio" name="comfort" value="1" />
                 <br />
@@ -378,11 +399,12 @@ const ReviewForm = ({
         </Characteristics>
 
         <li>Review summary</li>
+        <Sign className={(summary.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>
         <li>
           <input type="text" maxLength="60" placeholder="Example: Best purchase ever!" style={{ width: '90%' }} onChange={(e) => setSummary(e.target.value)} />
         </li>
         <li>Review body</li>
-        <Sign><i>{sign.body}</i></Sign>
+        <Sign>{sign.body}</Sign>
         <li>
           <input
             type="text"
@@ -396,7 +418,7 @@ const ReviewForm = ({
                   const remainTextNum = 50 - e.target.value.length;
                   prev.body = `Minimum required character left: [${remainTextNum}]`;
                 } else {
-                  prev.body = 'Minimum reached';
+                  prev.body = <p style={{ color: 'green', margin: '0'}}>Minimum reached</p>;
                 }
                 return prev;
               });
@@ -410,6 +432,7 @@ const ReviewForm = ({
           </button>
         </li> */}
         <li>What is your nickname</li>
+        <Sign className={(name.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>
         <input type="text" maxLength="60" placeholder="Example: jackson11!" style={{ width: '90%' }} onChange={(e) => setName(e.target.value)} />
         <li>
           <p style={{

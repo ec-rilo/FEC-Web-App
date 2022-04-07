@@ -93,12 +93,10 @@ const Reviews = () => {
       .then((res) => {
         setData(res.data.results);
         setTotalCount(res.data.results.length);
-        setReviewsData(res.data.results);
+        setReviewsData(res.data.results.slice(0, 2));
       });
   }, [productID, count, sort, dataUpdate]);
-  useEffect(() => {
-    setReviewsData(data.slice(0, 2));
-  }, []);
+
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
   const width = (char.Width === undefined) ? '' : Math.round(char.Width.value);
