@@ -3,7 +3,7 @@ import axios from 'axios';
 import styled from 'styled-components';
 import Modal from './ReviewModal';
 
-const Characteristics = styled.ul`
+const ReviewFormUl = styled.ul`
   list-style-type: none
 `;
 
@@ -12,6 +12,16 @@ const Sign = styled.p`
   color: red;
   margin: 0;
   padding-right: 10px
+`;
+
+const Characteristics = styled.table`
+  table-layout: fixed;
+  width: 100%
+`;
+
+const CharTd = styled.td`
+  width: 30%;
+  font-size: 10px
 `;
 
 const ReviewForm = ({
@@ -60,8 +70,7 @@ const ReviewForm = ({
     <div>
       <h2>About the [PRODUCT NAME]</h2>
       <Sign>{sign.top}</Sign>
-      <Characteristics>
-
+      <ReviewFormUl>
         <li>
           Overall Rating
           {' '}
@@ -118,113 +127,256 @@ const ReviewForm = ({
             No
           </form>
         </li>
-        <li>
-          Characteristics
-          <Characteristics>
-            <li
-              className={(!char.Size) ? 'hidden' : ''}
-              onChange={(e) => {
-                setCharacteristics((prev) => {
-                  const sizeID = (char.Size.id).toString();
-                  prev[sizeID] = Number(e.target.value);
-                  return prev;
-                });
-              }}
-            >
-              Size
-              <input type="radio" name="size" value="5" />
-              <input type="radio" name="size" value="4" />
-              <input type="radio" name="size" value="3" />
-              <input type="radio" name="size" value="2" />
-              <input type="radio" name="size" value="1" />
-            </li>
-            <li
-              className={(!char.Width) ? 'hidden' : ''}
-              onChange={(e) => {
-                setCharacteristics((prev) => {
-                  const widthID = (char.Width.id).toString();
-                  prev[widthID] = Number(e.target.value);
-                  return prev;
-                });
-              }}
-            >
-              Width
-              <input type="radio" name="width" value="5" />
-              <input type="radio" name="width" value="4" />
-              <input type="radio" name="width" value="3" />
-              <input type="radio" name="width" value="2" />
-              <input type="radio" name="width" value="1" />
-            </li>
-            <li
-              className={(!char.Comfort) ? 'hidden' : ''}
-              onChange={(e) => {
-                setCharacteristics((prev) => {
-                  const comfortID = (char.Comfort.id).toString();
-                  prev[comfortID] = Number(e.target.value);
-                  return prev;
-                });
-              }}
-            >
-              Comfort
-              <input type="radio" name="comfort" value="5" />
-              <input type="radio" name="comfort" value="4" />
-              <input type="radio" name="comfort" value="3" />
-              <input type="radio" name="comfort" value="2" />
-              <input type="radio" name="comfort" value="1" />
-            </li>
-            <li
-              className={(!char.Quality) ? 'hidden' : ''}
-              onChange={(e) => {
-                setCharacteristics((prev) => {
-                  const qualityID = (char.Quality.id).toString();
-                  prev[qualityID] = Number(e.target.value);
-                  return prev;
-                });
-              }}
-            >
-              Quality
-              <input type="radio" name="quality" value="1" />
-              <input type="radio" name="quality" value="2" />
-              <input type="radio" name="quality" value="3" />
-              <input type="radio" name="quality" value="4" />
-              <input type="radio" name="quality" value="5" />
-            </li>
-            <li
-              className={(!char.Length) ? 'hidden' : ''}
-              onChange={(e) => {
-                setCharacteristics((prev) => {
-                  const lengthID = (char.Length.id).toString();
-                  prev[lengthID] = Number(e.target.value);
-                  return prev;
-                });
-              }}
-            >
-              Length
-              <input type="radio" name="length" value="5" />
-              <input type="radio" name="length" value="4" />
-              <input type="radio" name="length" value="3" />
-              <input type="radio" name="length" value="2" />
-              <input type="radio" name="length" value="1" />
-            </li>
-            <li
-              className={(!char.Fit) ? 'hidden' : ''}
-              onChange={(e) => {
-                setCharacteristics((prev) => {
-                  const fitID = (char.Fit.id).toString();
-                  prev[fitID] = Number(e.target.value);
-                  return prev;
-                });
-              }}
-            >
-              Fit
-              <input type="radio" name="fit" value="5" />
-              <input type="radio" name="fit" value="4" />
-              <input type="radio" name="fit" value="3" />
-              <input type="radio" name="fit" value="2" />
-              <input type="radio" name="fit" value="1" />
-            </li>
-          </Characteristics>
-        </li>
+        Characteristics
+        <Characteristics style={{ textAlign: 'center' }}>
+          <thead>
+            <tr>
+              <CharTd>&nbsp;</CharTd>
+              <CharTd>1</CharTd>
+              <CharTd>2</CharTd>
+              <CharTd>3</CharTd>
+              <CharTd>4</CharTd>
+              <CharTd>5</CharTd>
+            </tr>
+          </thead>
+          <tbody
+            className={(!char.Size) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const sizeID = (char.Size.id).toString();
+                prev[sizeID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Size</b></CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="5" />
+                <br />
+                A size too small
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="4" />
+                <br />
+                ½ a size too small
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="3" />
+                <br />
+                Prefect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="2" />
+                <br />
+                ½ a size too big
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="1" />
+                <br />
+                A size too wide
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Width) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const widthID = (char.Width.id).toString();
+                prev[widthID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Width</b></CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="1" />
+                <br />
+                Too narrow
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="2" />
+                <br />
+                Slightly narrow
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="3" />
+                <br />
+                Perfect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="4" />
+                <br />
+                Slightly wide
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="5" />
+                <br />
+                Too wide
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Comfort) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const qualityID = (char.Comfort.id).toString();
+                prev[qualityID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Comfort</b></CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="1" />
+                <br />
+                Uncomfortable
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="2" />
+                <br />
+                Slightly uncomfortable
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="3" />
+                <br />
+                Ok
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="4" />
+                <br />
+                Comfortable
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="5" />
+                <br />
+                Perfect
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Quality) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const qualityID = (char.Quality.id).toString();
+                prev[qualityID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Quality</b></CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="1" />
+                <br />
+                Poor
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="2" />
+                <br />
+                Below average
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="3" />
+                <br />
+                What I expected
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="4" />
+                <br />
+                Pretty great
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="5" />
+                <br />
+                Perfect
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Length) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const lengthID = (char.Length.id).toString();
+                prev[lengthID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd>
+                <b>Length</b>
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="1" />
+                <br />
+                Runs Short
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="2" />
+                <br />
+                Runs slightly short
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="3" />
+                <br />
+                Perfect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="4" />
+                <br />
+                Runs slightly long
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="5" />
+                <br />
+                Runs long
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Fit) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const fitID = (char.Fit.id).toString();
+                prev[fitID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Fit</b></CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="1" />
+                <br />
+                Runs tight
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="2" />
+                <br />
+                Runs slightly tight
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="3" />
+                <br />
+                Perfect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="4" />
+                <br />
+                Runs slightly long
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="5" />
+                <br />
+                Runs long
+              </CharTd>
+            </tr>
+          </tbody>
+        </Characteristics>
+
         <li>Review summary</li>
         <li>
           <input type="text" maxLength="60" placeholder="Example: Best purchase ever!" style={{ width: '90%' }} onChange={(e) => setSummary(e.target.value)} />
@@ -303,7 +455,7 @@ const ReviewForm = ({
             Submit review
           </button>
         </li>
-      </Characteristics>
+      </ReviewFormUl>
     </div>
   );
   return (
