@@ -37,8 +37,10 @@ const ReviewForm = ({
   const [name, setName] = useState('');
   const [body, setBody] = useState('');
   const [email, setEmail] = useState('');
+  const [photos, setPhotos] = useState([]);
   const [characteristics, setCharacteristics] = useState({});
-  const [photos, setPhoto] = useState([]);
+  const [selectPhoto, setSelectPhoto] = useState(null);
+
   const [sign, setSign] = useState({
     top: '',
     star: 'Unselected',
@@ -418,7 +420,7 @@ const ReviewForm = ({
                   const remainTextNum = 50 - e.target.value.length;
                   prev.body = `Minimum required character left: [${remainTextNum}]`;
                 } else {
-                  prev.body = <p style={{ color: 'green', margin: '0'}}>Minimum reached</p>;
+                  prev.body = <a style={{ color: 'green', margin: '0'}}>Minimum reached</a>;
                 }
                 return prev;
               });
@@ -427,9 +429,9 @@ const ReviewForm = ({
         </li>
         {/* <li>Upload your photos</li>
         <li>
-          <button type="submit">
-            Update
-          </button>
+          <input type="file" id="image_input" accept="image/png, image/jpg" onChange={(e) => {console.log(e)}}/>
+          <div></div>
+          <button>Upload</button>
         </li> */}
         <li>What is your nickname</li>
         <Sign className={(name.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>

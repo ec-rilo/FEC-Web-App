@@ -28,7 +28,9 @@ const Photos = styled.div`
 `;
 
 const ReviewListEntry = ({ review, setDataUpdate }) => {
+  const displayLength = 100;
   const [showMoreonClick, setShowMoreonClick] = useState(false);
+  const [photoOnClick, setPhotoOnClick] = useState(true);
 
   const reviewReport = (reviewID) => {
     axios.put(`/reviews/${reviewID}/report`)
@@ -56,12 +58,14 @@ const ReviewListEntry = ({ review, setDataUpdate }) => {
       <h2 className="title">{review.summary}</h2>
       <Photos>
       {review.photos.map((photo) => (
-    <ReviewPhotoEntry key={photo.id} photo={photo} />))}
+    <ReviewPhotoEntry key={photo.id} photo={photo} setPhotoOnClick={setPhotoOnClick} photoOnClick={photoOnClick}/>))}
   </Photos>
-      <a className={(showMoreonClick) ? 'hidden' : ''}>{review.body.substring(0, 2)}</a>
+      <a className={(showMoreonClick) ? 'hidden' : ''}>{review.body.substring(0, displayLength)}</a>
       <a className={(!showMoreonClick) ? 'hidden' : ''}>{review.body.substring(0, 250)}</a>
       <br />
-      <button className={(review.body.length <= 2) ? 'hidden' : ''} className={(showMoreonClick) ? 'hidden' : ''} style={{ backgroundColor: '#112D41', color: '#F9F7F7' }} onClick={() => setShowMoreonClick(true)}>SHOW MORE</button>
+      <div className={(review.body.length <= displayLength) ? 'hidden' : ''}>
+      <button className={(showMoreonClick) ? 'hidden' : ''} style={{ backgroundColor: '#112D41', color: '#F9F7F7' }} onClick={() => setShowMoreonClick(true)}>SHOW MORE</button>
+      </div>
       <div className={(!review.recommend) ? 'hidden' : ''} style={{ paddingTop: '20px', paddingBottom: '20px' }}>
         <CheckIcon style={{ height: '20px' }} />
         I recommend this product

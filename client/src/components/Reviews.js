@@ -31,7 +31,7 @@ const ReviewDiv = styled.div`
 `;
 
 const Reviews = () => {
-  const productID = 65634;
+  const productID = 65635;
   // 65635 meta and reviews count are not the same
   // 65632 for testing the response
   // 65640 for testing the add reviews button
@@ -40,7 +40,7 @@ const Reviews = () => {
   const [reviewsData, setReviewsData] = useState([]);
   const [dataUpdate, setDataUpdate] = useState('');
   const [sort, setSort] = useState('relevant');
-  const [totalCount, setTotalCount] = useState(0);
+  const [totalCount, setTotalCount] = useState(2);
   const [aveRate, setAveRate] = useState(0);
   const [recomPer, setRecomPer] = useState(0);
   const [char, setChar] = useState({});
@@ -83,7 +83,6 @@ const Reviews = () => {
         setStar3(`${Math.round((star3 / rateUnit) * 100)}%`);
         setStar2(`${Math.round((star2 / rateUnit) * 100)}%`);
         setStar1(`${Math.round((star1 / rateUnit) * 100)}%`);
-
         setAveRate(rate);
       });
   }, [productID, dataUpdate]);
@@ -96,7 +95,6 @@ const Reviews = () => {
         setReviewsData(res.data.results.slice(0, 2));
       });
   }, [productID, count, sort, dataUpdate]);
-
   const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
   const width = (char.Width === undefined) ? '' : Math.round(char.Width.value);
@@ -104,11 +102,6 @@ const Reviews = () => {
   const quality = (char.Quality === undefined) ? '' : Math.round(char.Quality.value);
   const length = (char.Length === undefined) ? '' : Math.round(char.Length.value);
   const fit = (char.Fit === undefined) ? '' : Math.round(char.Fit.value);
-
-  const filterStar = (number) => {
-    const rateData = data.filter((review) => review.rating === number);
-    setReviewsData(rateData);
-  };
 
   const changeSort = (newSort) => {
     setSort(newSort);
@@ -125,8 +118,9 @@ const Reviews = () => {
       Ratings and Reviews
       <RatingAndReview>
         <RatingBreakdown
+          data={data}
+          setReviewsData={setReviewsData}
           aveRate={aveRate}
-          filterStar={filterStar}
           recomPer={recomPer}
           star={{
             star1,
