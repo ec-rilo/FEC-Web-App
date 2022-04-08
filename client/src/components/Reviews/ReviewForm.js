@@ -39,7 +39,7 @@ const ReviewForm = ({
   const [email, setEmail] = useState('');
   const [photos, setPhotos] = useState([]);
   const [characteristics, setCharacteristics] = useState({});
-  const [selectPhoto, setSelectPhoto] = useState(null);
+  const [selectPhoto, setSelectPhoto] = useState('');
 
   const [sign, setSign] = useState({
     top: '',
@@ -97,7 +97,7 @@ const ReviewForm = ({
               onChange={(e) => {
                 setRating(e.target.value); setSign((prev) => {
                   if (e.target.value === '5') {
-                    prev.star = <a style={{ color: 'green', margin: '0'}}>Great</a>;
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Great</a>;
                   } else if (e.target.value === '4') {
                     prev.star = <a style={{ color: 'green', margin: '0' }}>Good</a>;
                   } else if (e.target.value === '3') {
@@ -245,12 +245,14 @@ const ReviewForm = ({
               setSign((prev) => {
                 prev.comfort = '';
                 return prev;
-              })
+              });
             }}
           >
             <tr>
-              <CharTd><b>Comfort</b><br/>
-              {/* <Sign>{sign.comfort}</Sign> */}
+              <CharTd>
+                <b>Comfort</b>
+                <br />
+                {/* <Sign>{sign.comfort}</Sign> */}
               </CharTd>
               <CharTd>
                 <input type="radio" name="comfort" value="1" />
@@ -420,19 +422,46 @@ const ReviewForm = ({
                   const remainTextNum = 50 - e.target.value.length;
                   prev.body = `Minimum required character left: [${remainTextNum}]`;
                 } else {
-                  prev.body = <a style={{ color: 'green', margin: '0'}}>Minimum reached</a>;
+                  prev.body = <a style={{ color: 'green', margin: '0' }}>Minimum reached</a>;
                 }
                 return prev;
               });
             }}
           />
         </li>
-        {/* <li>Upload your photos</li>
+        <li>Upload your photos</li>
+
         <li>
-          <input type="file" id="image_input" accept="image/png, image/jpg" onChange={(e) => {console.log(e)}}/>
-          <div></div>
+          <div className={photos.length === 5 ? 'hidden' : ''}>
+            <input
+              className="hidden"
+              type="file"
+              id="image_input"
+              accept="image/png, image/jpg"
+              multiple
+              onChange={(e) => {
+                const array = [];
+                for (let i = 0; i < 5; i++) {
+                  if (e.target.files[i]) {
+                    array.push(URL.createObjectURL(e.target.files[i]));
+                  }
+                }
+                setPhotos(array);
+                setSelectPhoto(URL.createObjectURL(e.target.files[0]));
+              }}
+            />
+            <button><label htmlFor="image_input">Choose Photos</label></button>
+
+          </div>
+          <div id="display_image" style={{ width: 'auto', height: 'auto' }}>
+            {photos.map((photo) => (
+              <img style={{ width: '200px' }} src={photo} />
+            ))}
+
+          </div>
           <button>Upload</button>
-        </li> */}
+
+        </li>
         <li>What is your nickname</li>
         <Sign className={(name.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>
         <input type="text" maxLength="60" placeholder="Example: jackson11!" style={{ width: '90%' }} onChange={(e) => setName(e.target.value)} />
