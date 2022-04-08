@@ -28,7 +28,7 @@ background: purple;
 `;
 
 const StyleImg = styled.img`
-height: 100px;
+height: 40px;
 width: 100%;
 background-image: ${(props) => `url(${props.img})`};
 background-size: cover;
@@ -38,10 +38,9 @@ background-size: cover;
 function ImageGallery({ style, images }) {
   const [image, setImage] = useState(0);
 
-  console.log(images);
   return (
     <div className="left-div">
-      <Carousel>{images.map((image) => <StyleImg img={image.url} />)}</Carousel>
+      <Carousel>{images.map((image, i) => <StyleImg img={image.url} key={i} />)}</Carousel>
       <LeftArrow onClick={() => image > 0 && setImage((prevImage) => prevImage - 1)} />
       <ProductImage image={style.photos[image].url} />
       <RightArrow onClick={() => image < images.length - 1 && setImage((prevImage) => prevImage + 1)} />

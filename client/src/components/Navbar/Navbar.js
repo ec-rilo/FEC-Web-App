@@ -22,12 +22,6 @@ function Navbar(props) {
               <div className="dark-mode-toggle" />
             </div>
             {/* <span className="sign-in">Sign In</span> */}
-            <p className="cart">
-              Cart
-              {' '}
-              {props.cart.items}
-              <button onClick={props.decrementCart}>-</button>
-            </p>
           </div>
         </div>
       </>
