@@ -40,12 +40,12 @@ height: 30px;
 margin-bottom: 10px;
 `;
 
-function Cart({ style }) {
+function Cart({ styles }) {
   const [cart, setCart] = useState({ sku: '', quantity: 0 });
 
   function selectSku(Sku) {
     setCart({
-      sku: Sku, quantity: style.skus[Sku].quantity,
+      sku: Sku, quantity: styles?.all?.skus[Sku].quantity,
     });
   }
 
@@ -57,10 +57,12 @@ function Cart({ style }) {
     console.log(cart);
   }
 
+  console.log(styles.current);
+
   return (
     <div>
       <Sizes>
-        {Object.keys(style.skus).map((sku, i) => <SizeBtn onClick={() => selectSku(sku)} key={i}>{style.skus[sku].size}</SizeBtn>)}
+        {Object.keys(styles?.current?.skus).map((sku, i) => <SizeBtn onClick={() => selectSku(sku)} key={i}>{styles?.current?.skus[sku].size}</SizeBtn>)}
       </Sizes>
       <Quantity onChange={(e) => handleQuantityChange(e)}>
         {[...Array(Math.min(cart.quantity, 15)).keys()].map((i) => <option value={i + 1} key={i}>{i + 1}</option>)}

@@ -35,15 +35,23 @@ background-size: cover;
 
 `;
 
-function ImageGallery({ style, images }) {
+function ImageGallery({ styles, currentStyleIndex }) {
   const [image, setImage] = useState(0);
+
+  if (!styles?.length) return null;
+
+  console.log(styles);
 
   return (
     <div className="left-div">
-      <Carousel>{images.map((image, i) => <StyleImg img={image.url} key={i} />)}</Carousel>
+      <Carousel>
+        {styles?.[currentStyleIndex]?.photos?.length > 0
+          ? styles?.[currentStyleIndex]?.photos?.map((image, i) => <StyleImg img={image.url} key={i} />)
+          : null}
+      </Carousel>
       <LeftArrow onClick={() => image > 0 && setImage((prevImage) => prevImage - 1)} />
-      <ProductImage image={style.photos[image].url} />
-      <RightArrow onClick={() => image < images.length - 1 && setImage((prevImage) => prevImage + 1)} />
+      <ProductImage image={styles?.[currentStyleIndex]?.photos[image]?.url} />
+      <RightArrow onClick={() => image < styles?.[currentStyleIndex]?.photos?.length - 1 && setImage((prevImage) => prevImage + 1)} />
     </div>
   );
 }

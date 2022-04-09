@@ -54,7 +54,7 @@ const ReviewDiv = styled.div`
 `;
 
 const Reviews = () => {
-  const productID = 65634;
+  const productID = 65635;
   // 65635 meta and reviews count are not the same
   // 65632 for testing the response
   // 65640 for testing the add reviews button

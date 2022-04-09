@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
-import { StarIcon } from '@heroicons/react/solid';
-
-import StyleData from '../../../../stylesData.js';
-import ProductData from '../../../../productData.js';
 
 import StyleSelector from './components/StyleSelector.js';
 import Cart from './components/Cart.js';
@@ -28,46 +24,51 @@ color: #747571;
   };
 `;
 
-function Overview({ incrementCart }) {
-  const [product, setProduct] = useState({
-    product: ProductData, styles: StyleData, style: StyleData.results[0],
-  });
-  // const [style, setStyle]
+function Overview({ product }) {
+  const [styles, setStyles] = useState({});
+  const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
 
-  function selectStyle(newStyle) {
-    setProduct({
-      product: ProductData, styles: StyleData, style: newStyle,
-    });
+  useEffect(() => {
+    if (product == null) {
+      return;
+    }
+    axios.get(`/products/${product.id}/styles`)
+      .then((res) => {
+        setStyles(res.data.results);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [product]);
+
+  function selectStyle(newStyleIndex) {
+    setCurrentStyleIndex(newStyleIndex);
   }
 
   return (
     <div>
       <div className="container">
         <div className="overview-body">
-          <ImageGallery style={product.style} images={product.style.photos} />
+          <ImageGallery styles={styles} currentStyleIndex={currentStyleIndex} />
 
           <div className="right-div">
-            <ProductCategory>{product.product.category}</ProductCategory>
+            <ProductCategory>{product?.category}</ProductCategory>
             <ProductHeader>
-              {product.product.name}
+              {product?.name}
               {' '}
-              {!product.style.sale_price ? `$${product.style.original_price}` : <strike>{`$${product.style.original_price}`}</strike>}
+              {!styles?.[currentStyleIndex]?.sale_price
+                ? `$${styles?.[currentStyleIndex]?.original_price}`
+                : <strike>{`$${styles?.[currentStyleIndex]?.original_price}`}</strike>}
               {' '}
-              {product.style.sale_price ? `$${product.style.sale_price}` : null}
+              {styles?.[currentStyleIndex]?.sale_price
+                ? `$${styles?.[currentStyleIndex]?.sale_price}`
+                : null}
             </ProductHeader>
 
-            {/* <StarIcon className="star" /> */}
+            <StyleSelector styles={styles} currentStyleIndex={currentStyleIndex} selectStyle={selectStyle} />
 
-            <StyleSelector styles={product} selectStyle={selectStyle} />
-
-            {/* <div>Whether you're a morning person or not. Whether you're gym bound or not. Everyone looks good in joggers.</div>
-            <AddToCartBtn onClick={incrementCart}>Add to Cart</AddToCartBtn>
-            Quantity
-            <button>+</button>
-            0
-            <button>-</button> */}
-            <Cart style={product.style} />
-            {product.product.description}
+            {/* <Cart styles={styles} /> */}
+            {product?.description}
           </div>
         </div>
       </div>

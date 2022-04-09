@@ -19,11 +19,13 @@ background-position: 0% 30%;
 margin-right: 10px;
 `;
 
-function StyleSelector({ styles, selectStyle }) {
+function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
+  if (!styles?.length) return null;
+  // console.log(styles);
   return (
     <div className="size-selector">
       <StylesContainer>
-        {styles.styles.results.map((style, i) => <StyleIcon style={style} onClick={() => selectStyle(style)} key={i} />)}
+        {styles.map((style, i) => <StyleIcon style={style} onClick={() => selectStyle(i)} key={i} />)}
       </StylesContainer>
     </div>
   );
