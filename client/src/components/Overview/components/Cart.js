@@ -30,8 +30,11 @@ align-items: center;
 
 const Sizes = styled.div`
 width: 100%;
-display: flex;
+display: grid;
 margin-bottom: 50px;
+grid-template-columns: repeat(8, 1fr);
+grid-auto-rows: auto;
+row-gap: 10px;
 `;
 
 const Quantity = styled.select`
@@ -40,12 +43,14 @@ height: 30px;
 margin-bottom: 10px;
 `;
 
-function Cart({ styles }) {
+function Cart({ styles, currentStyleIndex }) {
   const [cart, setCart] = useState({ sku: '', quantity: 0 });
+
+  if (!styles?.length) return null;
 
   function selectSku(Sku) {
     setCart({
-      sku: Sku, quantity: styles?.all?.skus[Sku].quantity,
+      sku: Sku, quantity: styles?.[currentStyleIndex]?.skus[Sku].quantity,
     });
   }
 
@@ -57,12 +62,10 @@ function Cart({ styles }) {
     console.log(cart);
   }
 
-  console.log(styles.current);
-
   return (
     <div>
       <Sizes>
-        {Object.keys(styles?.current?.skus).map((sku, i) => <SizeBtn onClick={() => selectSku(sku)} key={i}>{styles?.current?.skus[sku].size}</SizeBtn>)}
+        {Object.keys(styles?.[currentStyleIndex]?.skus).map((sku, i) => <SizeBtn onClick={() => selectSku(sku)} key={i}>{styles?.[currentStyleIndex]?.skus[sku].size}</SizeBtn>)}
       </Sizes>
       <Quantity onChange={(e) => handleQuantityChange(e)}>
         {[...Array(Math.min(cart.quantity, 15)).keys()].map((i) => <option value={i + 1} key={i}>{i + 1}</option>)}

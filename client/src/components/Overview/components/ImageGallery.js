@@ -1,56 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import VerticalCarousel from './VerticalCarousel.js';
+import MainImage from './MainImage.js';
 
 const ProductImage = styled.div`
-width: 450px;
+width: 500px;
 height: 100%;
 background-image: ${(props) => `url(${props.image})`};
 background-size: cover;
-background-position: 0% 30%;
+background-position: center;
 `;
 
 const LeftArrow = styled.div`
 width: 50px;
 height: 100%;
 background: green;
+opacity: 0.5;
+transform: translateX(50px);
 `;
 
 const RightArrow = styled.div`
 width: 50px;
 height: 100%;
 background: green;
-`;
-
-const Carousel = styled.div`
-height: 100%;
-width: 150px;
-background: purple;
-`;
-
-const StyleImg = styled.img`
-height: 40px;
-width: 100%;
-background-image: ${(props) => `url(${props.img})`};
-background-size: cover;
-
+opacity: 0.5;
+transform: translateX(-50px);
 `;
 
 function ImageGallery({ styles, currentStyleIndex }) {
   const [image, setImage] = useState(0);
 
-  if (!styles?.length) return null;
+  useEffect(() => {
+    setImage(0);
+  }, [currentStyleIndex]);
 
-  console.log(styles);
+  if (!styles?.length) return null;
 
   return (
     <div className="left-div">
-      <Carousel>
-        {styles?.[currentStyleIndex]?.photos?.length > 0
-          ? styles?.[currentStyleIndex]?.photos?.map((image, i) => <StyleImg img={image.url} key={i} />)
-          : null}
-      </Carousel>
+      <VerticalCarousel styles={styles} currentStyleIndex={currentStyleIndex} />
       <LeftArrow onClick={() => image > 0 && setImage((prevImage) => prevImage - 1)} />
-      <ProductImage image={styles?.[currentStyleIndex]?.photos[image]?.url} />
+      <MainImage image={styles?.[currentStyleIndex]?.photos[image]?.url} />
       <RightArrow onClick={() => image < styles?.[currentStyleIndex]?.photos?.length - 1 && setImage((prevImage) => prevImage + 1)} />
     </div>
   );

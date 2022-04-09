@@ -1,7 +1,4 @@
 
-.container {
-  padding: 50px 40px 10px 40px ;
-}
 
 .navbar {
   display: flex;
@@ -13,6 +10,13 @@
   padding: 0px 20px;
   margin: 0px 20px;
   text-decoration: none;
+}
+
+.overview-body {
+  display: flex;
+  margin-bottom: 50px;
+  padding-top: 50px;
+  height: 600px;
 }
 
 .brand {
@@ -54,17 +58,6 @@
   background: #DBE2EF;
   z-index: 2;
 }
-
-
-.star {
-  height: 40px;
-}
-
-.overview-body {
-  display: flex;
-  margin-bottom: 50px;
-}
-
 
 
 .img-row {
@@ -124,6 +117,7 @@ label.star:before {
 .left-div {
   display: flex;
   width: 60%;
+  overflow-y: none;
 }
 
 .right-div {

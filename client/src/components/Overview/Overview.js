@@ -46,31 +46,27 @@ function Overview({ product }) {
   }
 
   return (
-    <div>
-      <div className="container">
-        <div className="overview-body">
-          <ImageGallery styles={styles} currentStyleIndex={currentStyleIndex} />
+    <div className="overview-body">
+      <ImageGallery styles={styles} currentStyleIndex={currentStyleIndex} />
 
-          <div className="right-div">
-            <ProductCategory>{product?.category}</ProductCategory>
-            <ProductHeader>
-              {product?.name}
-              {' '}
-              {!styles?.[currentStyleIndex]?.sale_price
-                ? `$${styles?.[currentStyleIndex]?.original_price}`
-                : <strike>{`$${styles?.[currentStyleIndex]?.original_price}`}</strike>}
-              {' '}
-              {styles?.[currentStyleIndex]?.sale_price
-                ? `$${styles?.[currentStyleIndex]?.sale_price}`
-                : null}
-            </ProductHeader>
+      <div className="right-div">
+        <ProductCategory>{product?.category}</ProductCategory>
+        <ProductHeader>
+          {product?.name}
+          {' '}
+          {!styles?.[currentStyleIndex]?.sale_price
+            ? `$${styles?.[currentStyleIndex]?.original_price}`
+            : <strike>{`$${styles?.[currentStyleIndex]?.original_price}`}</strike>}
+          {' '}
+          {styles?.[currentStyleIndex]?.sale_price
+            ? `$${styles?.[currentStyleIndex]?.sale_price}`
+            : null}
+        </ProductHeader>
 
-            <StyleSelector styles={styles} currentStyleIndex={currentStyleIndex} selectStyle={selectStyle} />
+        <StyleSelector styles={styles} currentStyleIndex={currentStyleIndex} selectStyle={selectStyle} />
 
-            {/* <Cart styles={styles} /> */}
-            {product?.description}
-          </div>
-        </div>
+        <Cart styles={styles} currentStyleIndex={currentStyleIndex} />
+        {product?.description}
       </div>
     </div>
   );

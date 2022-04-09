@@ -15,7 +15,7 @@ height: 34px;
 background-image: ${(props) => `url(${props.style.photos[0].thumbnail_url})`};
 background-size: cover;
 border-radius: 50%;
-background-position: 0% 30%;
+background-position: center;
 margin-right: 10px;
 `;
 
