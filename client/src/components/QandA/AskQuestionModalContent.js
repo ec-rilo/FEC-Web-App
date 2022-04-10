@@ -1,51 +1,7 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import axios from 'axios';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  justify-items: center;
-  align-items: center;
-  width: 100%;
-`;
-
-const QuestionForm = styled.form`
-  width: 100%;
-`;
-
-const QuestionTextArea = styled.textarea`
-  display: block;
-  width: 100%
-`;
-
-const FormInput = styled.input`
-  width: 100%;
-`;
-
-const Disclaimer = styled.span`
-  display: block;
-  width: fit-content;
-  font-size: 10px;
-`;
-
-const Button = styled.button`
-  display: block;
-  margin: auto;
-`;
-
-const Error = styled.h6`
-  color: red;
-  padding: 0;
-  margin: 0;
-`;
-
-const Success = styled.h6`
-  color: green;
-  padding: 0;
-  margin: 0;
-`;
+import * as Form from '../presentation/ModalForm.styles';
 
 const AskQuestionModalContent = ({ productID, onClose }) => {
   const [question, setQuestion] = useState('');
@@ -67,7 +23,7 @@ const AskQuestionModalContent = ({ productID, onClose }) => {
     }
 
     // Email address is invalid
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
+    if (!(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
       return setErrorMessage('You must enter the following: A valid email address');
     }
 
@@ -83,16 +39,18 @@ const AskQuestionModalContent = ({ productID, onClose }) => {
         setTimeout(onClose, 500);
       })
       .catch((err) => console.error(`Error posting new question: ${err}`));
+
+    return null;
   };
 
   return (
-    <Container>
+    <Form.Container>
       <h2>{`About the [Product w/ ID ${productID}]`}</h2>
-      {errorMessage && <Error>{errorMessage}</Error>}
-      {successMessage && <Success>{successMessage}</Success>}
-      <QuestionForm onSubmit={handleFormSubmit}>
+      {errorMessage && <Form.Error>{errorMessage}</Form.Error>}
+      {successMessage && <Form.Success>{successMessage}</Form.Success>}
+      <Form.Form onSubmit={handleFormSubmit}>
         <label htmlFor="question">Question</label>
-        <QuestionTextArea
+        <Form.TextArea
           name="question"
           rows="4"
           cols="50"
@@ -102,7 +60,7 @@ const AskQuestionModalContent = ({ productID, onClose }) => {
           placeholder=""
         />
         <label htmlFor="nickname">Nickname</label>
-        <FormInput
+        <Form.Input
           name="nickname"
           type="text"
           maxLength="60"
@@ -110,9 +68,11 @@ const AskQuestionModalContent = ({ productID, onClose }) => {
           onChange={(e) => setNickname(e.target.value)}
           placeholder="Example: jackson11!"
         />
-        <Disclaimer>For privacy reasons, do not use your full name or email address.</Disclaimer>
+        <Form.Disclaimer>
+          For privacy reasons, do not use your full name or email address.
+        </Form.Disclaimer>
         <label htmlFor="email">Email address</label>
-        <FormInput
+        <Form.Input
           name="email"
           type="text"
           maxLength="60"
@@ -120,11 +80,18 @@ const AskQuestionModalContent = ({ productID, onClose }) => {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email address"
         />
-        <Disclaimer>For authentication reasons, you will not be emailed.</Disclaimer>
-        <Button type="submit">Submit Question</Button>
-      </QuestionForm>
-    </Container>
+        <Form.Disclaimer>
+          For authentication reasons, you will not be emailed.
+        </Form.Disclaimer>
+        <Form.Button type="submit">Submit Question</Form.Button>
+      </Form.Form>
+    </Form.Container>
   );
+};
+
+AskQuestionModalContent.propTypes = {
+  productID: PropTypes.number.isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default AskQuestionModalContent;
