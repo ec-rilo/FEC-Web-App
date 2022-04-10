@@ -8,7 +8,6 @@ import ReviewListEntry from './Reviews/ReviewListEntry';
 import ReviewForm from './Reviews/ReviewForm';
 import ReviewSearch from './Reviews/ReviewSearch';
 import ReviewSort from './Reviews/ReviewSort';
-import ReviewPhotoEntry from './Reviews/ReviewPhotoEntry';
 import RatingBreakdown from './Reviews/RatingBreakdown';
 
 const RatingAndReview = styled.section`
@@ -30,8 +29,8 @@ const ReviewDiv = styled.div`
   overflow: auto;
 `;
 
-const Reviews = () => {
-  const productID = 65635;
+const Reviews = ({ productID }) => {
+  productID = productID || 65634;
   // 65635 meta and reviews count are not the same
   // 65632 for testing the response
   // 65640 for testing the add reviews button
@@ -107,7 +106,7 @@ const Reviews = () => {
     setSort(newSort);
   };
 
-  const collapseStyle = { position: 'absolute', top: '157%', right: '15%' };
+  const collapseStyle = { position: 'relative', top: '-90%', right: '-70%' };
   const reviews = reviewsData.map((review) => (
     <div className="review" key={review.review_id} style={{ width: '60vw' }}>
       <ReviewListEntry review={review} setDataUpdate={setDataUpdate} />
@@ -152,17 +151,18 @@ const Reviews = () => {
             />
           </div>
           <ReviewDiv>
+
             <table style={{ height: '100vh' }}>
               <tbody>
                 <tr>
                   <td colSpan="2">
-                    {reviews}
+                  {reviewsData.length === 0 ? <div style={{position: 'relative', top: '-46%', left: '80%'}}><h2>There is no review yet</h2></div> : reviews}
                   </td>
                 </tr>
               </tbody>
             </table>
           </ReviewDiv>
-          <Button className={((reviewsData.length !== 2) ? 'hidden' : '')} onClick={() => { setReviewsData(data); }}>
+          <Button className={((totalCount <= 2 || reviewsData.length !== 2) ? 'hidden' : '')} onClick={() => { setReviewsData(data); }}>
             MORE REVIEWS
           </Button>
           <Button

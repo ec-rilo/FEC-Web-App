@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import styled from 'styled-components';
 
 const ModalContainer = styled.div`
-
   align-items: center;
   justify-content: center;
   position: fixed; /* Stay in place */
@@ -24,7 +23,7 @@ const ModalContent = styled.div`
   margin: auto;
   padding: 0;
   border: 1px solid #888;
-  width: auto;
+  width: 680px;
   length: auto;
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
 `;
@@ -60,6 +59,7 @@ const CloseSpan = styled.span`
 * function that sets it to false as the `onClose` prop. Clicking the x or clicking
 * outside the modal should then properly close it.
 */
+
 const Modal = ({
   title, content, onClose, close,
 }) => ReactDOM.createPortal(

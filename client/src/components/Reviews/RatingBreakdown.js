@@ -132,8 +132,6 @@ const RatingBreakdown = ({
       </RatingUser>
           <StarButton onClick={() => { setReviewsData(data);setStar1onClick(false);setStar2onClick(false);;setStar3onClick(false);setStar4onClick(false);setStar5onClick(false); setfilter([]); }}><u>no filter</u></StarButton>
 
-
-
       <br />
       <div>
         <div className={(!char.size) ? 'hidden' : ''}>

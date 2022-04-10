@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+// import dotenv from 'dotenv';
 import Modal from './ReviewModal';
 
 const ReviewFormUl = styled.ul`
@@ -26,6 +27,13 @@ const CharTd = styled.td`
   width: 30%;
   font-size: 10px
 `;
+const Photos = styled.div`
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+`;
 
 const ReviewForm = ({
   productID, writable, setisWritable, char, setDataUpdate, setSort,
@@ -39,7 +47,9 @@ const ReviewForm = ({
   const [email, setEmail] = useState('');
   const [photos, setPhotos] = useState([]);
   const [characteristics, setCharacteristics] = useState({});
-  const [selectPhoto, setSelectPhoto] = useState('');
+  const [selectPhoto, setSelectPhoto] = useState([]);
+  const [isupload, setisUpload] = useState(false);
+  const [photofile, setphotofile] = useState([]);
 
   const [sign, setSign] = useState({
     top: '',
@@ -82,6 +92,21 @@ const ReviewForm = ({
         .catch();
     }
   };
+  const handleUpload = () => {
+    setisUpload(true);
+    selectPhoto.forEach((file) => {
+      const fd = new FormData();
+      fd.append('image', file, file.name);
+      axios.post(`https://api.imgbb.com/1/upload?key=cda55cf36d268bb4dcd2a2841ea5dde5`, fd)
+        .then((res) => { console.log(res); setPhotos((prev) => [...prev, res.data.data.url]); })
+        .catch();
+
+      // axios.post('/photos', file)
+      //   .then((res) => { console.log(res); setPhotos((prev) => [...prev, res.data.data.url]); })
+      //   .catch();
+    });
+  };
+
   const content = (
     <div>
       <h2>About the [PRODUCT NAME]</h2>
@@ -430,38 +455,38 @@ const ReviewForm = ({
           />
         </li>
         <li>Upload your photos</li>
-
+        <Sign style={{ color: 'green' }}>Maximum 5 photos</Sign>
         <li>
-          <div className={photos.length === 5 ? 'hidden' : ''}>
+          <div className={selectPhoto.length === 5 || isupload ? 'hidden' : ''}>
             <input
               className="hidden"
               type="file"
               id="image_input"
               accept="image/png, image/jpg"
-              multiple
               onChange={(e) => {
-                const array = [];
-                for (let i = 0; i < 5; i++) {
-                  if (e.target.files[i]) {
-                    array.push(URL.createObjectURL(e.target.files[i]));
-                  }
-                }
-                setPhotos(array);
-                setSelectPhoto(URL.createObjectURL(e.target.files[0]));
+                setSelectPhoto((prev) => [...prev, (e.target.files[0])]);
               }}
             />
             <button><label htmlFor="image_input">Choose Photos</label></button>
 
           </div>
-          <div id="display_image" style={{ width: 'auto', height: 'auto' }}>
-            {photos.map((photo) => (
-              <img style={{ width: '200px' }} src={photo} />
+          <Photos>
+            {selectPhoto.map((photo) => (
+              <div style={{ position: 'relative' }}>
+                <button className={isupload ? 'hidden' : ''} style={{ position: 'absolute', right: '0' }} onClick={() => { setSelectPhoto(selectPhoto.filter((item) => item !== photo)); }}>X</button>
+                <img
+                  style={{ width: '120px' }}
+                  src={URL.createObjectURL(photo)}
+                />
+
+              </div>
             ))}
 
-          </div>
-          <button>Upload</button>
+          </Photos>
+          <button className={isupload ? 'hidden' : ''} onClick={() => handleUpload()}>Upload</button>
 
         </li>
+
         <li>What is your nickname</li>
         <Sign className={(name.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>
         <input type="text" maxLength="60" placeholder="Example: jackson11!" style={{ width: '90%' }} onChange={(e) => setName(e.target.value)} />

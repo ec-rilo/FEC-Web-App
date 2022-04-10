@@ -17,6 +17,7 @@ const ReviewPhotoEntry = ({ photo, setPhotoOnClick, photoOnClick }) => (
         title="photo"
         content={(
           <img
+            style={{width: "650px"}}
             src={photo.url}
             alt="productPhoto"
           />
