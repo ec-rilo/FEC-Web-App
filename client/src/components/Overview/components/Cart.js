@@ -30,7 +30,8 @@ align-items: center;
 border: 1.5px solid transparent;
 
 &:hover {
-  border: 1.5px solid #dcdddb
+  border: 1.5px solid #dcdddb;
+  cursor: pointer;
 }
 `;
 
@@ -80,7 +81,11 @@ function Cart({ styles, currentStyleIndex }) {
           <SizeBtn
             onClick={() => selectSku(sku)}
             key={i}
-            // style={i == currentStyleIndex{}}
+            style={
+              sku === cart.sku
+                ? { border: '1.5px solid #616912' }
+                : null
+            }
           >
             {styles?.[currentStyleIndex]?.skus[sku].size}
           </SizeBtn>

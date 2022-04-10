@@ -19,9 +19,9 @@ border-radius: 50%;
 background-position: center;
 margin-right: 10px;
 
-/* &:hover {
-  box-shadow: 0 0 0 3px white, 0 0 0 4px black;
-} */
+&:hover {
+  cursor: pointer;
+}
 `;
 
 function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
