@@ -16,7 +16,7 @@ width: 50px;
 height: 100%;
 background: green;
 opacity: 0.5;
-transform: translateX(50px);
+/* transform: translateX(50px); */
 `;
 
 const RightArrow = styled.div`
@@ -24,7 +24,7 @@ width: 50px;
 height: 100%;
 background: green;
 opacity: 0.5;
-transform: translateX(-50px);
+/* transform: translateX(-50px); */
 `;
 
 function ImageGallery({ styles, currentStyleIndex }) {
@@ -36,12 +36,28 @@ function ImageGallery({ styles, currentStyleIndex }) {
 
   if (!styles?.length) return null;
 
+  function prevImg() {
+    if (image > 0) {
+      setImage((prevImage) => prevImage - 1);
+    }
+  }
+
+  function nextImg() {
+    if (image < styles?.[currentStyleIndex]?.photos?.length - 1) {
+      setImage((prevImage) => prevImage + 1);
+    }
+  }
+
+  function setImg(index) {
+    setImage(index);
+  }
+
   return (
     <div className="left-div">
-      <VerticalCarousel styles={styles} currentStyleIndex={currentStyleIndex} />
-      <LeftArrow onClick={() => image > 0 && setImage((prevImage) => prevImage - 1)} />
+      <VerticalCarousel styles={styles} currentStyleIndex={currentStyleIndex} image={image} setImg={setImg} />
+      <LeftArrow onClick={prevImg} />
       <MainImage image={styles?.[currentStyleIndex]?.photos[image]?.url} />
-      <RightArrow onClick={() => image < styles?.[currentStyleIndex]?.photos?.length - 1 && setImage((prevImage) => prevImage + 1)} />
+      <RightArrow onClick={nextImg} />
     </div>
   );
 }

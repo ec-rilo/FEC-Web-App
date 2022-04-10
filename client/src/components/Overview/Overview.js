@@ -47,7 +47,7 @@ function Overview({ product }) {
 
   return (
     <div className="overview-body">
-      <ImageGallery styles={styles} currentStyleIndex={currentStyleIndex} />
+      <ImageGallery styles={styles} currentStyleIndex={currentStyleIndex} selectStyle={selectStyle} />
 
       <div className="right-div">
         <ProductCategory>{product?.category}</ProductCategory>

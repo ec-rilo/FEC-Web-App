@@ -5,32 +5,51 @@ const Carousel = styled.div`
 height: 100%;
 width: 80px;
 background: purple;
+
+.current {
+  border: 1px solid red
+}
 `;
 
 const StyleImg = styled.div`
 height: 90px;
 width: 80px;
 background-color: green;
-background-image: ${(props) => `url(${props.image})`};
+background-image: ${(props) => `url(${props.photo})`};
 background-size: cover;
 background-position: center;
 `;
 
-function VerticalCarousel({ styles, currentStyleIndex }) {
-  const [current, setCurrent] = useState(0);
-  const imgMax = current + 6;
+function VerticalCarousel({
+  styles, currentStyleIndex, image, selectStyle, setImg,
+}) {
+  const [display, setDisplay] = useState(0);
+  const { length } = styles[currentStyleIndex].photos;
 
-  function nextImg() {
-    setCurrent((prevCurrent) => prevCurrent + 1);
+  function nextPhoto() {
+    if (display !== length - 6) {
+      setDisplay(display === length - 6 ? 0 : display + 1);
+    }
+  }
+
+  function prevPhoto() {
+    if (display > 0) {
+      setDisplay(display === 0 ? 0 : display - 1);
+    }
   }
 
   console.log(styles[currentStyleIndex]);
 
   return (
     <Carousel>
-      {styles[currentStyleIndex].photos.slice(current, imgMax).map((image, i) => <StyleImg onClick={() => console.log(i)} image={image.url} key={i} />)}
+      <div onClick={prevPhoto}>arrow</div>
+      {styles[currentStyleIndex].photos.map((photo, i) => (
+        (i >= display && i <= display + 5)
+          ? (<StyleImg className={image === i ? 'current' : ''} onClick={() => setImg(i)} photo={photo.url} key={i} />)
+          : <></>
+      ))}
       { styles[currentStyleIndex].photos.length >= 6
-        ? <div onClick={nextImg}>arrow</div>
+        ? <div onClick={nextPhoto}>arrow</div>
         : null}
     </Carousel>
   );
