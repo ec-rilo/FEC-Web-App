@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
 
 import ProductInformation from './components/ProductInformation.js';
 import StyleSelector from './components/StyleSelector.js';

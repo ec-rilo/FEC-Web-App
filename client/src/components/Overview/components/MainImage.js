@@ -38,11 +38,8 @@ function MainImage({ image }) {
           setShowMagnifier(!showMagnifier);
         }}
         onMouseMove={(e) => {
-          // update cursor position
           const elem = e.currentTarget;
           const { top, left } = elem.getBoundingClientRect();
-
-          // calculate cursor position on the image
           const x = e.pageX - left - window.pageXOffset;
           const y = e.pageY - top - window.pageYOffset;
           setXY([x, y]);

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 
 const AddToCartBtn = styled.button`
 color: white;
@@ -26,15 +27,21 @@ background: #F3F4F3;
 font-weight: 300;
 justify-content: center;
 align-items: center;
+border: 1.5px solid transparent;
+
+&:hover {
+  border: 1.5px solid #dcdddb
+}
 `;
 
 const Sizes = styled.div`
 width: 100%;
 display: grid;
 margin-bottom: 50px;
-grid-template-columns: repeat(8, 1fr);
+grid-template-columns: repeat(7, 1fr);
 grid-auto-rows: auto;
-row-gap: 10px;
+justify-content: space-between;
+row-gap: 12px;
 `;
 
 const Quantity = styled.select`
@@ -59,13 +66,24 @@ function Cart({ styles, currentStyleIndex }) {
   }
 
   function addToCart() {
-    console.log(cart);
+    axios.post('/cart', { sku_id: cart.sku, count: cart.quantity })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   return (
     <div>
       <Sizes>
-        {Object.keys(styles?.[currentStyleIndex]?.skus).map((sku, i) => <SizeBtn onClick={() => selectSku(sku)} key={i}>{styles?.[currentStyleIndex]?.skus[sku].size}</SizeBtn>)}
+        {Object.keys(styles?.[currentStyleIndex]?.skus).map((sku, i) => (
+          <SizeBtn
+            onClick={() => selectSku(sku)}
+            key={i}
+            // style={i == currentStyleIndex{}}
+          >
+            {styles?.[currentStyleIndex]?.skus[sku].size}
+          </SizeBtn>
+        ))}
       </Sizes>
       <Quantity onChange={(e) => handleQuantityChange(e)}>
         {[...Array(Math.min(cart.quantity, 15)).keys()].map((i) => <option value={i + 1} key={i}>{i + 1}</option>)}

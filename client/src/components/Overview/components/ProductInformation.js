@@ -5,7 +5,8 @@ const ProductHeader = styled.div`
 font-size: 24px;
 font-weight: 400;
 margin-bottom: 50px;
-/* justify-content: space-between; */
+display: flex;
+justify-content: space-between;
 `;
 
 const ProductCategory = styled.div`
@@ -26,11 +27,17 @@ function ProductInformation({ styles, product, currentStyleIndex }) {
     <>
       <ProductCategory>{product?.category}</ProductCategory>
       <ProductHeader>
-        {product?.name}
-        {' '}
+        <label>{product?.name}</label>
         {!styles?.[currentStyleIndex]?.sale_price
           ? `$${styles?.[currentStyleIndex]?.original_price}`
-          : <strike>{`$${styles?.[currentStyleIndex]?.original_price}`}</strike>}
+          : (
+            <div style={{
+              transform: 'translateX(35px)',
+            }}
+            >
+              <strike>{`$${styles?.[currentStyleIndex]?.original_price}`}</strike>
+            </div>
+          )}
         {' '}
         {styles?.[currentStyleIndex]?.sale_price
           ? `$${styles?.[currentStyleIndex]?.sale_price}`
