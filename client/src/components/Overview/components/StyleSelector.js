@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StylesContainer = styled.div`
-width: auto;
+width: 200px;
 height: 150px;
 display: grid;
+margin-top: 10px;
 grid-template-columns: repeat(4, 1fr);
 grid-auto-rows: auto;
 `;
@@ -21,9 +22,17 @@ margin-right: 10px;
 
 function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
   if (!styles?.length) return null;
-  // console.log(styles);
+  // console.log(styles[currentStyleIndex]);
   return (
     <div className="size-selector">
+      <div style={{
+        display: 'flex',
+      }}
+      >
+        <b>Style</b>
+        {' '}
+        {styles[currentStyleIndex].name}
+      </div>
       <StylesContainer>
         {styles.map((style, i) => <StyleIcon style={style} onClick={() => selectStyle(i)} key={i} />)}
       </StylesContainer>

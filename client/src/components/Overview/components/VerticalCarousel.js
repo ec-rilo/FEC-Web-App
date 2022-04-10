@@ -14,7 +14,6 @@ background: purple;
 const StyleImg = styled.div`
 height: 90px;
 width: 80px;
-background-color: green;
 background-image: ${(props) => `url(${props.photo})`};
 background-size: cover;
 background-position: center;
@@ -38,15 +37,13 @@ function VerticalCarousel({
     }
   }
 
-  console.log(styles[currentStyleIndex]);
-
   return (
     <Carousel>
       <div onClick={prevPhoto}>arrow</div>
       {styles[currentStyleIndex].photos.map((photo, i) => (
         (i >= display && i <= display + 5)
           ? (<StyleImg className={image === i ? 'current' : ''} onClick={() => setImg(i)} photo={photo.url} key={i} />)
-          : <></>
+          : null
       ))}
       { styles[currentStyleIndex].photos.length >= 6
         ? <div onClick={nextPhoto}>arrow</div>

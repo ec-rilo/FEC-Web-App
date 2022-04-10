@@ -86,6 +86,7 @@
 
 .size-selector {
   display: flex;
+  flex-direction: column;
 }
 
 .hidden {

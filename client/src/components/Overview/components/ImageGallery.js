@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ChevronLeft } from '@heroicons/react/solid';
 import styled from 'styled-components';
 import VerticalCarousel from './VerticalCarousel.js';
 import MainImage from './MainImage.js';
@@ -55,7 +56,9 @@ function ImageGallery({ styles, currentStyleIndex }) {
   return (
     <div className="left-div">
       <VerticalCarousel styles={styles} currentStyleIndex={currentStyleIndex} image={image} setImg={setImg} />
-      <LeftArrow onClick={prevImg} />
+      <LeftArrow onClick={prevImg}>
+        {/* <ChevronLeft /> */}
+      </LeftArrow>
       <MainImage image={styles?.[currentStyleIndex]?.photos[image]?.url} />
       <RightArrow onClick={nextImg} />
     </div>
