@@ -42,6 +42,7 @@ grid-template-columns: repeat(7, 1fr);
 grid-auto-rows: auto;
 justify-content: space-between;
 row-gap: 12px;
+margin-top: 50px;
 `;
 
 const Quantity = styled.select`
