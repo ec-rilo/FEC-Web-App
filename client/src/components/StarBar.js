@@ -3,13 +3,13 @@ import styled from 'styled-components';
 
 const Bar = styled.div`
   background-color: #F9F7F7;
-  width: auto;
-  height: auto;
+  width: 101px;
+  height: 25px;
 `;
 
 const InsideBar = styled.div`
   background-color: black;
-  height: 20px;
+  height: 23px;
 `;
 
 // pass in the rate as the prop

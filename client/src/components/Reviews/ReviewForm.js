@@ -1,13 +1,43 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
+// import dotenv from 'dotenv';
 import Modal from './ReviewModal';
 
-const Characteristics = styled.ul`
-list-style-type: none
+const ReviewFormUl = styled.ul`
+  list-style-type: none;
+  padding-left: 2px
 `;
 
-const ReviewForm = ({ productID, writable, setisWritable, char }) => {
+const Sign = styled.p`
+  text-align: right;
+  color: red;
+  margin: 0;
+  padding-right: 10px;
+  font-style: italic;
+  font-size: 3px
+`;
+
+const Characteristics = styled.table`
+  table-layout: fixed;
+  width: 100%
+`;
+
+const CharTd = styled.td`
+  width: 30%;
+  font-size: 10px
+`;
+const Photos = styled.div`
+  display: flex;
+  display: -webkit-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+`;
+
+const ReviewForm = ({
+  productID, writable, setisWritable, char, setDataUpdate, setSort,
+}) => {
   const product_id = productID;
   const [summary, setSummary] = useState('');
   const [recommend, setRecommend] = useState('');
@@ -15,15 +45,30 @@ const ReviewForm = ({ productID, writable, setisWritable, char }) => {
   const [name, setName] = useState('');
   const [body, setBody] = useState('');
   const [email, setEmail] = useState('');
-  const [photos, setPhoto] = useState([]);
-  const [quality, setQuality] = useState('');
-  // let id  = char.Quality.id;
+  const [photos, setPhotos] = useState([]);
+  const [characteristics, setCharacteristics] = useState({});
+  const [selectPhoto, setSelectPhoto] = useState([]);
+  const [isupload, setisUpload] = useState(false);
+  const [photofile, setphotofile] = useState([]);
+
+  const [sign, setSign] = useState({
+    top: '',
+    star: 'Unselected',
+    body: 'Minimum required character left: [50]',
+    email: '',
+    summary: 'Can not be empty',
+    recommend: 'Unselected',
+    size: 'Unselected',
+    width: 'Unselected',
+    comfort: 'Unselected',
+    quality: 'Unselected',
+    length: 'Unselected',
+    fit: 'Unselected',
+  });
+
   const handleSubmit = () => {
-    const characteristics = {
-      '220234': Number(quality),
-    };
     const data = {
-      product_id,
+      product_id: Number(productID),
       rating: Number(rating),
       summary,
       body,
@@ -33,18 +78,60 @@ const ReviewForm = ({ productID, writable, setisWritable, char }) => {
       photos,
       characteristics,
     };
-    axios.post('/reviews', data)
-      .then()
-      .catch();
+    if ((data.body.length >= 50) && (data.email.includes('@')) && data.summary.length > 0) {
+      axios.post('/reviews', data)
+        .then((res) => {
+          setDataUpdate(res);
+          setSort('newest');
+          setSign((prev) => {
+            prev.top = 'Your Reviews is posted!';
+            return prev;
+          });
+          setisWritable(false);
+        })
+        .catch();
+    }
   };
+  const handleUpload = () => {
+    setisUpload(true);
+    selectPhoto.forEach((file) => {
+      const fd = new FormData();
+      fd.append('image', file, file.name);
+      axios.post('https://api.imgbb.com/1/upload?key=cda55cf36d268bb4dcd2a2841ea5dde5', fd)
+        .then((res) => { console.log(res); setPhotos((prev) => [...prev, res.data.data.url]); })
+        .catch();
+    });
+  };
+
   const content = (
     <div>
-      Write a Review
-      <Characteristics>
+      <h2>About the [PRODUCT NAME]</h2>
+      <Sign>{sign.top}</Sign>
+      <ReviewFormUl>
         <li>
           Overall Rating
+          {' '}
+          <Sign>{sign.star}</Sign>
           <div className="stars">
-            <form action="" onChange={(e) => { setRating(e.target.value); }}>
+            <form
+              action=""
+              onChange={(e) => {
+                setRating(e.target.value); setSign((prev) => {
+                  if (e.target.value === '5') {
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Great</a>;
+                  } else if (e.target.value === '4') {
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Good</a>;
+                  } else if (e.target.value === '3') {
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Average</a>;
+                  } else if (e.target.value === '2') {
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Fair</a>;
+                  } else {
+                    prev.star = <a style={{ color: 'green', margin: '0' }}>Poor</a>;
+                  }
+                  return prev;
+                });
+              }}
+            >
               <input className="star star-5" id="star-5" type="radio" name="star" value="5" />
               <label className="star star-5" htmlFor="star-5">
                 <input className="hidden" />
@@ -70,6 +157,7 @@ const ReviewForm = ({ productID, writable, setisWritable, char }) => {
         </li>
         <li>
           Do you recommend this product?
+          <Sign className={(recommend.length !== 0) ? 'hidden' : ''}>{sign.recommend}</Sign>
           <form onChange={(e) => { setRecommend(e.target.value); }}>
             <input type="radio" name="recommendation" value="true" />
             Yes
@@ -77,90 +165,377 @@ const ReviewForm = ({ productID, writable, setisWritable, char }) => {
             No
           </form>
         </li>
-        <li>
-          Characteristics
-          <Characteristics>
-            <li className={(!char.Size) ? 'hidden' : ''}>
-              Size
-              <input type="radio" name="size" value="5" />
-              <input type="radio" name="size" value="4" />
-              <input type="radio" name="size" value="3" />
-              <input type="radio" name="size" value="2" />
-              <input type="radio" name="size" value="1" />
-            </li>
-            <li className={(!char.Width) ? 'hidden' : ''}>
-              Width
-              <input type="radio" name="width" value="5" />
-              <input type="radio" name="width" value="4" />
-              <input type="radio" name="width" value="3" />
-              <input type="radio" name="width" value="2" />
-              <input type="radio" name="width" value="1" />
-            </li>
-            <li className={(!char.Comfort) ? 'hidden' : ''}>
-              Comfort
-              <input type="radio" name="comfort" value="5" />
-              <input type="radio" name="comfort" value="4" />
-              <input type="radio" name="comfort" value="3" />
-              <input type="radio" name="comfort" value="2" />
-              <input type="radio" name="comfort" value="1" />
-            </li>
-            <li className={(!char.Quality) ? 'hidden' : ''} onChange={(e) => setQuality(e.target.value)}>
-              Quality
-              <input type="radio" name="quality" value="5" />
-              <input type="radio" name="quality" value="4" />
-              <input type="radio" name="quality" value="3" />
-              <input type="radio" name="quality" value="2" />
-              <input type="radio" name="quality" value="1" />
-            </li>
-            <li className={(!char.Length) ? 'hidden' : ''}>
-              Length
-              <input type="radio" name="length" value="5" />
-              <input type="radio" name="length" value="4" />
-              <input type="radio" name="length" value="3" />
-              <input type="radio" name="length" value="2" />
-              <input type="radio" name="length" value="1" />
-            </li>
-            <li className={(!char.Fit) ? 'hidden' : ''}>
-              Fit
-              <input type="radio" name="fit" value="5" />
-              <input type="radio" name="fit" value="4" />
-              <input type="radio" name="fit" value="3" />
-              <input type="radio" name="fit" value="2" />
-              <input type="radio" name="fit" value="1" />
-            </li>
-          </Characteristics>
-        </li>
+        Characteristics
+        <Characteristics style={{ textAlign: 'center' }}>
+          <thead>
+            <tr>
+              <CharTd>&nbsp;</CharTd>
+              <CharTd>1</CharTd>
+              <CharTd>2</CharTd>
+              <CharTd>3</CharTd>
+              <CharTd>4</CharTd>
+              <CharTd>5</CharTd>
+            </tr>
+          </thead>
+          <tbody
+            className={(!char.Size) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const sizeID = (char.Size.id).toString();
+                prev[sizeID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Size</b></CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="5" />
+                <br />
+                A size too small
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="4" />
+                <br />
+                ½ a size too small
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="3" />
+                <br />
+                Prefect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="2" />
+                <br />
+                ½ a size too big
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="size" value="1" />
+                <br />
+                A size too wide
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Width) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const widthID = (char.Width.id).toString();
+                prev[widthID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Width</b></CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="1" />
+                <br />
+                Too narrow
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="2" />
+                <br />
+                Slightly narrow
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="3" />
+                <br />
+                Perfect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="4" />
+                <br />
+                Slightly wide
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="width" value="5" />
+                <br />
+                Too wide
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Comfort) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const qualityID = (char.Comfort.id).toString();
+                prev[qualityID] = Number(e.target.value);
+                return prev;
+              });
+              setSign((prev) => {
+                prev.comfort = '';
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd>
+                <b>Comfort</b>
+                <br />
+                {/* <Sign>{sign.comfort}</Sign> */}
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="1" />
+                <br />
+                Uncomfortable
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="2" />
+                <br />
+                Slightly uncomfortable
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="3" />
+                <br />
+                Ok
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="4" />
+                <br />
+                Comfortable
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="comfort" value="5" />
+                <br />
+                Perfect
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Quality) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const qualityID = (char.Quality.id).toString();
+                prev[qualityID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Quality</b></CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="1" />
+                <br />
+                Poor
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="2" />
+                <br />
+                Below average
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="3" />
+                <br />
+                What I expected
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="4" />
+                <br />
+                Pretty great
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="quality" value="5" />
+                <br />
+                Perfect
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Length) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const lengthID = (char.Length.id).toString();
+                prev[lengthID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd>
+                <b>Length</b>
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="1" />
+                <br />
+                Runs Short
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="2" />
+                <br />
+                Runs slightly short
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="3" />
+                <br />
+                Perfect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="4" />
+                <br />
+                Runs slightly long
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="length" value="5" />
+                <br />
+                Runs long
+              </CharTd>
+            </tr>
+          </tbody>
+          <tbody
+            className={(!char.Fit) ? 'hidden' : ''}
+            onChange={(e) => {
+              setCharacteristics((prev) => {
+                const fitID = (char.Fit.id).toString();
+                prev[fitID] = Number(e.target.value);
+                return prev;
+              });
+            }}
+          >
+            <tr>
+              <CharTd><b>Fit</b></CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="1" />
+                <br />
+                Runs tight
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="2" />
+                <br />
+                Runs slightly tight
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="3" />
+                <br />
+                Perfect
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="4" />
+                <br />
+                Runs slightly long
+              </CharTd>
+              <CharTd>
+                <input type="radio" name="fit" value="5" />
+                <br />
+                Runs long
+              </CharTd>
+            </tr>
+          </tbody>
+        </Characteristics>
+
         <li>Review summary</li>
+        <Sign className={(summary.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>
         <li>
-          <input type="text" maxLength="60" placeholder="Example: Best purchase ever!" onChange={(e) => setSummary(e.target.value)} />
+          <input type="text" maxLength="60" placeholder="Example: Best purchase ever!" style={{ width: '90%' }} onChange={(e) => setSummary(e.target.value)} />
         </li>
         <li>Review body</li>
+        <Sign>{sign.body}</Sign>
         <li>
-          <input type="text" maxLength="1000" placeholder="Why did you like the product or not?" onChange={(e) => { setBody(e.target.value); }} />
+          <input
+            type="text"
+            maxLength="1000"
+            placeholder="Why did you like the product or not?"
+            style={{ width: '90%', height: '100px' }}
+            onChange={(e) => {
+              setBody(e.target.value);
+              setSign((prev) => {
+                if (e.target.value.length < 50) {
+                  const remainTextNum = 50 - e.target.value.length;
+                  prev.body = `Minimum required character left: [${remainTextNum}]`;
+                } else {
+                  prev.body = <a style={{ color: 'green', margin: '0' }}>Minimum reached</a>;
+                }
+                return prev;
+              });
+            }}
+          />
         </li>
         <li>Upload your photos</li>
+        <Sign style={{ color: 'green' }}>Maximum 5 photos</Sign>
         <li>
-          <button type="submit">
-            Update
-          </button>
+          <div className={selectPhoto.length === 5 || isupload ? 'hidden' : ''}>
+            <input
+              className="hidden"
+              type="file"
+              id="image_input"
+              accept="image/png, image/jpg"
+              onChange={(e) => {
+                setSelectPhoto((prev) => [...prev, (e.target.files[0])]);
+              }}
+            />
+            <button><label htmlFor="image_input">Choose Photos</label></button>
+
+          </div>
+          <Photos>
+            {selectPhoto.map((photo) => (
+              <div style={{ position: 'relative' }}>
+                <button className={isupload ? 'hidden' : ''} style={{ position: 'absolute', right: '0' }} onClick={() => { setSelectPhoto(selectPhoto.filter((item) => item !== photo)); }}>X</button>
+                <img
+                  style={{ width: '120px' }}
+                  src={URL.createObjectURL(photo)}
+                />
+
+              </div>
+            ))}
+
+          </Photos>
+          <button className={isupload ? 'hidden' : ''} onClick={() => handleUpload()}>Upload</button>
+
         </li>
+
         <li>What is your nickname</li>
-        <input type="text" maxLength="60" placeholder="Example: jackson11!" onChange={(e) => setName(e.target.value)} />
-        <li>For privacy reasons, do not use your full name or email address</li>
-        <li>Your email</li>
-        <li><input type="email" placeholder="Example: jackson11@email.com" onChange={(e) => setEmail(e.target.value)} /></li>
-        <li>For authentication reasons, you will not be emailed</li>
+        <Sign className={(name.length !== 0) ? 'hidden' : ''}>{sign.summary}</Sign>
+        <input type="text" maxLength="60" placeholder="Example: jackson11!" style={{ width: '90%' }} onChange={(e) => setName(e.target.value)} />
         <li>
-          <button type="submit" onClick={() => { setisWritable(false); handleSubmit(); }}>
+          <p style={{
+            margin: '0', fontSize: '5px', position: 'absolute', right: '10%', textAlign: 'center',
+          }}
+          >
+            For privacy reasons, do not use your full name or email address
+          </p>
+        </li>
+        <li>Your email</li>
+        <Sign><i>{sign.email}</i></Sign>
+        <li>
+          <input
+            type="email"
+            placeholder="Example: jackson11@email.com"
+            style={{ width: '90%' }}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              setSign((prev) => {
+                if ((!e.target.value.includes('@')) || (!e.target.value.includes('.'))) {
+                  prev.email = 'Not a valid email';
+                } else {
+                  prev.email = '';
+                }
+                return prev;
+              });
+            }}
+          />
+
+        </li>
+        <li>
+
+          <p style={{
+            margin: '0', fontSize: '5px', position: 'absolute', right: '10%', textAlign: 'center',
+          }}
+          >
+            For authentication reasons, you will not be emailed
+          </p>
+        </li>
+
+        <li>
+          <button type="submit" onClick={() => { handleSubmit(); }}>
             Submit review
           </button>
         </li>
-      </Characteristics>
+      </ReviewFormUl>
     </div>
   );
   return (
     <div>
-      <Modal title="write a review" content={content} onClose={setisWritable} writable={writable} />
+      <Modal title="Write Your Review" content={content} onClose={setisWritable} close={writable} />
     </div>
   );
 };
