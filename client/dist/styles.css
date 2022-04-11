@@ -1,7 +1,4 @@
 
-.container {
-  padding: 50px 40px 10px 40px ;
-}
 
 .navbar {
   display: flex;
@@ -15,10 +12,19 @@
   text-decoration: none;
 }
 
+.overview-body {
+  display: flex;
+  width: 100%;
+  margin-bottom: 50px;
+  padding-top: 60px;
+  height: 600px;
+  justify-content: space-around;
+}
+
 .brand {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 32px;
+  font-size: 28px;
 
 }
 
@@ -27,9 +33,6 @@
   align-items: center;
 }
 
-.price {
-  font-size: 24px;
-}
 
 .cart {
   margin-left: 15px;
@@ -39,8 +42,8 @@
 .dark-mode-btn {
   display: flex;
   align-items: center;
-  width: 70px;
-  height: 40px;
+  width: 45px;
+  height: 25px;
   background: #3C3C3C;
   border-radius: 25px;
   z-index: 1;
@@ -48,51 +51,17 @@
 
 .dark-mode-toggle {
   border-radius: 25px;
-  height: 30px;
-  width: 30px;
-  margin-left: 35px;
+  height: 19px;
+  width: 19px;
+  margin-left: 23px;
   background: #DBE2EF;
   z-index: 2;
 }
 
 
-.star {
-  height: 40px;
-}
-
-.overview-body {
-  display: flex;
-  margin-bottom: 50px;
-}
-
-
-
-.img-row {
-  display: flex;
-}
-
-.img {
-  color: white;
-  width: 100%;
-  height: 80vh;
-  margin: 10px;
-  background: purple;
-}
-
-.style-btn {
-  display: flex;
-  font-size: 8px;
-  background: red;
-  margin-right: 10px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50px;
-  justify-content: center;
-  align-items: center;
-}
-
 .size-selector {
   display: flex;
+  flex-direction: column;
 }
 
 .hidden {
@@ -124,8 +93,10 @@ label.star:before {
 .left-div {
   display: flex;
   width: 60%;
+  overflow-y: none;
 }
 
 .right-div {
-  width: 450px;
+  width: 400px;
 }
+
