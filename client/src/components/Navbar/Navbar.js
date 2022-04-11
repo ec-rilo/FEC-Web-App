@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTransition, animated } from 'react-spring';
 
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from '../globalStyles.js';
@@ -25,7 +26,6 @@ function Navbar(props) {
             <div className="dark-mode-btn" onClick={themeToggler}>
               <div className="dark-mode-toggle" />
             </div>
-            {/* <span className="sign-in">Sign In</span> */}
           </div>
         </div>
       </>

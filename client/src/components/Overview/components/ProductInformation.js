@@ -22,7 +22,6 @@ color: #747571;
 
 function ProductInformation({ styles, product, currentStyleIndex }) {
   if (!styles?.length) return null;
-  // console.log(styles[currentStyleIndex]);
   return (
     <>
       <ProductCategory>{product?.category}</ProductCategory>

@@ -12,7 +12,6 @@ function MainImage({ image }) {
         width: '550px',
         position: 'relative',
         transform: 'translateX(-40px)',
-        // backgroundSize: 'cover',
       }}
     >
       <img
@@ -24,7 +23,6 @@ function MainImage({ image }) {
           cursor: `${showMagnifier ? 'zoom-out' : 'zoom-in'}`,
         }}
         onClick={(e) => {
-          // update image size and turn-on magnifier
           const elem = e.currentTarget;
           const { width, height } = elem.getBoundingClientRect();
           setSize([width, height]);
@@ -38,7 +36,6 @@ function MainImage({ image }) {
           setXY([x, y]);
         }}
         onMouseLeave={() => {
-          // close magnifier
           setShowMagnifier(false);
         }}
         alt="img"
@@ -48,26 +45,16 @@ function MainImage({ image }) {
         style={{
           display: showMagnifier ? '' : 'none',
           position: 'absolute',
-
-          // prevent magnifier blocks the mousemove event of img
           pointerEvents: 'none',
-          // set size of magnifier
           height: `${600}px`,
           width: `${550}px`,
           transform: 'translateY(-606.5px)',
-          // move element center to cursor pos
-          // top: `${y - 600 / 2}px`,
-          // left: `${x - 550 / 2}px`,
           backgroundImage: `url('${image}')`,
           backgroundRepeat: 'no-repeat',
           backgroundColor: 'blue',
-
-          // calculate zoomed image size
           backgroundSize: `${imgWidth * 2.5}px ${
             imgHeight * 2.5
           }px`,
-
-          // calculate position of zoomed image.
           backgroundPositionX: `${-x * 2.5 / 1.7}px`,
           backgroundPositionY: `${-y * 2.5 / 1.7}px`,
         }}
@@ -75,47 +62,5 @@ function MainImage({ image }) {
     </div>
   );
 }
-
-// function MainImage({ image }) {
-//   const [[x, y], setXY] = useState([0, 0]);
-//   // const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
-//   const [style, setStyle] = useState({});
-//   const [isZoomed, setIsZoomed] = useState(false);
-
-//   useEffect(() => {
-//     if (isZoomed) {
-//       zoom();
-//     }
-//   }, [x, y]);
-
-//   function zoom() {
-//     setStyle({
-//       // width: `${550 * 1.5}px`,
-//       // height: `${600 * 1.5}px`,
-//       // backgroundImage: `url(${image})`,
-//       backgroundSize: `${600 * 2}px ${
-//         550 * 2}px`,
-//       // transform: 'scale(2)',
-//       backgroundRepeat: 'no-repeat',
-//       // backgroundSize: 'cover',
-//       // backgroundPosition: 'center',
-//       // overflowX: 'hidden',
-//       // overflowY: 'hidden',
-//       backgroundPositionX: `${-x - 550 / 2}px`,
-//       backgroundPositionY: `${-y - 600 / 2}px`,
-//     });
-//   }
-
-//   function handleMouseMove(e) {
-//     const { top, left } = e.currentTarget.getBoundingClientRect();
-//     const x = e.pageX - left - window.pageXOffset;
-//     const y = e.pageY - top - window.pageYOffset;
-//     setXY([x, y]);
-//   }
-
-//   return (
-//     <DefaultView onClick={() => setIsZoomed((prevZoomed) => !prevZoomed)} onMouseMove={(e) => handleMouseMove(e)} onMouseLeave={() => setIsZoomed(false)} style={style} image={image} />
-//   );
-// }
 
 export default MainImage;

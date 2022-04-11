@@ -55,7 +55,6 @@ function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
         }}
         >
           Style
-
         </div>
         {' '}
         {styles[currentStyleIndex].name}
@@ -68,7 +67,6 @@ function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
             styles={style}
             onClick={() => handleClick(i)}
             onMouseEnter={() => handleMouseEnter(i)}
-            // onMouseLeave={() => handleMouseLeave()}
             key={i}
             style={i === currentStyleIndex
               ? { boxShadow: '0 0 0 3px white, 0 0 0 4px black' }
