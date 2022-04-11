@@ -15,7 +15,7 @@
 .overview-body {
   display: flex;
   width: 100%;
-  margin-bottom: 50px;
+  margin-bottom: 100px;
   padding-top: 60px;
   height: 600px;
   justify-content: space-around;
@@ -24,7 +24,7 @@
 .brand {
   font-family: 'Poppins', sans-serif;
   font-weight: 500;
-  font-size: 28px;
+  font-size: 24px;
 
 }
 
@@ -93,7 +93,6 @@ label.star:before {
 .left-div {
   display: flex;
   width: 60%;
-  overflow-y: none;
 }
 
 .right-div {

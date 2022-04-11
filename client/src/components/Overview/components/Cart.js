@@ -83,7 +83,7 @@ function Cart({ styles, currentStyleIndex }) {
             key={i}
             style={
               sku === cart.sku
-                ? { border: '1.5px solid #616912' }
+                ? { border: '1.5px solid #333333' }
                 : null
             }
           >

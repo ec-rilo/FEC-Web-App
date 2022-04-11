@@ -16,6 +16,7 @@ const QAContainer = styled.div`
   border-radius: 3px;
   border-color: red;
   background-color: #eee;
+  width: 1000px;
   margin: 0 1em;
   padding: 0.25em 1em;
 `;
@@ -73,6 +74,7 @@ const Questions = () => {
 
   return (
     <QAContainer>
+      <h3>Questions & Answers</h3>
       {(questions.length
         && (
         <>

@@ -8,7 +8,6 @@ import Reviews from './Reviews.js';
 import Questions from './QandA/Questions';
 import RelatedItems from './RelatedItems.js';
 
-
 import { GlobalStyles } from './globalStyles.js';
 import { lightTheme, darkTheme } from './Themes';
 
@@ -18,6 +17,7 @@ flex-direction: column;
 align-items: center;
 width: 1280px;
 margin-left: 40px;
+align-items: center;
 `;
 
 function App() {
@@ -42,7 +42,7 @@ function App() {
         <Navbar>Threads</Navbar>
         <Container>
           <Overview product={product} />
-          <RelatedItems />
+          {/* <RelatedItems /> */}
           <Questions />
           <Reviews />
         </Container>
