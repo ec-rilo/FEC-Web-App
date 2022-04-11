@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
-import ProductInformation from './components/ProductInformation.js';
-import StyleSelector from './components/StyleSelector.js';
-import Cart from './components/Cart.js';
-import ImageGallery from './components/ImageGallery.js';
+import ProductInformation from './components/ProductInformation';
+import StyleSelector from './components/StyleSelector';
+import Cart from './components/Cart';
+import ImageGallery from './components/ImageGallery';
 
 function Overview({ product }) {
   const [styles, setStyles] = useState({});
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
 
   useEffect(() => {
-    if (product == null) {
+    if (product === {}) {
       return;
     }
     axios.get(`/products/${product.id}/styles`)
@@ -23,9 +24,9 @@ function Overview({ product }) {
       });
   }, [product]);
 
-  function selectStyle(newStyleIndex) {
+  const selectStyle = (newStyleIndex) => {
     setCurrentStyleIndex(newStyleIndex);
-  }
+  };
 
   return (
     <div className="overview-body">
@@ -53,5 +54,9 @@ function Overview({ product }) {
     </div>
   );
 }
+
+Overview.propTypes = {
+  product: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default Overview;

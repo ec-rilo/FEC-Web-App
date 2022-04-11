@@ -6,24 +6,43 @@ import AskQuestion from './AskQuestion';
 import QuestionSearch from './QuestionSearch';
 import QuestionsList from './QuestionsList';
 import MoreQuestionsButton from './MoreQuestionsButton';
+import { Line } from '../presentation/Line.styles';
 
 const LIMIT_INCREMENT = 2;
 
 // This is just for me to quickly see my own work. This will be removed.
 const QAContainer = styled.div`
   background: transparent;
-  color: #111;
+  /* color: #111; */
   border-radius: 3px;
   border-color: red;
-  background-color: #eee;
+  /* background-color: #eee; */
   width: 1000px;
   margin: 0 1em;
   padding: 0.25em 1em;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ButtonContainer = styled.div`
   width: 100%;
   text-align: center;
+`;
+
+const QABody = styled.div`
+display: flex;
+`;
+
+const QALeftDiv = styled.div`
+display: flex;
+flex-direction: column;
+width: 20%;
+margin-right: 20px;
+`;
+
+const QARightDiv = styled.div`
+display: flex;
+flex-direction: column;
 `;
 
 const Questions = () => {
@@ -74,28 +93,36 @@ const Questions = () => {
 
   return (
     <QAContainer>
-      <h3>Questions & Answers</h3>
-      {(questions.length
-        && (
-        <>
+      <Line />
+      <h3 style={{ marginBottom: '5px' }}>Questions & Answers</h3>
+      <AskQuestion productID={productID} />
+      <QABody>
+        <QALeftDiv>
           <QuestionSearch setQuestionFilter={setQuestionFilter} />
-          <QuestionsList
-            questions={filteredQuestions}
-            displayLimit={questionsDisplayLimit}
-            productID={productID}
-          />
-          <ButtonContainer>
-            <MoreQuestionsButton
-              numberQuestions={numberQuestions}
+        </QALeftDiv>
+        <QARightDiv>
+          {(questions.length
+          && (
+          <>
+            <QuestionsList
+              questions={filteredQuestions}
               displayLimit={questionsDisplayLimit}
-              setDisplayLimit={setQuestionsDisplayLimit}
+              productID={productID}
             />
-          </ButtonContainer>
-        </>
-        )) || null}
-      <ButtonContainer>
-        <AskQuestion productID={productID} />
-      </ButtonContainer>
+            <ButtonContainer>
+              <MoreQuestionsButton
+                numberQuestions={numberQuestions}
+                displayLimit={questionsDisplayLimit}
+                setDisplayLimit={setQuestionsDisplayLimit}
+              />
+            </ButtonContainer>
+          </>
+          )) || null}
+          {/* <ButtonContainer>
+          <AskQuestion productID={productID} />
+        </ButtonContainer> */}
+        </QARightDiv>
+      </QABody>
     </QAContainer>
   );
 };
