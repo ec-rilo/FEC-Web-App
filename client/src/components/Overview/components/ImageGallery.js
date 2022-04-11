@@ -1,31 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { ChevronLeft } from '@heroicons/react/solid';
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid';
 import styled from 'styled-components';
 import VerticalCarousel from './VerticalCarousel.js';
 import MainImage from './MainImage.js';
 
-const ProductImage = styled.div`
-width: 500px;
-height: 100%;
-background-image: ${(props) => `url(${props.image})`};
-background-size: cover;
-background-position: center;
-`;
-
 const LeftArrow = styled.div`
 width: 50px;
 height: 100%;
-background: green;
-opacity: 0.5;
-/* transform: translateX(50px); */
+display: flex;
+justify-content: center;
+transform: translateX(10px);
+z-index: 1;
 `;
 
 const RightArrow = styled.div`
 width: 50px;
 height: 100%;
-background: green;
-opacity: 0.5;
-/* transform: translateX(-50px); */
+display: flex;
+justify-content: center;
+transform: translateX(-90px);
 `;
 
 function ImageGallery({ styles, currentStyleIndex }) {
@@ -57,10 +50,28 @@ function ImageGallery({ styles, currentStyleIndex }) {
     <div className="left-div">
       <VerticalCarousel styles={styles} currentStyleIndex={currentStyleIndex} image={image} setImg={setImg} />
       <LeftArrow onClick={prevImg}>
-        {/* <ChevronLeft /> */}
+        {image > 0
+          ? (
+            <ChevronLeftIcon style={{
+              color: 'white',
+              cursor: 'pointer',
+            }}
+            />
+          )
+          : null}
       </LeftArrow>
       <MainImage image={styles?.[currentStyleIndex]?.photos[image]?.url} />
-      <RightArrow onClick={nextImg} />
+      <RightArrow onClick={nextImg}>
+        { image < styles?.[currentStyleIndex]?.photos?.length - 1
+          ? (
+            <ChevronRightIcon style={{
+              color: 'white',
+              cursor: 'pointer',
+            }}
+            />
+          )
+          : null}
+      </RightArrow>
     </div>
   );
 }

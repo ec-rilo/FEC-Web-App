@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/solid';
 
 const Carousel = styled.div`
 height: 100%;
 width: 80px;
-background: purple;
+display: flex;
+flex-direction: column;
+z-index: 1;
+justify-content: space-around;
 
 .current {
-  border: 1px solid red
+  border: 2px solid black
 }
 `;
 
@@ -39,15 +43,43 @@ function VerticalCarousel({
 
   return (
     <Carousel>
-      <div onClick={prevPhoto}>arrow</div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '25px',
+          cursor: 'pointer',
+        }}
+        onClick={prevPhoto}
+      >
+        <ChevronUpIcon
+          style={display > 0
+            ? { height: '40px' }
+            : { height: '40px', color: '#dcdddb', cursor: 'auto' }}
+        />
+      </div>
       {styles[currentStyleIndex].photos.map((photo, i) => (
         (i >= display && i <= display + 5)
           ? (<StyleImg className={image === i ? 'current' : ''} onClick={() => setImg(i)} photo={photo.url} key={i} />)
           : null
       ))}
-      { styles[currentStyleIndex].photos.length >= 6
-        ? <div onClick={nextPhoto}>arrow</div>
-        : null}
+      <div
+        onClick={nextPhoto}
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '25px',
+          cursor: 'pointer',
+        }}
+      >
+        <ChevronDownIcon
+          style={display !== length - 6
+            ? { height: '40px' }
+            : { height: '40px', color: '#dcdddb', cursor: 'auto' }}
+        />
+      </div>
     </Carousel>
   );
 }

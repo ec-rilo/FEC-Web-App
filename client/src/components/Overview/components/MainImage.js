@@ -1,14 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-// const DefaultView = styled.img`
-// width: 500px;
-// height: 100%;
-// background-image: ${(props) => `url(${props.image})`};
-// background-size: cover;
-// background-position: center;
-// `;
-
 function MainImage({ image }) {
   const [[x, y], setXY] = useState([0, 0]);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
@@ -17,8 +9,9 @@ function MainImage({ image }) {
     <div
       style={{
         height: '600px',
-        width: '500px',
+        width: '550px',
         position: 'relative',
+        transform: 'translateX(-40px)',
         // backgroundSize: 'cover',
       }}
     >
@@ -60,11 +53,11 @@ function MainImage({ image }) {
           pointerEvents: 'none',
           // set size of magnifier
           height: `${600}px`,
-          width: `${500}px`,
+          width: `${550}px`,
           transform: 'translateY(-606.5px)',
           // move element center to cursor pos
           // top: `${y - 600 / 2}px`,
-          // left: `${x - 500 / 2}px`,
+          // left: `${x - 550 / 2}px`,
           backgroundImage: `url('${image}')`,
           backgroundRepeat: 'no-repeat',
           backgroundColor: 'blue',
@@ -97,18 +90,18 @@ function MainImage({ image }) {
 
 //   function zoom() {
 //     setStyle({
-//       // width: `${500 * 1.5}px`,
+//       // width: `${550 * 1.5}px`,
 //       // height: `${600 * 1.5}px`,
 //       // backgroundImage: `url(${image})`,
 //       backgroundSize: `${600 * 2}px ${
-//         500 * 2}px`,
+//         550 * 2}px`,
 //       // transform: 'scale(2)',
 //       backgroundRepeat: 'no-repeat',
 //       // backgroundSize: 'cover',
 //       // backgroundPosition: 'center',
 //       // overflowX: 'hidden',
 //       // overflowY: 'hidden',
-//       backgroundPositionX: `${-x - 500 / 2}px`,
+//       backgroundPositionX: `${-x - 550 / 2}px`,
 //       backgroundPositionY: `${-y - 600 / 2}px`,
 //     });
 //   }
