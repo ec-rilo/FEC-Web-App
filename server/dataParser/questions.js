@@ -1,18 +1,12 @@
-const axios = require('axios');
-const Promise = require('bluebird');
-
-const url = 'https://app-hrsei-api.herokuapp.com/api/fec2/rfp';
-
-const config = {
-  headers: {
-    Authorization: process.env.GIT_TOKEN,
-  },
-};
+const heroku = require('../apis/heroku');
 
 module.exports = {
-  fetchQuestionsData(productID = 65632, page = 1, count = 5) {
+  fetchQuestionsData(productID = 65632, page = null, count = null) {
+    const URL = (page && count)
+      ? `/qa/questions?product_id=${productID}&page=${page}&count=${count}`
+      : `/qa/questions?product_id=${productID}&count=999999`;
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/qa/questions?product_id=${productID}&page=${page}&count=${count}`, config)
+      heroku.get(URL)
         .then((res) => resolve(res.data))
         .catch((err) => reject(err));
     });
@@ -20,7 +14,7 @@ module.exports = {
 
   fetchAnswerData(questionID = 573876) {
     return new Promise((resolve, reject) => {
-      axios.get(`${url}/qa/questions/${questionID}/answers`, config)
+      heroku.get(`/qa/questions/${questionID}/answers`)
         .then((res) => resolve(res.data))
         .catch((err) => reject(err));
     });
@@ -28,7 +22,7 @@ module.exports = {
 
   addQuestion(data) {
     return new Promise((resolve, reject) => {
-      axios.post(`${url}/qa/questions`, data, config)
+      heroku.post('/qa/questions', data)
         .then((res) => resolve(res.data))
         .catch((err) => reject(err));
     });
@@ -36,7 +30,7 @@ module.exports = {
 
   addAnswer(questionID, data) {
     return new Promise((resolve, reject) => {
-      axios.post(`${url}/qa/questions/${questionID}/answers`, data, config)
+      heroku.post(`/qa/questions/${questionID}/answers`, data)
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -44,7 +38,7 @@ module.exports = {
 
   makeQuestionAsHelpful(questionID) {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/qa/questions/${questionID}/helpful`, '', config)
+      heroku.put(`/qa/questions/${questionID}/helpful`, '')
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -52,14 +46,14 @@ module.exports = {
 
   reportQuestion(questionID) {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/qa/questions/${questionID}/report`, '', config)
+      heroku.put(`/qa/questions/${questionID}/report`, '')
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
   },
   makeAnswerAsHelpful(answerID) {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/qa/answers/${answerID}/helpful`, '', config)
+      heroku.put(`/qa/answers/${answerID}/helpful`, '')
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });
@@ -67,7 +61,7 @@ module.exports = {
 
   reportAnswer(answerID) {
     return new Promise((resolve, reject) => {
-      axios.put(`${url}/qa/answers/${answerID}/report`, '', config)
+      heroku.put(`/qa/answers/${answerID}/report`, '')
         .then((res) => resolve(res))
         .catch((err) => reject(err));
     });

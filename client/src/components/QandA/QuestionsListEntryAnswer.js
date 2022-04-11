@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import moment from 'moment';
 import axios from 'axios';
+import { LinkButton } from '../presentation/Button.styles';
+import ThumbnailBar from './ThumbnailBar';
 
 const AnswerText = styled.p`
   padding: 0;
@@ -22,10 +25,11 @@ const QuestionListEntryAnswer = ({ answer }) => {
   const [markedHelpful, setMarkedHelpful] = useState(false);
   const [reported, setReported] = useState(false);
 
-  let {
-    id, body, date, answerer_name, helpfulness, photos,
+  const {
+    body, answerer_name: answererName, helpfulness, photos,
   } = answer;
-  date = moment(date).format('MMMM dS, yyyy');
+  let { date } = answer;
+  date = moment(date, 'YYYY-MM-DDT00:00.00.000Z').format('MMMM DD, yyyy');
 
   const sendReport = () => {
     axios.put(`/qa/answers/${answer.id}/report`)
@@ -43,37 +47,30 @@ const QuestionListEntryAnswer = ({ answer }) => {
 
   const reportAnswer = reported
     ? <Report>Reported</Report>
-    : <button type="button" onClick={sendReport}>Report</button>;
+    : <LinkButton type="button" onClick={sendReport}>Report</LinkButton>;
+
+  const user = (answererName === 'Seller')
+    ? <b>Seller</b>
+    : answererName;
 
   return (
     <>
-      {/* {JSON.stringify(answer, null, 2)} */}
       <AnswerText>{body}</AnswerText>
+      <ThumbnailBar thumbnails={photos} clickable />
       <ByLine>
-        by
-        {' '}
-        {answerer_name}
-        ,
-        {' '}
-        {date}
-        {' '}
-        |
-        Helpful?
-        {' '}
-        <button
-          type="button"
-          onClick={markHelpful}
-        >
-          Yes
-        </button>
-        {' '}
-        (
-        {helpfulness + markedHelpful}
-        ) |&nbsp;
+        {'by '}
+        {user}
+        {`, ${date} | Helpful? `}
+        <LinkButton type="button" onClick={markHelpful}>Yes</LinkButton>
+        {` (${helpfulness + markedHelpful}) | `}
         {reportAnswer}
       </ByLine>
     </>
   );
+};
+
+QuestionListEntryAnswer.propTypes = {
+  answer: PropTypes.instanceOf(Object).isRequired,
 };
 
 export default QuestionListEntryAnswer;
