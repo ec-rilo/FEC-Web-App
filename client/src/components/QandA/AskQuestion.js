@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '../Modal';
 import AskQuestionModalContent from './AskQuestionModalContent';
-import { Button } from '../presentation/Button.styles';
+import { LinkButton } from '../presentation/Button.styles';
 
 const AskQuestion = ({ productID }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
-      <Button onClick={() => setIsModalOpen(true)}>Ask a question</Button>
+      <LinkButton style={{ fontSize: '14px', marginBottom: '10px' }} onClick={() => setIsModalOpen(true)}>Ask a question</LinkButton>
       {isModalOpen
         && (
         <Modal

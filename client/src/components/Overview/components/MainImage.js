@@ -51,7 +51,6 @@ function MainImage({ image }) {
           transform: 'translateY(-606.5px)',
           backgroundImage: `url('${image}')`,
           backgroundRepeat: 'no-repeat',
-          backgroundColor: 'blue',
           backgroundSize: `${imgWidth * 2.5}px ${
             imgHeight * 2.5
           }px`,

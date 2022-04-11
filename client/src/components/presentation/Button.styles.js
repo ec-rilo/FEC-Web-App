@@ -5,8 +5,8 @@ export const Button = styled.button`
   border-radius: 50px;
   margin: 0 1em;
   padding: 0.75em 2em;
-  border-color: #333333;
-  border-style: 1px solid #333333;
+  border-style: none;
+  border: 2px solid #333333;
   font-family: 'Poppins', sans-serif;
 
 `;
@@ -29,10 +29,12 @@ export const LargeButton = styled.button`
 
 export const LinkButton = styled.button`
   all: unset;
-  text-decoration: underline;
+  text-decoration: none;
+  color: #3F72AF;
 
   &:hover {
-    color: #006;
+    color: #3F72AF;
     cursor: pointer;
+    text-decoration: underline;
   }
 `;

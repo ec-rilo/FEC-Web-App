@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import QASearchIcon from '../../assets/qasearchicon.js';
 
 const QuestionInput = styled.input`
   width: 100%;
+  border-radius: 50px;
+  border-style: none;
+  border: 1px solid black;
+  padding: 10px;
 `;
 
 const QuestionSearch = ({ setQuestionFilter }) => {
@@ -25,12 +30,13 @@ const QuestionSearch = ({ setQuestionFilter }) => {
 
   return (
     <div>
+      <QASearchIcon />
       <form onSubmit={handleFormSubmit}>
         <QuestionInput
           type="text"
           value={userQuery}
           onChange={handleInputChange}
-          placeholder="Have a question? Search for answers..."
+          placeholder="Search Keyword"
           autoComplete="off"
         />
       </form>
