@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 
 export const Button = styled.button`
-  background: transparent;
-  color: white;
-  border-radius: 3px;
-  background-color: #112D4E;
+  color: black;
+  border-radius: 50px;
   margin: 0 1em;
-  padding: 0.25em 1em;
+  padding: 0.75em 2em;
+  border-color: #333333;
+  border-style: 1px solid #333333;
+  font-family: 'Poppins', sans-serif;
+
 `;
 
 export const LargeButton = styled.button`

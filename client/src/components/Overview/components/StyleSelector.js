@@ -69,7 +69,7 @@ function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
             onMouseEnter={() => handleMouseEnter(i)}
             key={i}
             style={i === currentStyleIndex
-              ? { boxShadow: '0 0 0 3px white, 0 0 0 4px black' }
+              ? { boxShadow: '0 0 0 3px white, 0 0 0 4px #333333' }
               : null}
           />
         ))}

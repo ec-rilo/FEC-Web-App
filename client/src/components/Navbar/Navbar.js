@@ -4,7 +4,9 @@ import { useTransition, animated } from 'react-spring';
 import { ThemeProvider } from 'styled-components';
 import { GlobalStyles } from '../globalStyles.js';
 import { lightTheme, darkTheme } from '../Themes';
-// import cart from '../../assets/cart.svg';
+import Account from '../../assets/account.js';
+import Cart from '../../assets/cart.js';
+import Search from '../../assets/search.js';
 
 function Navbar(props) {
   const [theme, setTheme] = useState('light');
@@ -20,9 +22,9 @@ function Navbar(props) {
         <div className="navbar">
           <h1 className="brand">Threads</h1>
           <div className="nav-side-btns">
-            {/* <img src="" alt="Search" />
-            <img src={cart} alt="Account" />
-            <img src="" alt="Cart" /> */}
+            <Search />
+            <Account />
+            <Cart />
             <div className="dark-mode-btn" onClick={themeToggler}>
               <div className="dark-mode-toggle" />
             </div>

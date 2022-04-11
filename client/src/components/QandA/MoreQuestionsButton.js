@@ -6,7 +6,7 @@ const LIMIT_INCREMENT = 2;
 
 const MoreQuestionsButton = ({ numberQuestions, displayLimit, setDisplayLimit }) => {
   const mode = (displayLimit < numberQuestions) ? 'expand' : 'collapse';
-  const buttonText = (mode === 'expand') ? 'MORE ANSWERED QUESTIONS' : 'COLLAPSE QUESTIONS';
+  const buttonText = (mode === 'expand') ? 'Show more Questions & Answers' : 'COLLAPSE QUESTIONS';
 
   const handleButtonClick = () => {
     setDisplayLimit((prevLimit) => ((mode === 'expand')
