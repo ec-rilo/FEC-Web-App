@@ -97,13 +97,9 @@ const ReviewForm = ({
     selectPhoto.forEach((file) => {
       const fd = new FormData();
       fd.append('image', file, file.name);
-      axios.post(`https://api.imgbb.com/1/upload?key=cda55cf36d268bb4dcd2a2841ea5dde5`, fd)
+      axios.post('https://api.imgbb.com/1/upload?key=cda55cf36d268bb4dcd2a2841ea5dde5', fd)
         .then((res) => { console.log(res); setPhotos((prev) => [...prev, res.data.data.url]); })
         .catch();
-
-      // axios.post('/photos', file)
-      //   .then((res) => { console.log(res); setPhotos((prev) => [...prev, res.data.data.url]); })
-      //   .catch();
     });
   };
 

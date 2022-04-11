@@ -30,7 +30,7 @@ const ReviewDiv = styled.div`
 `;
 
 const Reviews = ({ productID }) => {
-  productID = productID || 65631;
+  productID = productID || 65635;
   // 65635 meta and reviews count are not the same
   // 65632 for testing the response
   // 65640 for testing the add reviews button
@@ -39,7 +39,7 @@ const Reviews = ({ productID }) => {
   const [reviewsData, setReviewsData] = useState([]);
   const [dataUpdate, setDataUpdate] = useState('');
   const [sort, setSort] = useState('relevant');
-  const [totalCount, setTotalCount] = useState(2);
+  const [totalCount, setTotalCount] = useState(0);
   const [aveRate, setAveRate] = useState(0);
   const [recomPer, setRecomPer] = useState(0);
   const [char, setChar] = useState({});
