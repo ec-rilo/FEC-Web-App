@@ -11,7 +11,7 @@ z-index: 1;
 justify-content: space-around;
 
 .current {
-  border: 2px solid black
+  box-shadow: 0 0 0 2px black inset;
 }
 `;
 
