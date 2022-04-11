@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/react/solid';
+import PropTypes from 'prop-types';
 
 const Carousel = styled.div`
 height: 100%;
@@ -24,22 +25,22 @@ background-position: center;
 `;
 
 function VerticalCarousel({
-  styles, currentStyleIndex, image, selectStyle, setImg,
+  styles, currentStyleIndex, image, setImg,
 }) {
   const [display, setDisplay] = useState(0);
   const { length } = styles[currentStyleIndex].photos;
 
-  function nextPhoto() {
+  const nextPhoto = () => {
     if (display !== length - 6) {
       setDisplay(display === length - 6 ? 0 : display + 1);
     }
-  }
+  };
 
-  function prevPhoto() {
+  const prevPhoto = () => {
     if (display > 0) {
       setDisplay(display === 0 ? 0 : display - 1);
     }
-  }
+  };
 
   return (
     <Carousel>
@@ -52,6 +53,7 @@ function VerticalCarousel({
           cursor: 'pointer',
         }}
         onClick={prevPhoto}
+        aria-hidden="true"
       >
         <ChevronUpIcon
           style={display > 0
@@ -61,7 +63,7 @@ function VerticalCarousel({
       </div>
       {styles[currentStyleIndex].photos.map((photo, i) => (
         (i >= display && i <= display + 5)
-          ? (<StyleImg className={image === i ? 'current' : ''} onClick={() => setImg(i)} photo={photo.url} key={i} />)
+          ? (<StyleImg className={image === i ? 'current' : ''} onClick={() => setImg(i)} photo={photo.url} key={photo.url} />)
           : null
       ))}
       <div
@@ -73,6 +75,7 @@ function VerticalCarousel({
           height: '25px',
           cursor: 'pointer',
         }}
+        aria-hidden="true"
       >
         <ChevronDownIcon
           style={display !== length - 6
@@ -83,5 +86,12 @@ function VerticalCarousel({
     </Carousel>
   );
 }
+
+VerticalCarousel.propTypes = {
+  styles: PropTypes.instanceOf(Object).isRequired,
+  currentStyleIndex: PropTypes.number.isRequired,
+  image: PropTypes.number.isRequired,
+  setImg: PropTypes.func.isRequired,
+};
 
 export default VerticalCarousel;

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 const AddToCartBtn = styled.button`
 color: white;
@@ -67,20 +68,20 @@ function Cart({ styles, currentStyleIndex }) {
     setCart({ sku: cart.sku, quantity: e.target.value });
   }
 
-  function addToCart() {
+  const addToCart = () => {
     axios.post('/cart', { sku_id: cart.sku, count: cart.quantity })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   return (
     <div>
       <Sizes>
-        {Object.keys(styles?.[currentStyleIndex]?.skus).map((sku, i) => (
+        {Object.keys(styles?.[currentStyleIndex]?.skus).map((sku) => (
           <SizeBtn
             onClick={() => selectSku(sku)}
-            key={i}
+            key={sku}
             style={
               sku === cart.sku
                 ? { border: '1.5px solid #333333' }
@@ -92,12 +93,18 @@ function Cart({ styles, currentStyleIndex }) {
         ))}
       </Sizes>
       <Quantity onChange={(e) => handleQuantityChange(e)}>
-        {[...Array(Math.min(cart.quantity, 15)).keys()].map((i) => <option value={i + 1} key={i}>{i + 1}</option>)}
+        {[...Array(Math.min(cart.quantity, 15)).keys()]
+          .map((i) => <option value={i + 1} key={i}>{i + 1}</option>)}
       </Quantity>
       <AddToCartBtn onClick={addToCart}>Add to Cart</AddToCartBtn>
 
     </div>
   );
 }
+
+Cart.propTypes = {
+  styles: PropTypes.instanceOf(Object).isRequired,
+  currentStyleIndex: PropTypes.number.isRequired,
+};
 
 export default Cart;

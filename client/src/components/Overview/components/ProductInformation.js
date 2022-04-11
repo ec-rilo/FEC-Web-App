@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const ProductHeader = styled.div`
 font-size: 24px;
@@ -26,7 +27,7 @@ function ProductInformation({ styles, product, currentStyleIndex }) {
     <>
       <ProductCategory>{product?.category}</ProductCategory>
       <ProductHeader>
-        <label>{product?.name}</label>
+        <span>{product?.name}</span>
         {!styles?.[currentStyleIndex]?.sale_price
           ? `$${styles?.[currentStyleIndex]?.original_price}`
           : (
@@ -45,5 +46,11 @@ function ProductInformation({ styles, product, currentStyleIndex }) {
     </>
   );
 }
+
+ProductInformation.propTypes = {
+  styles: PropTypes.instanceOf(Object).isRequired,
+  currentStyleIndex: PropTypes.number.isRequired,
+  product: PropTypes.instanceOf(Object).isRequired,
+};
 
 export default ProductInformation;

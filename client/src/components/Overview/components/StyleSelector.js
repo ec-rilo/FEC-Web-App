@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const StylesContainer = styled.div`
 width: 210px;
@@ -67,7 +68,7 @@ function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
             styles={style}
             onClick={() => handleClick(i)}
             onMouseEnter={() => handleMouseEnter(i)}
-            key={i}
+            key={style.style_id}
             style={i === currentStyleIndex
               ? { boxShadow: '0 0 0 3px white, 0 0 0 4px #333333' }
               : null}
@@ -77,5 +78,11 @@ function StyleSelector({ styles, selectStyle, currentStyleIndex }) {
     </div>
   );
 }
+
+StyleSelector.propTypes = {
+  styles: PropTypes.instanceOf(Object).isRequired,
+  currentStyleIndex: PropTypes.number.isRequired,
+  selectStyle: PropTypes.func.isRequired,
+};
 
 export default StyleSelector;

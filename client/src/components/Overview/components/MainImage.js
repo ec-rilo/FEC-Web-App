@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 function MainImage({ image }) {
   const [[x, y], setXY] = useState([0, 0]);
   const [[imgWidth, imgHeight], setSize] = useState([0, 0]);
   const [showMagnifier, setShowMagnifier] = useState(false);
+
   return (
     <div
       style={{
@@ -17,8 +18,8 @@ function MainImage({ image }) {
       <img
         src={image}
         style={{
-          height: '100%',
           width: '100%',
+          height: '100%',
           objectFit: 'cover',
           cursor: `${showMagnifier ? 'zoom-out' : 'zoom-in'}`,
         }}
@@ -31,13 +32,14 @@ function MainImage({ image }) {
         onMouseMove={(e) => {
           const elem = e.currentTarget;
           const { top, left } = elem.getBoundingClientRect();
-          const x = e.pageX - left - window.pageXOffset;
-          const y = e.pageY - top - window.pageYOffset;
-          setXY([x, y]);
+          const x1 = e.pageX - left - window.pageXOffset;
+          const y1 = e.pageY - top - window.pageYOffset;
+          setXY([x1, y1]);
         }}
         onMouseLeave={() => {
           setShowMagnifier(false);
         }}
+        aria-hidden="true"
         alt="img"
       />
 
@@ -54,12 +56,16 @@ function MainImage({ image }) {
           backgroundSize: `${imgWidth * 2.5}px ${
             imgHeight * 2.5
           }px`,
-          backgroundPositionX: `${-x * 2.5 / 1.7}px`,
-          backgroundPositionY: `${-y * 2.5 / 1.7}px`,
+          backgroundPositionX: `${(-x * 2.5) / 1.7}px`,
+          backgroundPositionY: `${(-y * 2.5) / 1.7}px`,
         }}
       />
     </div>
   );
 }
+
+MainImage.propTypes = {
+  image: PropTypes.string.isRequired,
+};
 
 export default MainImage;
