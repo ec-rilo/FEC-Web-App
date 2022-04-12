@@ -113,7 +113,7 @@ const Reviews = ({ productID }) => {
     </div>
   ));
   return (
-    <div>
+    <div id="reviews">
       Ratings and Reviews
       <RatingAndReview>
         <RatingBreakdown
