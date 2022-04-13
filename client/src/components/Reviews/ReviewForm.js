@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import styled from 'styled-components';
-import Modal from './ReviewModal';
+import Modal from '../Modal';
 
 const ReviewFormUl = styled.ul`
   list-style-type: none;
@@ -36,7 +36,7 @@ const Photos = styled.div`
 `;
 
 const ReviewForm = ({
-  productID, writable, setisWritable, char, setDataUpdate, setSort,
+  productID, isWritable, setisWritable, char, setDataUpdate, setSort,
 }) => {
   const [summary, setSummary] = useState('');
   const [recommend, setRecommend] = useState('');
@@ -89,7 +89,7 @@ const ReviewForm = ({
       // setPhotos((prev) => [...prev, res.data.data.url]); })
     });
   };
-
+  const onClose = () => { setisWritable(false); };
   const content = (
     <div>
       <h2>About the [PRODUCT NAME]</h2>
@@ -514,14 +514,15 @@ const ReviewForm = ({
   );
   return (
     <div>
-      <Modal title="Write Your Review" content={content} onClose={setisWritable} close={writable} />
+      {(isWritable) ? <Modal title="Write Your Review" content={content} onClose={onClose} /> : ''}
+
     </div>
   );
 };
 
 ReviewForm.propTypes = {
   productID: PropTypes.number.isRequired,
-  writable: PropTypes.string.isRequired,
+  isWritable: PropTypes.bool.isRequired,
   setisWritable: PropTypes.func.isRequired,
   char: PropTypes.instanceOf(Object).isRequired,
   setDataUpdate: PropTypes.func.isRequired,

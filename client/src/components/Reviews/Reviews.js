@@ -151,7 +151,7 @@ const Reviews = ({
       <ReviewForm
         productID={productID}
         setisWritable={setisWritable}
-        writable={writable}
+        isWritable={isWritable}
         char={char}
         setDataUpdate={setDataUpdate}
         setSort={setSort}
