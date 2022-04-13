@@ -26,10 +26,10 @@ const ReviewPhotoEntry = ({ photo }) => {
         {(photoOnClick)
           ? (
             <Modal
-              title="photo"
+              title="Photo"
               content={(
                 <img
-                  style={{ width: '650px' }}
+                  style={{ width: '600px' }}
                   src={photo.url}
                   alt="productPhoto"
                 />
