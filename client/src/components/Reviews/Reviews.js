@@ -33,6 +33,7 @@ const Button = styled.button`
 
 const ReviewDiv = styled.div`
   height: 100vh;
+  width: 100%;
   overflow: auto;
 `;
 
@@ -143,6 +144,7 @@ const Reviews = ({
             length,
             fit,
           }}
+          setTotalCount={setTotalCount}
         />
       </RRTop>
       <ReviewSearch data={data} setReviewsData={setReviewsData} />

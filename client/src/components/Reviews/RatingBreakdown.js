@@ -91,7 +91,7 @@ const Triangle = () => (
 const RatingBreakdown = ({
   data, setReviewsData,
   aveRate, recomPer, star,
-  char,
+  char,setTotalCount
 }) => {
   const [filter, setfilter] = useState([]);
   const [star5onClick, setStar5onClick] = useState(false);
@@ -103,15 +103,18 @@ const RatingBreakdown = ({
   const filterStar = () => {
     if (filter.length === 0) {
       setReviewsData(data);
+      setTotalCount(data.length);
     } else {
       const filerdata = data.filter((review) => filter.includes(review.rating));
       setReviewsData(filerdata);
+      setTotalCount(filerdata.length);
     }
   };
   useEffect(() => {
     if (filter.length > 0) {
       const filerdata = data.filter((review) => filter.includes(review.rating));
       setReviewsData(filerdata);
+      setTotalCount(filerdata.length);
     }
   }, [data]);
   return (
