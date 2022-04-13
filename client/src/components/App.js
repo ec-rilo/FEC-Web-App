@@ -6,7 +6,7 @@ import Navbar from './Navbar/Navbar';
 import Overview from './Overview/Overview';
 import Reviews from './Reviews/Reviews';
 import Questions from './QandA/Questions';
-// import RelatedItems from './RelatedItems';
+import RelatedItems from './RelatedItems';
 
 import { GlobalStyles } from './globalStyles';
 import { lightTheme, darkTheme } from './Themes';
@@ -44,9 +44,10 @@ function App() {
         <Navbar theme={theme}>Threads</Navbar>
         <Container>
           <Overview theme={theme} product={product} aveRate={aveRate} totalCount={totalCount} />
-          {/* <RelatedItems /> */}
+          {/* <RelatedItems productID={productId} /> */}
           <Questions />
           <Reviews
+            product={product}
             productID={productId}
             setAveRate={setAveRate}
             setTotalCount={setTotalCount}

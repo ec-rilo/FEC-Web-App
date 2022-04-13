@@ -36,7 +36,7 @@ const Photos = styled.div`
 `;
 
 const ReviewForm = ({
-  productID, isWritable, setisWritable, char, setDataUpdate, setSort,
+  product, productID, isWritable, setisWritable, char, setDataUpdate, setSort,
 }) => {
   const [summary, setSummary] = useState('');
   const [recommend, setRecommend] = useState('');
@@ -91,7 +91,9 @@ const ReviewForm = ({
   const onClose = () => { setisWritable(false); };
   const content = (
     <div>
-      <h2>About the [PRODUCT NAME]</h2>
+      <h2>
+        {`About the ${product.name}`}
+      </h2>
       <Sign>{topSign}</Sign>
       <ReviewFormUl>
         <li>
@@ -520,6 +522,7 @@ const ReviewForm = ({
 };
 
 ReviewForm.propTypes = {
+  product: PropTypes.instanceOf(Object).isRequired,
   productID: PropTypes.number.isRequired,
   isWritable: PropTypes.bool.isRequired,
   setisWritable: PropTypes.func.isRequired,

@@ -38,7 +38,7 @@ const ReviewDiv = styled.div`
 `;
 
 const Reviews = ({
-  productID, setAveRate, setTotalCount, aveRate, totalCount,
+  product, productID, setAveRate, setTotalCount, aveRate, totalCount,
 }) => {
   const [data, setData] = useState([]);
   const [reviewsData, setReviewsData] = useState([]);
@@ -150,6 +150,7 @@ const Reviews = ({
       <ReviewSearch data={data} setReviewsData={setReviewsData} />
       <ReviewSort changeSort={changeSort} totalCount={totalCount} />
       <ReviewForm
+        product={product}
         productID={productID}
         setisWritable={setisWritable}
         isWritable={isWritable}
