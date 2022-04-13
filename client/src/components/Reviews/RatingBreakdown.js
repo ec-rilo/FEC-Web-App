@@ -394,6 +394,7 @@ RatingBreakdown.propTypes = {
   recomPer: PropTypes.number.isRequired,
   star: PropTypes.instanceOf(Object).isRequired,
   char: PropTypes.instanceOf(Object).isRequired,
+  setTotalCount: PropTypes.func.isRequired,
 };
 
 export default RatingBreakdown;
