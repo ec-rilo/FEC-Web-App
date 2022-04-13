@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import StarBar from '../StarBar';
@@ -12,11 +12,17 @@ const RatingDiv = styled.div`
 `;
 
 const LeftDiv = styled.div`
-width: 50%;
+  width: 50%;
+`;
+
+const MidDiv = styled.div`
+  padding: 70px 40px 0px 40px;
+  width: 50%;
 `;
 
 const RightDiv = styled.div`
-width: 50%;
+  padding: 30px 0px 0px 30px;
+  width: 50%;
 `;
 
 const RatingUser = styled.div`
@@ -40,7 +46,7 @@ const Bar = styled.div`
 `;
 
 const InsideBar = styled.div`
-  background-color: green;
+  background-color: black;
   height: 15px;
 `;
 
@@ -85,7 +91,7 @@ const Triangle = () => (
 const RatingBreakdown = ({
   data, setReviewsData,
   aveRate, recomPer, star,
-  char,
+  char, setTotalCount,
 }) => {
   const [filter, setfilter] = useState([]);
   const [star5onClick, setStar5onClick] = useState(false);
@@ -95,17 +101,22 @@ const RatingBreakdown = ({
   const [star1onClick, setStar1onClick] = useState(false);
 
   const filterStar = () => {
-    let rateData = [];
     if (filter.length === 0) {
       setReviewsData(data);
+      setTotalCount(data.length);
     } else {
-      filter.forEach((num) => {
-        const filerdata = data.filter((review) => review.rating === num);
-        rateData = rateData.concat(filerdata);
-      });
-      setReviewsData(rateData);
+      const filerdata = data.filter((review) => filter.includes(review.rating));
+      setReviewsData(filerdata);
+      setTotalCount(filerdata.length);
     }
   };
+  useEffect(() => {
+    if (filter.length > 0) {
+      const filerdata = data.filter((review) => filter.includes(review.rating));
+      setReviewsData(filerdata);
+      setTotalCount(filerdata.length);
+    }
+  }, [data]);
   return (
     <RatingDiv>
       <LeftDiv>
@@ -116,6 +127,9 @@ const RatingBreakdown = ({
           % of reviews recommend this product
         </h4>
         <br />
+      </LeftDiv>
+
+      <MidDiv>
         <RatingUser>
           <ScaleDiv>
             <StarButton
@@ -216,9 +230,7 @@ const RatingBreakdown = ({
           <u>no filter</u>
 
         </StarButton>
-
-        <br />
-      </LeftDiv>
+      </MidDiv>
       <RightDiv>
         <div>
           <div className={(!char.size) ? 'hidden' : ''}>
@@ -382,6 +394,7 @@ RatingBreakdown.propTypes = {
   recomPer: PropTypes.number.isRequired,
   star: PropTypes.instanceOf(Object).isRequired,
   char: PropTypes.instanceOf(Object).isRequired,
+  setTotalCount: PropTypes.func.isRequired,
 };
 
 export default RatingBreakdown;

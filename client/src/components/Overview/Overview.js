@@ -14,7 +14,7 @@ function Overview({
   const [currentStyleIndex, setCurrentStyleIndex] = useState(0);
 
   useEffect(() => {
-    if (product === {}) {
+    if (!product.id) {
       return;
     }
     axios.get(`/products/${product.id}/styles`)

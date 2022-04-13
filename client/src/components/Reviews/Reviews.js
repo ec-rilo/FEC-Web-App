@@ -33,17 +33,19 @@ const Button = styled.button`
 
 const ReviewDiv = styled.div`
   height: 100vh;
+  width: 100%;
   overflow: auto;
 `;
 
 const Reviews = ({
-  productID, setAveRate, setTotalCount, aveRate, totalCount,
+  product, productID, setAveRate, setTotalCount, aveRate, totalCount,
 }) => {
   const [data, setData] = useState([]);
   const [reviewsData, setReviewsData] = useState([]);
   const [dataUpdate, setDataUpdate] = useState('');
   const [sort, setSort] = useState('relevant');
   const [recomPer, setRecomPer] = useState(0);
+  const [moreReviewOnClick, setMoreReviewOnClick] = useState(false);
   const [char, setChar] = useState({});
   const [star5, setStar5] = useState(0);
   const [star4, setStar4] = useState(0);
@@ -92,10 +94,14 @@ const Reviews = ({
       .then((res) => {
         setData(res.data.results);
         setTotalCount(res.data.results.length);
-        setReviewsData(res.data.results.slice(0, 2));
+        if (!moreReviewOnClick) {
+          setReviewsData(res.data.results.slice(0, 2));
+        } else {
+          setReviewsData(res.data.results);
+        }
       });
   }, [productID, count, sort, dataUpdate]);
-  const writable = (!isWritable) ? 'hidden' : '';
+
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
   const width = (char.Width === undefined) ? '' : Math.round(char.Width.value);
   const comfort = (char.Comfort === undefined) ? '' : Math.round(char.Comfort.value);
@@ -138,14 +144,16 @@ const Reviews = ({
             length,
             fit,
           }}
+          setTotalCount={setTotalCount}
         />
       </RRTop>
       <ReviewSearch data={data} setReviewsData={setReviewsData} />
       <ReviewSort changeSort={changeSort} totalCount={totalCount} />
       <ReviewForm
+        product={product}
         productID={productID}
         setisWritable={setisWritable}
-        writable={writable}
+        isWritable={isWritable}
         char={char}
         setDataUpdate={setDataUpdate}
         setSort={setSort}
@@ -156,20 +164,14 @@ const Reviews = ({
             <tr>
               <td colSpan="2">
                 {reviewsData.length === 0
-                  ? (
-                    <div
-                      style={{ position: 'relative', top: '-46%', left: '80%' }}
-                    >
-                      <h2>There is no review yet</h2>
-
-                    </div>
-                  ) : reviews}
+                  ? (<div><h2>There is no review yet</h2></div>)
+                  : reviews}
               </td>
             </tr>
           </tbody>
         </table>
       </ReviewDiv>
-      <Button className={((totalCount <= 2 || reviewsData.length !== 2) ? 'hidden' : '')} onClick={() => { setReviewsData(data); }}>
+      <Button className={((totalCount <= 2 || reviewsData.length !== 2) ? 'hidden' : '')} onClick={() => { setReviewsData(data); setMoreReviewOnClick(true); }}>
         MORE REVIEWS
       </Button>
       <Button

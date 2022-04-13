@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Modal from './PhotoModal';
+import Modal from '../Modal';
 
 const Photos = styled.div`
   display: flex;
@@ -11,40 +11,45 @@ const Photos = styled.div`
   justify-content: flex-start;
 `;
 
-const ReviewPhotoEntry = ({ photo, setPhotoOnClick, photoOnClick }) => (
-  <Photos>
-    <div
-      role="button"
-      key={photo.id}
-      onClick={() => { setPhotoOnClick(false); }}
-      onKeyPress={() => {}}
-      tabIndex="0"
-    >
-      <Modal
-        title="photo"
-        content={(
-          <img
-            style={{ width: '650px' }}
-            src={photo.url}
-            alt="productPhoto"
-          />
-            )}
-        onClose={setPhotoOnClick}
-        close={photoOnClick}
-      />
-      <img
-        src={photo.url}
-        width="150"
-        alt="productPhoto"
-      />
-    </div>
-  </Photos>
-);
+const ReviewPhotoEntry = ({ photo }) => {
+  const [photoOnClick, setPhotoOnClick] = useState(false);
+
+  return (
+    <Photos>
+      <div
+        role="button"
+        key={photo.id}
+        onClick={() => { setPhotoOnClick(true); }}
+        onKeyPress={() => {}}
+        tabIndex="0"
+      >
+        {(photoOnClick)
+          ? (
+            <Modal
+              title="Photo"
+              content={(
+                <img
+                  style={{ width: '600px' }}
+                  src={photo.url}
+                  alt="productPhoto"
+                />
+              )}
+              onClose={() => setPhotoOnClick(false)}
+            />
+          )
+          : ''}
+        <img
+          src={photo.url}
+          width="150"
+          alt="productPhoto"
+        />
+      </div>
+    </Photos>
+  );
+};
 
 ReviewPhotoEntry.propTypes = {
   photo: PropTypes.instanceOf(Object).isRequired,
-  setPhotoOnClick: PropTypes.func.isRequired,
-  photoOnClick: PropTypes.bool.isRequired,
 };
 
 export default ReviewPhotoEntry;
