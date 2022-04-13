@@ -32,7 +32,6 @@ const Photos = styled.div`
 const ReviewListEntry = ({ review, setDataUpdate }) => {
   const displayLength = 250;
   const [showMoreonClick, setShowMoreonClick] = useState(false);
-  const [photoOnClick, setPhotoOnClick] = useState(true);
 
   const reviewReport = (reviewID) => {
     axios.put(`/reviews/${reviewID}/report`)
@@ -63,8 +62,6 @@ const ReviewListEntry = ({ review, setDataUpdate }) => {
           <ReviewPhotoEntry
             key={photo.id}
             photo={photo}
-            setPhotoOnClick={setPhotoOnClick}
-            photoOnClick={photoOnClick}
           />
         ))}
       </Photos>

@@ -84,9 +84,8 @@ const ReviewForm = ({
       const fd = new FormData();
       fd.append('image', file);
       axios.post('/photo', fd, { headers: { 'content-Type': 'multipart/form-data' } })
-        .then((res) => console.log(res))
+        .then((res) => setPhotos((prev) => [...prev, res.data.data.url]))
         .catch();
-      // setPhotos((prev) => [...prev, res.data.data.url]); })
     });
   };
   const onClose = () => { setisWritable(false); };

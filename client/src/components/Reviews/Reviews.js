@@ -101,7 +101,6 @@ const Reviews = ({
       });
   }, [productID, count, sort, dataUpdate]);
 
-  const writable = (!isWritable) ? 'hidden' : '';
   const size = (char.Size === undefined) ? '' : Math.round(char.Size.value);
   const width = (char.Width === undefined) ? '' : Math.round(char.Width.value);
   const comfort = (char.Comfort === undefined) ? '' : Math.round(char.Comfort.value);
