@@ -91,7 +91,7 @@ const Triangle = () => (
 const RatingBreakdown = ({
   data, setReviewsData,
   aveRate, recomPer, star,
-  char,setTotalCount
+  char, setTotalCount,
 }) => {
   const [filter, setfilter] = useState([]);
   const [star5onClick, setStar5onClick] = useState(false);
