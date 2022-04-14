@@ -145,7 +145,7 @@ const Reviews = ({
     setSort(newSort);
   };
 
-  const collapseStyle = { position: 'relative', top: '-90%', right: '-70%' };
+  const collapseStyle = { position: 'relative', top: '-960px', left: '400px' };
   const reviews = reviewsData.map((review) => (
     <div className="review" key={review.review_id} style={{ width: '100%' }}>
       <ReviewListEntry review={review} setDataUpdate={setDataUpdate} />
