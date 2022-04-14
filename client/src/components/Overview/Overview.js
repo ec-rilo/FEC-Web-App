@@ -22,7 +22,7 @@ function Overview({
         setStyles(res.data.results);
       })
       .catch((err) => {
-        console.log(err);
+        console.error(err.message);
       });
   }, [product]);
 
