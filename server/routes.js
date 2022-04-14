@@ -65,7 +65,10 @@ router.get('/reviews/meta', (req, res) => {
   const productID = req.query.product_id;
   fetchData.reviews.fetchReviewMeta(productID)
     .then((result) => res.send(result))
-    .catch((err) => console.error(err));
+    .catch((err) => {
+      console.error(`Error fetching reviews meta from Heroku API ${err.message}`);
+      res.status(400).json({ message: err.message });
+    });
 });
 
 router.post('/reviews', (req, res) => {
