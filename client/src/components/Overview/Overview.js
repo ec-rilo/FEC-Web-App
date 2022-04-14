@@ -56,7 +56,7 @@ function Overview({
           styles={styles}
           currentStyleIndex={currentStyleIndex}
         />
-        {product?.description}
+        {product.description}
       </div>
     </div>
   );
