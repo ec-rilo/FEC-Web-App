@@ -5,7 +5,7 @@ import ThumbnailBar from './ThumbnailBar';
 import * as Form from '../presentation/ModalForm.styles';
 
 const AddAnswerModalContent = ({
-  productID, questionBody, questionID, onClose, addAnswerToList,
+  productName, questionBody, questionID, onClose, addAnswerToList,
 }) => {
   const [answer, setAnswer] = useState('');
   const [nickname, setNickname] = useState('');
@@ -74,7 +74,7 @@ const AddAnswerModalContent = ({
 
   return (
     <Form.Container>
-      <h2>{`[Product w/ ID ${productID}]: ${questionBody}`}</h2>
+      <h2>{`${productName}: ${questionBody}`}</h2>
       {errorMessage && <Form.Error>{errorMessage}</Form.Error>}
       {successMessage && <Form.Success>{successMessage}</Form.Success>}
       <Form.Form onSubmit={handleFormSubmit}>
@@ -123,7 +123,7 @@ const AddAnswerModalContent = ({
 };
 
 AddAnswerModalContent.propTypes = {
-  productID: PropTypes.number.isRequired,
+  productName: PropTypes.string.isRequired,
   questionBody: PropTypes.string.isRequired,
   questionID: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,

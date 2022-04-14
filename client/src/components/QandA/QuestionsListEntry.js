@@ -58,7 +58,7 @@ function sellerComparator(a, b) {
   return (b.answerer_name === 'Seller') - (a.answerer_name === 'Seller');
 }
 
-const QuestionsListEntry = ({ question, productID }) => {
+const QuestionsListEntry = ({ question, productName }) => {
   const [displayLimit, setDisplayLimit] = useState(2); // number of answers to display
   const [markedHelpful, setMarkedHelpful] = useState(false);
   const [answers, setAnswers] = useState(
@@ -111,7 +111,7 @@ const QuestionsListEntry = ({ question, productID }) => {
               <UnstyledButton type="button" onClick={markHelpful}>Yes</UnstyledButton>
               {` (${question.question_helpfulness + markedHelpful}) | `}
               <AddAnswer
-                productID={productID}
+                productName={productName}
                 questionID={questionID}
                 questionBody={questionBody}
                 addAnswerToList={addAnswerToList}
@@ -142,7 +142,7 @@ const QuestionsListEntry = ({ question, productID }) => {
 
 QuestionsListEntry.propTypes = {
   question: PropTypes.instanceOf(Object).isRequired,
-  productID: PropTypes.number.isRequired,
+  productName: PropTypes.string.isRequired,
 };
 
 export default QuestionsListEntry;
