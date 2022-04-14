@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 
+import Loading from './Loading';
 import Overview from './Overview/Overview';
 import Questions from './QandA/Questions';
 import Reviews from './Reviews/Reviews';
@@ -20,12 +21,18 @@ const ProductPage = () => {
   const [product, setProduct] = useState({});
   const [aveRate, setAveRate] = useState('');
   const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     axios.get(`/products/${productId}`)
-      .then((res) => setProduct(res.data))
+      .then((res) => {
+        setProduct(res.data);
+        setIsLoading(false);
+      })
       .catch((err) => console.error(`Error fetching product data from API: ${err.message}`));
   }, [productId]);
+
+  if (isLoading) return <Loading />;
 
   return (
     <Container>
