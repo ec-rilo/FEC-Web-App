@@ -28,7 +28,7 @@ const App = () => {
             />
             <Route
               path="QandA"
-              element={<Questions />}
+              element={<Questions productID={65635} productName="Heir Force Ones" />}
             />
           </Routes>
         </Router>
