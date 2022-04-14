@@ -127,6 +127,7 @@ AddAnswerModalContent.propTypes = {
   questionBody: PropTypes.string.isRequired,
   questionID: PropTypes.number.isRequired,
   onClose: PropTypes.func.isRequired,
+  addAnswerToList: PropTypes.func.isRequired,
 };
 
 export default AddAnswerModalContent;
