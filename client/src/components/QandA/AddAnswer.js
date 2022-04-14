@@ -4,7 +4,9 @@ import { LinkButton } from '../presentation/Button.styles';
 import Modal from '../Modal';
 import AddAnswerModalContent from './AddAnswerModalContent';
 
-const AddAnswer = ({ productID, questionID, questionBody }) => {
+const AddAnswer = ({
+  productID, questionID, questionBody, addAnswerToList,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -22,6 +24,7 @@ const AddAnswer = ({ productID, questionID, questionBody }) => {
               productID={productID}
               questionID={questionID}
               questionBody={questionBody}
+              addAnswerToList={addAnswerToList}
             />
           )}
           onClose={() => setIsModalOpen(false)}
@@ -35,6 +38,7 @@ AddAnswer.propTypes = {
   productID: PropTypes.number.isRequired,
   questionID: PropTypes.number.isRequired,
   questionBody: PropTypes.string.isRequired,
+  addAnswerToList: PropTypes.func.isRequired,
 };
 
 export default AddAnswer;
