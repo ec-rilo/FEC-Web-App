@@ -23,12 +23,8 @@ const ProductPage = () => {
 
   useEffect(() => {
     axios.get(`/products/${productId}`)
-      .then((res) => {
-        setProduct(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      .then((res) => setProduct(res.data))
+      .catch((err) => console.error(`Error fetching product data from API: ${err.message}`));
   }, [productId]);
 
   return (
@@ -38,7 +34,10 @@ const ProductPage = () => {
         aveRate={aveRate}
         totalCount={totalCount}
       />
-      <Questions />
+      <Questions
+        productID={productId}
+        productName={product?.name || ''}
+      />
       <Reviews
         product={product}
         productID={productId}
