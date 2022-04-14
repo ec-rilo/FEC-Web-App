@@ -110,10 +110,7 @@ router.post('/qa/questions', (req, res) => {
 router.post('/qa/questions/:question_id/answers', (req, res) => {
   const questionID = req.params.question_id;
   fetchData.questions.addAnswer(questionID, req.body)
-    .then((apiRes) => {
-      console.log(`Added new answer: ${apiRes.data}`);
-      res.sendStatus(201);
-    })
+    .then(() => res.sendStatus(201))
     .catch((err) => {
       console.error(`Error adding answer to question w/ id ${questionID} to Heroku API: ${err.message}`);
       res.status(400).json({ message: err.message });
@@ -180,7 +177,6 @@ router.post('/uploadimage', upload.single('image'), (req, res) => {
   uploadImage(req.file)
     .then((apiRes) => {
       const { display_url: displayURL } = apiRes.data.data;
-      console.log(`Successfully uploaded image. Response from API: ${displayURL}`);
       res.json({ displayURL });
     })
     .catch((err) => {
