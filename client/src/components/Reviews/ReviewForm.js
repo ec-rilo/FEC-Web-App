@@ -119,7 +119,7 @@ const ReviewForm = ({
       const fd = new FormData();
       fd.append('image', file);
       axios.post('/uploadimage', fd, { headers: { 'content-Type': 'multipart/form-data' } })
-        .then((res) => { setPhotos((prev) => [...prev, res.data.displayURL]); })
+        .then((res) => { setPhotos((prev) => [...prev, res.data.displayURL]); setSort('newest'); })
         .catch((err) => console.error(err));
     });
   };
