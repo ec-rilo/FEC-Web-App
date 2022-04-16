@@ -464,7 +464,7 @@ const ReviewForm = ({
             />
             <Button style={{ marginTop: '0px' }} type="button">
               <label htmlFor="image_input">
-                CHOOSE A PHOTOS
+                CHOOSE A PHOTO
               </label>
             </Button>
 
