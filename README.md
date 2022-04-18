@@ -1,4 +1,27 @@
-# Instructions for development
+<div align="center">
+
+# Threads
+
+Description about Threads. Front End Capstone Project for Hack Reactor.
+
+[Components](#getting-started) •
+[Installation](#installation) •
+
+<!-- Gif of our page.  -->
+
+</div>
+
+## Components
+### Product Overview
+
+### Questions & Answers
+
+### Reviews
+
+
+## Installation
+
+<!-- # Instructions for development
 
 ---
 
@@ -58,4 +81,4 @@ When you've finished implementing and testing the feature your branch was create
 
 4. In the second tab, run `npm run react-dev`, which uses webpack to regenerate the `bundle.js` file when you save changes to one of your components.
 
-5. Navigate to `localhost:3000` in your browser.
+5. Navigate to `localhost:3000` in your browser. -->
