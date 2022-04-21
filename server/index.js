@@ -6,6 +6,7 @@ const expressStaticGzip = require('express-static-gzip');
 const app = express();
 
 const router = require('./routes');
+const dbRouter = require('./dbroutes');
 
 const PORT = 3000 || process.env.PORT;
 
@@ -13,6 +14,7 @@ const PORT = 3000 || process.env.PORT;
 app.use('/', expressStaticGzip('client/dist', { enableBrotli: true }));
 app.use(express.json());
 app.use('', router);
+app.use('/db', dbRouter);
 
 // Fall back to routes on front-end from React Router
 app.get('*', (request, response) => {
