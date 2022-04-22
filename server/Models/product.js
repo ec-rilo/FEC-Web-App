@@ -12,10 +12,21 @@ pool.connect()
 
 module.exports = {
   getSingleProduct: (id) => new Promise((resolve, reject) => {
-    const query = 'SELECT * FROM Products WHERE Products.id = $1';
-    const values = [id];
-    pool.query(query, values)
-      .then((data) => resolve(data.rows[0]))
+    const productsQuery = 'SELECT * FROM Products WHERE Products.id = $1';
+    const featuresQuery = 'SELECT * FROM Features WHERE Features.product_id = $1';
+    const value = [id];
+
+    const productsPromise = pool.query(productsQuery, value);
+    const featuresPromise = pool.query(featuresQuery, value);
+
+    Promise.all([productsPromise, featuresPromise])
+      .then((values) => {
+        const [data, features] = values;
+        const newData = data.rows[0];
+        newData.features = features.rows;
+
+        resolve(newData);
+      })
       .catch((err) => reject(err));
   }),
 };
