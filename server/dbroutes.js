@@ -29,21 +29,21 @@ const createPhotosQueryStr = (obj) => {
   return combinedQuery;
 };
 
-const createArrOfPhotos = (obj, oldPhotosArr) => {
+const filterIntoArr = (oldArr, oldDataArr) => {
   const arr = [];
 
-  obj.results.forEach((style) => {
+  oldArr.forEach((style) => {
     let sliceLength = 0;
 
-    for (let i = 0; i < oldPhotosArr.length; i++) {
-      if (oldPhotosArr[i].style_id === style.id) {
+    for (let i = 0; i < oldDataArr.length; i++) {
+      if (oldDataArr[i].style_id === style.id) {
         sliceLength = i + 1;
       } else {
         break;
       }
     }
 
-    const newArr = oldPhotosArr.splice(0, sliceLength);
+    const newArr = oldDataArr.splice(0, sliceLength);
     arr.push(newArr);
   });
 
@@ -52,10 +52,9 @@ const createArrOfPhotos = (obj, oldPhotosArr) => {
 
 const getAllStyles = (productId) => new Promise((resolve, reject) => {
   const stylesQuery = 'SELECT * FROM Styles WHERE Styles.product_id = $1';
-  const value = [productId];
   const stylesObj = {};
 
-  pool.query(stylesQuery, value)
+  pool.query(stylesQuery, [productId])
     .then((styles) => {
       const idArr = [];
       stylesObj.results = styles.rows;
@@ -70,7 +69,7 @@ const getAllStyles = (productId) => new Promise((resolve, reject) => {
     })
     .then((data) => {
       const photosArr = data.rows;
-      const arrOfPhotos = createArrOfPhotos(stylesObj, photosArr);
+      const arrOfPhotos = filterIntoArr(stylesObj.results, photosArr);
 
       arrOfPhotos.forEach((arr, index) => {
         stylesObj.results[index].photos = arr;
