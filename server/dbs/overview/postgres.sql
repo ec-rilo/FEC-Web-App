@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Features (
 );
 
 CREATE TABLE IF NOT EXISTS Styles (
-  id INT UNIQUE PRIMARY KEY NOT NULL,
+  style_id INT UNIQUE PRIMARY KEY NOT NULL,
   product_id INT NOT NULL,
   name VARCHAR(50) NOT NULL,
   sale_price VARCHAR(50),
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS Photos (
   thumbnail_URL TEXT NOT NULL,
   CONSTRAINT photos_id
     FOREIGN KEY(style_id)
-      REFERENCES Styles(id)
+      REFERENCES Styles(style_id)
 );
 
 CREATE TABLE IF NOT EXISTS Skus (
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS Skus (
   quantity INT NOT NULL,
   CONSTRAINT sku_id
     FOREIGN KEY(style_id)
-      REFERENCES Styles(id)
+      REFERENCES Styles(style_id)
 );
 
 CREATE TABLE IF NOT EXISTS Related_Products (
