@@ -32,7 +32,7 @@ const filterIntoArr = (oldArr, oldDataArr) => {
     let sliceLength = 0;
 
     for (let i = 0; i < oldDataArr.length; i++) {
-      if (oldDataArr[i].style_id === style.id) {
+      if (oldDataArr[i].style_id === style.style_id) {
         sliceLength = i + 1;
       } else {
         break;
@@ -50,7 +50,7 @@ const getIdArr = (arr) => {
   const idArr = [];
 
   arr.forEach((style) => {
-    idArr.push(style.id);
+    idArr.push(style.style_id);
   });
 
   return idArr;
