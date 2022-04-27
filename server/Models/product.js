@@ -1,10 +1,12 @@
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  user: 'ecarrillo046',
-  password: '12345',
+const credentials = {
+  user: process.env.pg_user,
   database: 'products',
-});
+  password: process.env.pg_pass,
+};
+
+const pool = new Pool(credentials);
 
 pool.connect()
   .then(() => console.log('connected to postgres!'))
