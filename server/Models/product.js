@@ -88,21 +88,23 @@ const convertToSkuObjs = (arr) => {
 
 module.exports = {
   getSingleProduct: (id) => new Promise((resolve, reject) => {
-    const productsQuery = 'SELECT * FROM Products WHERE Products.id = $1';
-    const featuresQuery = 'SELECT * FROM Features WHERE Features.product_id = $1';
-    const value = [id];
+    const query = `
+    SELECT json_build_object(
+      'id', data.id,
+      'name', data.name,
+      'slogan', data.slogan,
+      'description', data.description,
+      'category', data.category,
+      'default_price', data.default_price,
+      'features', (SELECT json_agg(row_to_json(Features)) FROM Features WHERE Features.product_id = $1)
+    )
+    FROM
+      Products AS data WHERE data.id = $2;
+      `;
+    const value = [id, id];
 
-    const productsPromise = pool.query(productsQuery, value);
-    const featuresPromise = pool.query(featuresQuery, value);
-
-    Promise.all([productsPromise, featuresPromise])
-      .then((values) => {
-        const [data, features] = values;
-        const newData = data.rows[0];
-        newData.features = features.rows;
-
-        resolve(newData);
-      })
+    pool.query(query, value)
+      .then((data) => resolve(data.rows[0].json_build_object))
       .catch((err) => reject(err));
   }),
   getAllStyles: (productId) => new Promise((resolve, reject) => {
