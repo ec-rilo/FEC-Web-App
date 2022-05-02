@@ -61,6 +61,10 @@ All tests are run using Jest.
 To install Jest please follow the [Getting Started Page](https://jestjs.io/docs/getting-started) on the
 Jest website.
 
+In order to run tests, run the following command within terminal.
+
+`$ npm run test`
+
 ## Credits
 I'd like to thank the team I worked with on this project, Daniel Esquivel-Reynoso and Danny Wong. Both have helped me with all questions I had throughout the lifespan of this project.
 
