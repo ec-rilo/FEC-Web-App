@@ -1,85 +1,68 @@
-<div align="center">
 
-# Threads
-
-Description about Threads. Front End Capstone Project for Hack Reactor.
-
-[Components](#getting-started) •
-[Installation](#installation)
-
-<!-- Gif of our page.  -->
-
+<div align="center" width="100%">
+  <img src="https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB" />
+  <img src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white" />
+  <img src="https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" />
 </div>
 
-## Components
-### Product Overview
+<h1 align="center">Threads</h1>
 
-### Questions & Answers
+<div align="center" width="100%">
+    <img src="src/images/readme/iron-motorcycles.png">
+</div>
 
-### Reviews
+<h4 align="center">A System Design creation and a recreation of a existing API.</h4>
 
+## Features
+An entire front-end built by a fantastic team of developers. The meat of this repository is the restructuring of the back-end to be able to create queries to the database in a time efficient manner while also being able to handle a large load of requests from many clients. What we can see included in this repository is some schemas for Postgresql in order to have tables to store seeded data. As well as scripts made to query said data. And also RESTful API practices.
 
-## Installation
+## Motivation and Story
+After using the previous api which had query times of 1000ms+ per request it was clear that long term it was not a viable solution. So I built upon the existing architecture to refactor it in a way that would lower the query times substantially. I taught myself new ways to optimize queries and some RESTful practices to add to my coding arsenal. And used my skills to create a System design that would allow this to be possible by creating schemas in Postgresql and playing around with the design visually in external programs such as excalidraw.
 
-<!-- # Instructions for development
+The end result was an API I created with average query speeds of ~10ms - 15ms per query at all endpoints.
 
----
+## Code Styles
+This project follows the [Airbnb JavaScript Style Guide](https://github.com/airbnb/javascript).
 
-## Working on your branch
+## Tech Stack
+**Built with**
+- [React](https://reactjs.org/)
+- [Webpack](https://webpack.js.org/)
+- [Jest](https://jestjs.io/docs/getting-started)
+- [Node](https://nodejs.org/en/)
+- [Express](https://expressjs.com/)
+- [Postgresql](https://www.postgresql.org/)
+- [AWS](https://aws.amazon.com/)
 
-The [Feature Branch Workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow) assumes *one central repository* and the `main` branch represents the official project history.
+## Repository Installation (ssh)
+`$ git clone git@github.com:ec-rilo/FEC-Web-App.git`
 
-Instead of committing directly to your local `main` branch, create a **new** branch to work on a **particular feature**. Feature branches should have *descriptive names* (e.g., "animated-menu-items").
+Once in the repository make sure to install the required packages.
 
-Feature branches can (and *should*) be pushed to the central repository (on GitHub). The only *special* branch is `main`. **Don't ever push anything to** `main`! The following is a brief overview of how to do your work:
+`$ npm install`
 
-### 1. Start with the main branch
+Some global credentials are also needed, so make sure to create a .env file.
 
-All feature branches are created off the latest code state of a project. Assume that the `main` branch on GitHub is always up-to-date. First, check out the `main` branch on your machine, pull the latest updates, and reset the repo's local copy of `main` to match the latest version:
-```
-git checkout main
-git fetch origin
-git reset --hard origin/main
-```
+`$ touch .env`
 
-### 2. Create a new feature branch
+Within the .env file the following is needed: Github API key, postgres user, postgres user's password.
 
-Use a **separate branch for each feature/issue you work on**. You can create a branch and check it out in one command as follows:
-```
-git checkout -b new-branch-name
-```
-
-### 3. Update, add, and commit changes
-
-**On your feature branch**, you can edit, stage, and commit changes as usual.
-```
-git status
-git add some_file
-git commit -m "Some descriptive message--better messages help when we need to undo changes"
-```
-
-### 4. Push feature branch to remote (GitHub)
-
-When ready, push your commits, updating the feature branch on GitHub. It's a good idea to push the feature branch up to the central repository so we can see what you're doing. To push `new-branch-name` to the central repository (GitHub), issue:
-```
-git push -u origin new-branch-name
+```env
+GIT_TOKEN=<Github Token>
+pg_user=<Postgres User with appropriate privileges>
+pg_pass=<The Postgres User Password>
 ```
 
-**NOTE**: The `-u` flag adds the local branch you created in step 2 as a remote tracking branch. After setting up the tracking branch, `git push` can be invoked without any parameters to automatically push the `new-branch-name` branch to the central repo (GitHub).
+## Tests
+All tests are run using Jest.
 
-### 5. Done implementing the feature? Create a pull request!
+To install Jest please follow the [Getting Started Page](https://jestjs.io/docs/getting-started) on the
+Jest website.
 
-When you've finished implementing and testing the feature your branch was created to work on, create a pull request through GitHub.
+## Credits
+I'd like to thank the team I worked with on this project, Daniel Esquivel-Reynoso and Danny Wong. Both have helped me with all questions I had throughout the lifespan of this project.
 
-## Running your code
 
-1. Make sure you're working on the correct branch!
-
-2. Open two terminal tabs and navigate to the root directory.
-
-3. In one tab, run `npm start` to start the node server, which serves up static files from the /client/dist directory.
-
-4. In the second tab, run `npm run react-dev`, which uses webpack to regenerate the `bundle.js` file when you save changes to one of your components.
-
-5. Navigate to `localhost:3000` in your browser. -->
-
+<p align="center">Project extended by <a href="https://github.com/ec-rilo">Edgar Carrillo</a></p>
