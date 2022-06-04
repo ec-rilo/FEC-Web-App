@@ -10,7 +10,7 @@
 <h1 align="center">Threads</h1>
 
 <div align="center" width="100%">
-    <img src="src/images/readme/iron-motorcycles.png">
+    <img src="#">
 </div>
 
 <h4 align="center">A System Design creation and a recreation of a existing API.</h4>
